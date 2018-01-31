@@ -1,0 +1,61 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+}
+
+header {
+  background-color: grey;
+  min-height: 35vh;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.name {
+  font-size: 15vmin;
+  padding: 0 5vh;
+  font-family: 'Source Code Pro', monospace;
+  color: white;
+}
+
+footer {
+  background-color: grey;
+  padding: 3vh;
+}
+
+.social-links-list {
+  text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0 20vw;
+}
+
+.social-link-item {
+  display: inline-block;
+  padding: 2vh;
+}
+
+.social-link {
+  color: black;
+  font-size: 5vmax;
+}
+
+#github:hover, #github:focus {
+  color: white;
+}
+
+#twitter:hover, #twitter:focus {
+  color: #00aced;
+}
+
+#email:hover, #email:focus {
+  color: orange;
+}
