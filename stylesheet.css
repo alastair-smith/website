@@ -59,3 +59,13 @@ footer {
 #email:hover, #email:focus {
   color: orange;
 }
+
+.hex-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+hex-link {
+  padding: 0 7.5vh;
+}

@@ -1,14 +1,26 @@
 <dom-module>
 <template id="hex-link-template">
   <style>
+  .hex {
+    fill:lime;
+  }
   .link {
     text-decoration: none;
+    cursor: pointer;
+  }
+  .hex:hover {
+    fill: red;
   }
   </style>
 
-  <a class="link">
-    <h2 class="title"></h2>
-  </a>
+  <div class="hex-container">
+    <svg viewBox='0 20 300 280' height=auto>
+      <a class="link">
+        <polygon class="hex" />
+      </a>
+      </polygon>
+    </svg>
+  </div>
 </template>
 
 <script src="HexLink.js"></script>
