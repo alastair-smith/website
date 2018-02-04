@@ -15,10 +15,10 @@
     }
 
     render ({hexHeight, items}) {
-      const leftSpace = `${hexHeight}*300/(280*4)`
+      const leftSpace = `${hexHeight}*300/(260*4)`
       const marginLeft = `calc(-${leftSpace})`
       const marginBottom = `calc(-${hexHeight}/2)`
-      const marginTop = `calc(${hexHeight}/2)`
+      const marginTop = `calc((${hexHeight}/2) + 1vh)`
       const baseStyle = `margin-left:${marginLeft};margin-bottom:${marginBottom};`
 
       const containerElement = this.shadowRoot.querySelector('.container')
@@ -35,7 +35,7 @@
               : { hexPairs: pairing.hexPairs, prevHex: hex }
         }, {hexPairs: []}).hexPairs
 
-      const getStyle = isSecondHex => `${baseStyle}${isSecondHex ? `margin-top:${marginTop};` : ''}`
+      const getStyle = isSecondHex => `${baseStyle}${isSecondHex ? `margin-top:${marginTop};` : 'margin-right:2vh;'}`
       const renderHexes = (hexPairs, className) => hexPairs.forEach(hexPair => {
         const pairWrapper = document.createElement('div')
         pairWrapper.setAttribute('class', `pair-wrapper${className ? ` ${className}` : ''}`)
