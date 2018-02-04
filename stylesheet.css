@@ -20,6 +20,7 @@ main {
 hex-grid {
   margin-left: calc(30vh/8);
   margin-right: calc(30vh/8);
+  width: 100%;
 }
 
 header {

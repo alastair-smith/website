@@ -2,8 +2,8 @@
 <template id="hex-grid-template">
   <style>
     .container {
-      display: flex;
-      flex-flow: row wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, calc(30vh*300/280*1.5));
       justify-content: center;
     }
     .pair-wrapper {
