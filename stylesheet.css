@@ -14,12 +14,11 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 3vh;
 }
 
-hex-grid {
-  margin-left: calc(30vh/8);
-  margin-right: calc(30vh/8);
+section {
+  margin: 3vh 5vw;
+  max-width: 1200px;
   width: 100%;
 }
 

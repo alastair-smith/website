@@ -1,6 +1,27 @@
 (() => {
   const currentDocument = document.currentScript.ownerDocument
 
+  const getContainerStyle = hexHeight => `
+    display: grid;
+    grid-column-gap: calc(${hexHeight}*2/15);
+    grid-row-gap: calc(${hexHeight}/30);
+    grid-template-columns: repeat(auto-fit, calc(${hexHeight}*45/26));
+    justify-content: center;
+    padding-bottom:calc(${hexHeight}/2);
+    padding-left: calc(${hexHeight}*15/52);
+  `
+
+  const initGetHexStyle = (hexHeight, marginTop, marginBottom, marginLeft) =>
+    isSecondHex => `
+      margin-left:${marginLeft};
+      margin-bottom:${marginBottom};
+      ${
+        isSecondHex
+          ? `margin-top:${marginTop};`
+          : `margin-right:calc(${hexHeight}/15);`
+      }
+      `
+
   class HexGrid extends HTMLElement {
     connectedCallback () {
       const shadowRoot = this.attachShadow({mode: 'open'})
@@ -15,16 +36,14 @@
     }
 
     render ({hexHeight, items}) {
-      const leftSpace = `${hexHeight}*300/(260*4)`
+      const leftSpace = `${hexHeight}*15/52`
       const marginLeft = `calc(-${leftSpace})`
       const marginBottom = `calc(-${hexHeight}/2)`
-      const marginTop = `calc((${hexHeight}/2) + 1vh)`
-      const baseStyle = `margin-left:${marginLeft};margin-bottom:${marginBottom};`
+      const marginTop = `calc((${hexHeight}/2) + (${hexHeight}/30))`
+      const getHexStyle = initGetHexStyle(hexHeight, marginTop, marginBottom, marginLeft)
 
       const containerElement = this.shadowRoot.querySelector('.container')
-      containerElement.setAttribute(
-        'style', `padding-bottom:calc(${hexHeight}/2);padding-left: calc(${leftSpace});`
-      )
+      containerElement.setAttribute('style', getContainerStyle(hexHeight))
       const blankHex = {url: 'www.example.com'}
       const hexPairs = items
         .reduce((pairing, hex, index) => {
@@ -35,23 +54,18 @@
               : { hexPairs: pairing.hexPairs, prevHex: hex }
         }, {hexPairs: []}).hexPairs
 
-      const getStyle = isSecondHex => `${baseStyle}${isSecondHex ? `margin-top:${marginTop};` : 'margin-right:2vh;'}`
-      const renderHexes = (hexPairs, className) => hexPairs.forEach(hexPair => {
+      hexPairs.forEach(hexPair => {
         const pairWrapper = document.createElement('div')
-        pairWrapper.setAttribute('class', `pair-wrapper${className ? ` ${className}` : ''}`)
+        pairWrapper.setAttribute('class', `pair-wrapper`)
         containerElement.appendChild(pairWrapper)
         hexPair.forEach((hex, index) => {
           const hexElement = document.createElement('hex-link')
           hexElement.setAttribute('hex-height', hexHeight)
           hexElement.setAttribute('url', hex.url)
-          hexElement.setAttribute('style', getStyle(index === 1, index))
+          hexElement.setAttribute('style', getHexStyle(index === 1))
           pairWrapper.appendChild(hexElement)
         })
       })
-
-      renderHexes(
-        hexPairs
-      )
     }
   }
 
