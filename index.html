@@ -6,6 +6,7 @@
     <title>Alastair Smith</title>
     <link rel="stylesheet" href="stylesheet.css" type="text/css">
     <link rel="import" href="./HexLink/HexLink.html">
+    <link rel="import" href="./HexGrid/HexGrid.html">
   </head>
   <body>
     <header>
@@ -13,20 +14,31 @@
     </header>
 
     <main>
-      <div class='hex-container'>
-        <hex-link
-          url='#'
-          hex-height='30vh'
-        ></hex-link>
-        <hex-link
-          url='#'
-          hex-height='30vh'
-        ></hex-link>
-        <hex-link
-          url='#'
-          hex-height='30vh'
-        ></hex-link>
-      </div>
+      <section>
+        <hex-grid hex-height='14vmax'
+          items='[
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"},
+            {"url": "#"}
+          ]'
+        ></hex-grid>
+      </section>
     </main>
 
     <footer>
