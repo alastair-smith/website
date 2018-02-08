@@ -1,0 +1,46 @@
+<dom-module>
+<template id="hex-link-template">
+  <!--https://coolors.co/fef9c7-026670-931621-ff934f-edeae5 -->
+  <style>
+  #shape {
+    fill: #931621;
+  }
+  .link:not([disabled]) {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .link:not([disabled]):focus #shape, .link:not([disabled]):hover #shape {
+    fill: #FF934F;
+  }
+  .hex-container {
+    display: block;
+  }
+  .hidden {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+  }
+  </style>
+
+  <div class="hex-container">
+    <svg viewBox='0 20 300 260' height=auto>
+      <a class="link">
+        <polygon id="shape"/>
+        <text id="text"
+          x=150
+          y=140
+          text-anchor='middle'
+          dominant-baseline='central'
+          style='font-size:20px;'>
+        </text>
+      </a>
+      </polygon>
+    </svg>
+  </div>
+</template>
+
+<script src="HexLink.js"></script>
+</dom-module>
