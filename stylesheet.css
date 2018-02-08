@@ -1,57 +1,34 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
 
-:root {
-  --background-color: #026670;
-}
-
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   margin: 0;
-  background-color: var(--background-color);
 }
 
 main {
   flex: 1;
-  background-color: #EDEAE5;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-section {
-  margin: 3vh 5vw;
-  max-width: 1200px;
 }
 
 header {
+  background-color: grey;
   min-height: 35vh;
   display: flex;
   align-items: center;
   justify-content: left;
-  background-color: var(--background-color);
 }
 
-.hidden {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-#name {
+.name {
   font-size: 15vmin;
   padding: 0 5vh;
   font-family: 'Source Code Pro', monospace;
-  color: #FEF9C7;
+  color: white;
 }
 
 footer {
+  background-color: grey;
   padding: 3vh;
-  background-color: var(--background-color);
 }
 
 .social-links-list {
@@ -67,17 +44,18 @@ footer {
 }
 
 .social-link {
+  color: black;
   font-size: 5vmax;
 }
 
-#github {
+#github:hover, #github:focus {
   color: white;
 }
 
-#twitter {
-  color: #00ACED;
+#twitter:hover, #twitter:focus {
+  color: #00aced;
 }
 
-#email {
-  color: #E9B332;
+#email:hover, #email:focus {
+  color: orange;
 }
