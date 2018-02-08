@@ -44,7 +44,7 @@
 
       const containerElement = this.shadowRoot.querySelector('.container')
       containerElement.setAttribute('style', getContainerStyle(hexHeight))
-      const blankHex = {url: 'www.example.com'}
+      const blankHex = {}
       const hexPairs = items
         .reduce((pairing, hex, index) => {
           return pairing.prevHex
@@ -61,7 +61,8 @@
         hexPair.forEach((hex, index) => {
           const hexElement = document.createElement('hex-link')
           hexElement.setAttribute('hex-height', hexHeight)
-          hexElement.setAttribute('url', hex.url)
+          if (hex.url) hexElement.setAttribute('url', hex.url)
+          if (hex.text) hexElement.setAttribute('text', hex.text)
           hexElement.setAttribute('style', getHexStyle(index === 1))
           pairWrapper.appendChild(hexElement)
         })

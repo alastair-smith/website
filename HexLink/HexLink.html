@@ -1,27 +1,32 @@
 <dom-module>
 <template id="hex-link-template">
   <style>
-  .hex {
-    fill:lime;
+  #shape {
+    fill: lime;
   }
-  .link {
+  .link:not([disabled]) {
     text-decoration: none;
     cursor: pointer;
   }
-  .hex:hover {
+  .link:not([disabled]):focus #shape, .link:not([disabled]):hover #shape {
     fill: red;
   }
   .hex-container {
     display: block;
-  }
-  svg {
   }
   </style>
 
   <div class="hex-container">
     <svg viewBox='0 20 300 260' height=auto>
       <a class="link">
-        <polygon class="hex" />
+        <polygon id="shape" />
+        <text id="text"
+          x=150
+          y=140
+          text-anchor='middle'
+          dominant-baseline='central'
+          style='font-size:20px;'>
+        </text>
       </a>
       </polygon>
     </svg>
