@@ -11,16 +11,16 @@
       const title = this.getAttribute('title')
       const url = this.getAttribute('url')
       const height = this.getAttribute('hex-height')
-      const text = this.getAttribute('text')
+      const name = this.getAttribute('name')
       this.render({
         title,
         url,
         height,
-        text
+        name
       })
     }
 
-    render ({title, url, height, text}) {
+    render ({title, url, height, name}) {
       const points = '300,150 225,280 75,280 0,150 75,20 225,20'
       // Fill the respective areas of the card using DOM manipulation APIs
       // All of our components elements reside under shadow dom. So we created a this.shadowRoot property
@@ -31,7 +31,10 @@
       if (url) this.shadowRoot.querySelector('.link').setAttribute('href', url)
       else this.shadowRoot.querySelector('.link').setAttribute('disabled', true)
       this.shadowRoot.querySelector('#shape').setAttribute('points', points)
-      if (text) this.shadowRoot.querySelector('#text').innerHTML = text
+      if (name) {
+        this.shadowRoot.querySelector('#text').innerHTML = name
+        this.shadowRoot.querySelector('#shape').innerHTML = `<title id='hex-label'>${name}</title>`
+      }
     }
   }
 

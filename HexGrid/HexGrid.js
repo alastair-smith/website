@@ -62,7 +62,7 @@
           const hexElement = document.createElement('hex-link')
           hexElement.setAttribute('hex-height', hexHeight)
           if (hex.url) hexElement.setAttribute('url', hex.url)
-          if (hex.text) hexElement.setAttribute('text', hex.text)
+          if (hex.name) hexElement.setAttribute('name', hex.name)
           hexElement.setAttribute('style', getHexStyle(index === 1))
           pairWrapper.appendChild(hexElement)
         })

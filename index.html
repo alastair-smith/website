@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <script src="https://use.fontawesome.com/af99a8d0ce.js"></script>
@@ -10,35 +10,22 @@
   </head>
   <body>
     <header>
-      <h1 class='name'>Alastair <br /> Smith</h1>
+      <h1 id='name'>Alastair <br /> Smith</h1>
     </header>
 
     <main>
       <section>
         <hex-grid hex-height='14vmax'
           items='[
-            {"url": "#", "text": "Hello"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"},
-            {"url": "#"}
+            {"url": "#", "name": "Personal Website"},
+            {"url": "#", "name": "DOS2 mod"}
           ]'
         ></hex-grid>
       </section>
+
+      <!-- <section>
+        <div>bio</div>
+      </section> -->
     </main>
 
     <footer>
@@ -48,6 +35,7 @@
             class='social-link'
             href='https://github.com/alastair-smith'
           >
+            <span class='hidden'>github</span>
             <i class="fa fa-github" aria-hidden="true" title='github'></i>
           </a>
         </li>
@@ -56,6 +44,7 @@
             class='social-link'
             href='https://twitter.com/al_smith_uk'
           >
+            <span class='hidden'>twitter</span>
             <i class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
           </a>
         </li>
@@ -64,6 +53,7 @@
             class='social-link'
             href='mailto:contact@alastairsmith.net'
           >
+            <span class='hidden'>email</span>
             <i class="fa fa-envelope" aria-hidden="true" title='email'></i>
           </a>
         </li>
