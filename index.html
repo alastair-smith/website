@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="stylesheet.css" type="text/css">
     <link rel="import" href="./HexLink/HexLink.html">
     <link rel="import" href="./HexGrid/HexGrid.html">
+    <link rel="import" href="./SocialFooter/SocialFooter.html">
   </head>
   <body>
     <header>
@@ -17,8 +18,7 @@
       <section>
         <hex-grid hex-height='14vmax'
           items='[
-            {"url": "#", "name": "Personal Website"},
-            {"url": "#", "name": "DOS2 mod"}
+            {"url": "#", "name": "Personal Website"}
           ]'
         ></hex-grid>
       </section>
@@ -28,36 +28,11 @@
       </section> -->
     </main>
 
-    <footer>
-      <ul class='social-links-list'>
-        <li class='social-link-item'>
-          <a id='github'
-            class='social-link'
-            href='https://github.com/alastair-smith'
-          >
-            <span class='hidden'>github</span>
-            <i class="fa fa-github" aria-hidden="true" title='github'></i>
-          </a>
-        </li>
-        <li class='social-link-item'>
-          <a id='twitter'
-            class='social-link'
-            href='https://twitter.com/al_smith_uk'
-          >
-            <span class='hidden'>twitter</span>
-            <i class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
-          </a>
-        </li>
-        <li class='social-link-item'>
-          <a id='email'
-            class='social-link'
-            href='mailto:contact@alastairsmith.net'
-          >
-            <span class='hidden'>email</span>
-            <i class="fa fa-envelope" aria-hidden="true" title='email'></i>
-          </a>
-        </li>
-      <ul/>
-    </footer>
+    <social-footer>
+      <!-- Font awesome web component workaround -->
+      <i slot="github" class="fa fa-github" aria-hidden="true" title='github'></i>
+      <i slot="twitter" class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
+      <i slot="email" class="fa fa-envelope" aria-hidden="true" title='email'></i>
+    </social-footer>
   </body>
 </html>

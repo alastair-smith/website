@@ -33,13 +33,8 @@ header {
   background-color: var(--background-color);
 }
 
-.hidden {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+social-footer {
+  --background-color: var(--background-color);
 }
 
 #name {
@@ -47,37 +42,4 @@ header {
   padding: 0 5vh;
   font-family: 'Source Code Pro', monospace;
   color: #FEF9C7;
-}
-
-footer {
-  padding: 3vh;
-  background-color: var(--background-color);
-}
-
-.social-links-list {
-  text-align: center;
-  list-style-type: none;
-  margin: 0;
-  padding: 0 20vw;
-}
-
-.social-link-item {
-  display: inline-block;
-  padding: 2vh;
-}
-
-.social-link {
-  font-size: 5vmax;
-}
-
-#github {
-  color: white;
-}
-
-#twitter {
-  color: #00ACED;
-}
-
-#email {
-  color: #E9B332;
 }
