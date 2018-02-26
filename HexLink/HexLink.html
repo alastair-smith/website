@@ -2,15 +2,24 @@
 <template id="hex-link-template">
   <!--https://coolors.co/fef9c7-026670-931621-ff934f-edeae5 -->
   <style>
-  #shape {
+  #background {
     fill: #931621;
+  }
+  text {
+    visibility: hidden;
   }
   .link:not([disabled]) {
     text-decoration: none;
     cursor: pointer;
   }
-  .link:not([disabled]):focus #shape, .link:not([disabled]):hover #shape {
+  .link:not([disabled]):focus #background, .link:not([disabled]):hover #background {
     fill: #FF934F;
+  }
+  .link:not([disabled]):focus image, .link:not([disabled]):hover image {
+    visibility: hidden;
+  }
+  .link:not([disabled]):focus text, .link:not([disabled]):hover text {
+    visibility: visible;
   }
   .hex-container {
     display: block;
@@ -28,13 +37,28 @@
   <div class="hex-container">
     <svg viewBox='0 20 300 260' height=auto>
       <a class="link">
-        <polygon id="shape"/>
+        <defs>
+          <clipPath id="hex-clip">
+            <polygon id="shape"/>
+          </clipPath>
+        </defs>
+        <rect id='background'
+          clip-path="url(#hex-clip)"
+          width='300'
+          height='280'
+        />
+        <image clip-path="url(#hex-clip)"
+          width='200'
+          height='200'
+          x='50'
+          y='50'
+        />
         <text id="text"
           x=150
           y=140
           text-anchor='middle'
           dominant-baseline='central'
-          style='font-size:20px;'>
+          style='font-size:2vmax;'>
         </text>
       </a>
       </polygon>

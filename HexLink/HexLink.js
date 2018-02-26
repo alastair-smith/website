@@ -1,6 +1,8 @@
 (() => {
   const currentDocument = document.currentScript.ownerDocument
 
+  const getSvgFilePath = svgName => `../images/${svgName}.svg`
+
   class HexLink extends HTMLElement {
     connectedCallback () {
       const shadowRoot = this.attachShadow({mode: 'open'})
@@ -12,15 +14,18 @@
       const url = this.getAttribute('url')
       const height = this.getAttribute('hex-height')
       const name = this.getAttribute('name')
+      const svgName = this.getAttribute('svg')
+      const svgFilePath = getSvgFilePath(svgName)
       this.render({
         title,
         url,
         height,
-        name
+        name,
+        svgFilePath
       })
     }
 
-    render ({title, url, height, name}) {
+    render ({title, url, height, name, svgFilePath}) {
       const points = '300,150 225,280 75,280 0,150 75,20 225,20'
       // Fill the respective areas of the card using DOM manipulation APIs
       // All of our components elements reside under shadow dom. So we created a this.shadowRoot property
@@ -34,6 +39,9 @@
       if (name) {
         this.shadowRoot.querySelector('#text').innerHTML = name
         this.shadowRoot.querySelector('#shape').innerHTML = `<title id='hex-label'>${name}</title>`
+      }
+      if (svgFilePath) {
+        this.shadowRoot.querySelector('image').setAttribute('href', svgFilePath)
       }
     }
   }
