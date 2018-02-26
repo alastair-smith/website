@@ -63,6 +63,7 @@
           hexElement.setAttribute('hex-height', hexHeight)
           if (hex.url) hexElement.setAttribute('url', hex.url)
           if (hex.name) hexElement.setAttribute('name', hex.name)
+          if (hex.svg) hexElement.setAttribute('svg', hex.svg)
           hexElement.setAttribute('style', getHexStyle(index === 1))
           pairWrapper.appendChild(hexElement)
         })
