@@ -37,7 +37,7 @@
       else this.shadowRoot.querySelector('.link').setAttribute('disabled', true)
       this.shadowRoot.querySelector('#shape').setAttribute('points', points)
       if (name) {
-        this.shadowRoot.querySelector('#shape').innerHTML = `<title id='hex-label'>${name}</title>`
+        this.shadowRoot.querySelector('#title').innerHTML = name
       }
       if (svgFilePath) {
         this.shadowRoot.querySelector('image').setAttribute('href', svgFilePath)
