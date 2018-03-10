@@ -51,3 +51,7 @@ social-footer {
 #example-hex {
   width: 200px;
 }
+
+#grid-container {
+  max-width: 800px;
+}
