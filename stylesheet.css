@@ -1,61 +1,57 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
 
+:root {
+  --background-color: #026670;
+}
+
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   margin: 0;
+  background-color: var(--background-color);
 }
 
 main {
   flex: 1;
+  background-color: #EDEAE5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section {
+  margin: 3vh 5vw;
+  max-width: 1200px;
 }
 
 header {
-  background-color: grey;
   min-height: 35vh;
   display: flex;
   align-items: center;
   justify-content: left;
+  background-color: var(--background-color);
 }
 
-.name {
+social-footer {
+  --background-color: var(--background-color);
+}
+
+#name {
   font-size: 15vmin;
   padding: 0 5vh;
   font-family: 'Source Code Pro', monospace;
-  color: white;
+  color: #FEF9C7;
 }
 
-footer {
-  background-color: grey;
-  padding: 3vh;
+#construction {
+  font-size: 20px;
 }
 
-.social-links-list {
-  text-align: center;
-  list-style-type: none;
-  margin: 0;
-  padding: 0 20vw;
+#example-hex {
+  width: 200px;
 }
 
-.social-link-item {
-  display: inline-block;
-  padding: 2vh;
-}
-
-.social-link {
-  color: black;
-  font-size: 5vmax;
-}
-
-#github:hover, #github:focus {
-  color: white;
-}
-
-#twitter:hover, #twitter:focus {
-  color: #00aced;
-}
-
-#email:hover, #email:focus {
-  color: orange;
+#grid-container {
+  max-width: 800px;
 }

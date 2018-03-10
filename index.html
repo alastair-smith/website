@@ -1,47 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <script src="https://use.fontawesome.com/af99a8d0ce.js"></script>
     <title>Alastair Smith</title>
     <link rel="stylesheet" href="stylesheet.css" type="text/css">
+    <link rel="import" href="./HexLink/HexLink.html">
+    <link rel="import" href="./HexGrid/HexGrid.html">
+    <link rel="import" href="./SocialFooter/SocialFooter.html">
   </head>
   <body>
     <header>
-      <h1 class='name'>Alastair <br /> Smith</h1>
+      <h1 id='name'>Alastair <br /> Smith</h1>
     </header>
 
     <main>
-      <p>Page is under construction</p>
+      <section>
+        <p id='construction'><strong>🚧 This website is currently under construction. Have a demo of web component I have been working on in the meantime. I haven't added any polyfills yet so this will most likely only work in the latest version of chrome. 🚧</strong></p>
+      </section>
+      <section>
+        <h2>Web components</h2>
+        <div>
+          <h3>About</h3>
+          <p>Web components allow developers to split their websites into encapsulated reusable html components using vanilla javascript.</p>
+        </div>
+
+        <div>
+          <h3>Components on this page</h3>
+          <p>This page uses 3 components:
+            <ul>
+              <li><code>&lt;hex-link /&gt;</code> - Individual Hex tiles in below example</li>
+              <li><code>&lt;hex-grid /&gt;</code> - Honeycomb of hex tiles in below example</li>
+              <li><code>&lt;social-footer /&gt;</code> - Footer at the bottom of the page</li>
+            </ul>
+          </p>
+        </div>
+
+        <div>
+          <h3>Hex Link Component</h3>
+          <p>The <code>&lt;hex-link /&gt;</code> lets me provide a name, a url, and the name of an svg to create a link to that url in the shape of a hexagon with that svg as an image.</p>
+          <p>
+            In the <code>&lt;head /&gt;</code> of this document I need to have
+            <code>&lt;link rel="import" href="./HexLink/HexLink.html"&gt;</code>.
+          </p>
+          <p>
+            I can then use the following markup to get the hex-link
+            <code>&lt;hex-link name="Example" url="http://www.example.com/" svg="example"&gt;&lt;/hex-link&gt;</code>.
+            <div id='example-hex'>
+              <hex-link name="Example" url="http://www.example.com/" svg="example"></hex-link>
+            </div>
+          </p>
+        </div>
+
+        <div>
+          <h3>Hex Grid Component</h3>
+          <p>
+            Now if I want to create a honeycomb of these hex links I can use the <code>&lt;hex-grid /&gt;</code> by adding the appropriate import to the header and then using the following markup:
+          </p>
+          <p>
+            <code>
+              &lt;hex-grid hex-height='100px'
+                items='[</br>
+                  {"url": "/", "name": "Personal Website", "svg": "website"},</br>
+                  {"url": "http://example.com/", "name": "Example 1", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 2", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 3", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 4", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 5", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 6", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 7", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 8", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 9", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 10", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 11", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 12", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 13", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 14", "svg": "example"},</br>
+                  {"url": "http://example.com/", "name": "Example 15", "svg": "example"}</br>
+                ]'</br>
+              &gt;&lt;/hex-grid&gt;
+            </code>
+          </p>
+          <div id='grid-container'>
+              <hex-grid hex-height='100px'
+              items='[
+                {"url": "/", "name": "Personal Website", "svg": "website"},
+                {"url": "http://example.com/", "name": "Example 1", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 2", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 3", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 4", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 5", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 6", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 7", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 8", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 9", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 10", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 11", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 12", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 13", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 14", "svg": "example"},
+                {"url": "http://example.com/", "name": "Example 15", "svg": "example"}
+              ]'
+            ></hex-grid>
+          </div>
+        </div>
+
+        <h3>Further Reading</h3>
+        <p>See <a href='https://developer.mozilla.org/en-US/docs/Web/Web_Components' target='_blank'>mdn</a> for information on web components.</p>
+      </section>
+
+      <!-- <section>
+        <div>bio</div>
+      </section> -->
     </main>
 
-    <footer>
-      <ul class='social-links-list'>
-        <li class='social-link-item'>
-          <a id='github'
-            class='social-link'
-            href='https://github.com/alastair-smith'
-          >
-            <i class="fa fa-github" aria-hidden="true" title='github'></i>
-          </a>
-        </li>
-        <li class='social-link-item'>
-          <a id='twitter'
-            class='social-link'
-            href='https://twitter.com/al_smith_uk'
-          >
-            <i class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
-          </a>
-        </li>
-        <li class='social-link-item'>
-          <a id='email'
-            class='social-link'
-            href='mailto:contact@alastairsmith.net'
-          >
-            <i class="fa fa-envelope" aria-hidden="true" title='email'></i>
-          </a>
-        </li>
-      <ul/>
-    </footer>
+    <social-footer>
+      <!-- Font awesome web component workaround -->
+      <i slot="github" class="fa fa-github" aria-hidden="true" title='github'></i>
+      <i slot="twitter" class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
+      <i slot="email" class="fa fa-envelope" aria-hidden="true" title='email'></i>
+    </social-footer>
   </body>
 </html>
