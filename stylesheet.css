@@ -43,3 +43,15 @@ social-footer {
   font-family: 'Source Code Pro', monospace;
   color: #FEF9C7;
 }
+
+#construction {
+  font-size: 20px;
+}
+
+#example-hex {
+  width: 200px;
+}
+
+#grid-container {
+  max-width: 800px;
+}
