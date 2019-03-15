@@ -26,5 +26,23 @@ steps:
 
 - name: deploy
   <<: *terraform-image
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_DEFAULT_REGION:
+      from_secret: AWS_DEFAULT_REGION
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    STATE_BUCKET:
+      from_secret: STATE_BUCKET
+    TEST_VAR:
+      from_secret: TEST_VAR 
   commands:
-    - terraform version
+    - cd infrastructure
+    - export TF_VAR_environment="feature"
+    - export TF_VAR_git_branch="$DRONE_BRANCH"
+    - export TF_VAR_git_commit="$DRONE_COMMIT_SHA"
+    - export TF_VAR_git_repository="$DRONE_COMMIT_LINK"
+    - echo "TF_VAR_environment - $TF_VAR_environment"
+    - echo "TEST_VAR - $TEST_VAR"
+    # - terraform init --backend-config="bucket=$STATE_BUCKET"

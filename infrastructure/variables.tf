@@ -4,16 +4,20 @@ variable "dns_name" {
 
 variable "environment" {
   description = "The environment that has been deployed"
+  default     = ""
 }
 
 variable "git_branch" {
   description = "The branch of git that has been deployed"
+  default     = ""
 }
 
 variable "git_commit" {
   description = "The git commit that has been deployed"
+  default     = ""
 }
 
 variable "git_repository" {
   description = "The repository that has been deployed"
+  default     = ""
 }
