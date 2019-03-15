@@ -1,10 +1,13 @@
 terraform {
   backend "s3" {
-    key = "website"
+    key    = "website"
+    region = "eu-west-1"
   }
 }
 
-provider "aws" {}
+provider "aws" {
+  region = "eu-west-1"
+}
 
 locals {
   tags {
