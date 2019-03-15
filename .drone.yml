@@ -4,6 +4,10 @@ name: default
 .node-image: &node-image
   image: node:10-alpine
 
+.terraform-image: &terraform-image
+  image: hashicorp/terraform:light
+  entrypoint: [""]
+
 steps:
 - name: check-dependencies
   <<: *node-image
@@ -19,3 +23,8 @@ steps:
   <<: *node-image
   commands:
     - npm run linter:js
+
+- name: deploy
+  <<: *terraform-image
+  commands:
+    - terraform version
