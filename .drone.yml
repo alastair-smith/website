@@ -1,5 +1,16 @@
 kind: pipeline
 name: default
+environment:
+  AWS_DEFAULT_REGION: eu-west-1
+  TF_VAR_git_branch: "$DRONE_BRANCH"
+  TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
+  TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
+  AWS_ACCESS_KEY_ID:
+    from_secret: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    from_secret: AWS_SECRET_ACCESS_KEY
+  STATE_BUCKET:
+    from_secret: STATE_BUCKET
 
 .node-image: &node-image
   image: node:10-alpine
@@ -25,27 +36,9 @@ steps:
     - npm run linter:js
 
 - name: deploy
-  <<: *terraform-image
+  <<: *terraform-image  
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_DEFAULT_REGION:
-      from_secret: AWS_DEFAULT_REGION
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    STATE_BUCKET:
-      from_secret: STATE_BUCKET
-    TEST_VAR:
-      from_secret: TEST_VAR
-    SOME_VAR: "Hello you"
+    TF_VAR_environment: "feature"  
   commands:
     - cd infrastructure
-    - export TF_VAR_environment="feature"
-    - export TF_VAR_git_branch="$DRONE_BRANCH"
-    - export TF_VAR_git_commit="$DRONE_COMMIT_SHA"
-    - export TF_VAR_git_repository="$DRONE_COMMIT_LINK"
-    - echo "TF_VAR_environment - $TF_VAR_environment"
-    - export temp=$TEST_VAR
-    - echo "TEST_VAR - $temp"
-    - echo "SOME_VAR - $SOME_VAR"
-    # - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - terraform init --backend-config="bucket=$STATE_BUCKET"
