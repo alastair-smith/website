@@ -5,7 +5,7 @@
   "scripts": {
     "linter:js": "standard -v | snazzy",
     "test:unit": "mocha --require @babel/register --require @babel/polyfill --require ./test/unit/.mocha.config.js ./test/unit/*",
-    "test": "npm audit && npm outdated && npm run linter:js && npm run test:unit",
+    "test": "npm audit && npm outdated && npm run linter:js && npm run test:unit"
   },
   "author": "Alastair Smith",
   "license": "ISC",
