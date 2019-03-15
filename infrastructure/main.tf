@@ -22,6 +22,6 @@ locals {
 
 resource "aws_s3_bucket" "website_bucket" {
   acl           = "private"
-  bucket_prefix = "${var.environment}.${var.dns_name}"
+  bucket_prefix = "${var.dns_name}.${var.environment}"
   tags          = "${merge(map("Name", "website"), local.tags)}"
 }
