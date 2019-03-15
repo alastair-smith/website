@@ -5,11 +5,6 @@ const icon = {
   Project: '⚗️'
 }
 
-const backgroundColor = {
-  Blog: '#f5e2b5',
-  Project: '#b5f5dd'
-}
-
 export default class LatestUpdate extends LitElement {
   constructor () {
     super()
