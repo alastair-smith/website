@@ -1,8 +1,11 @@
 kind: pipeline
 name: default
 
-steps:
-- name: test
+.node-image: &node-image
   image: node:10-alpine
+
+steps:
+- name: check-dependencies
+  <<: *node-image
   commands:
   - npm audit
