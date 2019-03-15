@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Standard web components to use accross website",
   "scripts": {
-    "linter:js": "standard -v | snazzy",
+    "linter:js": "standard",
     "test": "npm audit && npm outdated && npm run linter:js"
   },
   "author": "Alastair Smith",
