@@ -6,7 +6,6 @@
     "linter:js": "standard -v | snazzy",
     "test:unit": "mocha --require @babel/register --require @babel/polyfill --require ./test/unit/.mocha.config.js ./test/unit/*",
     "test": "npm audit && npm outdated && npm run linter:js && npm run test:unit",
-    "start": "polyserve & sensible-browser localhost:8081/test/view"
   },
   "author": "Alastair Smith",
   "license": "ISC",
@@ -17,7 +16,6 @@
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "mocha": "^6.0.0",
-    "polyserve": "^0.27.15",
     "rewire": "^4.0.1",
     "sinon": "^7.2.4",
     "snazzy": "^8.0.0",
