@@ -1,0 +1,21 @@
+kind: pipeline
+name: default
+
+.node-image: &node-image
+  image: node:10-alpine
+
+steps:
+- name: check-dependencies
+  <<: *node-image
+  commands:
+    - npm audit
+
+- name: install
+  <<: *node-image
+  commands:
+    - npm ci
+
+- name: linter
+  <<: *node-image
+  commands:
+    - npm run linter:js
