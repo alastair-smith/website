@@ -1,124 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <script src="https://use.fontawesome.com/af99a8d0ce.js"></script>
-    <title>Alastair Smith</title>
-    <link rel="stylesheet" href="stylesheet.css" type="text/css">
-    <link rel="import" href="./HexLink/HexLink.html">
-    <link rel="import" href="./HexGrid/HexGrid.html">
-    <link rel="import" href="./SocialFooter/SocialFooter.html">
-  </head>
-  <body>
-    <header>
-      <h1 id='name'>Alastair <br /> Smith</h1>
-    </header>
+<html>
 
-    <main>
+<head>
+  <meta charset="UTF-8">
+  <title>al smith</title>
+  <script type='module'
+    src='./custom-components/src/standard-page-wrapper.js'></script>
+  <script type='module' src='./custom-components/src/latest-update.js'></script>
+</head>
+
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  section {
+    margin: 60px 0;
+  }
+
+  #main {
+    max-width: 100%;
+    width: 50em;
+    margin: auto;
+  }
+
+  #latest-updates {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  section:first-child {
+    margin-top: 0;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
+  }
+</style>
+
+<body>
+  <standard-page-wrapper>
+    <div id='main'>
       <section>
-        <p id='construction'><strong>🚧 This website is currently under construction. Have a demo of web component I have been working on in the meantime. I haven't added any polyfills yet so this will most likely only work in the latest version of chrome. 🚧</strong></p>
-      </section>
-      <section>
-        <h2>Web components</h2>
-        <div>
-          <h3>About</h3>
-          <p>Web components allow developers to split their websites into encapsulated reusable html components using vanilla javascript.</p>
-        </div>
-
-        <div>
-          <h3>Components on this page</h3>
-          <p>This page uses 3 components:
-            <ul>
-              <li><code>&lt;hex-link /&gt;</code> - Individual Hex tiles in below example</li>
-              <li><code>&lt;hex-grid /&gt;</code> - Honeycomb of hex tiles in below example</li>
-              <li><code>&lt;social-footer /&gt;</code> - Footer at the bottom of the page</li>
-            </ul>
-          </p>
-        </div>
-
-        <div>
-          <h3>Hex Link Component</h3>
-          <p>The <code>&lt;hex-link /&gt;</code> lets me provide a name, a url, and the name of an svg to create a link to that url in the shape of a hexagon with that svg as an image.</p>
-          <p>
-            In the <code>&lt;head /&gt;</code> of this document I need to have
-            <code>&lt;link rel="import" href="./HexLink/HexLink.html"&gt;</code>.
-          </p>
-          <p>
-            I can then use the following markup to get the hex-link
-            <code>&lt;hex-link name="Example" url="http://www.example.com/" svg="example"&gt;&lt;/hex-link&gt;</code>.
-            <div id='example-hex'>
-              <hex-link name="Example" url="http://www.example.com/" svg="example"></hex-link>
-            </div>
-          </p>
-        </div>
-
-        <div>
-          <h3>Hex Grid Component</h3>
-          <p>
-            Now if I want to create a honeycomb of these hex links I can use the <code>&lt;hex-grid /&gt;</code> by adding the appropriate import to the header and then using the following markup:
-          </p>
-          <p>
-            <code>
-              &lt;hex-grid hex-height='100px'
-                items='[</br>
-                  {"url": "/", "name": "Personal Website", "svg": "website"},</br>
-                  {"url": "http://example.com/", "name": "Example 1", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 2", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 3", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 4", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 5", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 6", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 7", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 8", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 9", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 10", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 11", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 12", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 13", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 14", "svg": "example"},</br>
-                  {"url": "http://example.com/", "name": "Example 15", "svg": "example"}</br>
-                ]'</br>
-              &gt;&lt;/hex-grid&gt;
-            </code>
-          </p>
-          <div id='grid-container'>
-              <hex-grid hex-height='100px'
-              items='[
-                {"url": "/", "name": "Personal Website", "svg": "website"},
-                {"url": "http://example.com/", "name": "Example 1", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 2", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 3", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 4", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 5", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 6", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 7", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 8", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 9", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 10", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 11", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 12", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 13", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 14", "svg": "example"},
-                {"url": "http://example.com/", "name": "Example 15", "svg": "example"}
-              ]'
-            ></hex-grid>
-          </div>
-        </div>
-
-        <h3>Further Reading</h3>
-        <p>See <a href='https://developer.mozilla.org/en-US/docs/Web/Web_Components' target='_blank'>mdn</a> for information on web components.</p>
+        <h1>About</h1>
+        <p>My name is Alastair Smith and I am a Software Engineer based in the
+          UK.</p>
+        <p>I created this website to learn more about web technologies. It
+          contains <a href='/blog'>blog posts</a> about tools and techniques as
+          well as some of my <a href='/projects'>personal projects</a> that I
+          have been working on.</p>
       </section>
 
-      <!-- <section>
-        <div>bio</div>
-      </section> -->
-    </main>
+      <section>
+        <h1>Latest Updates</h1>
+        <div id='latest-updates'>
+          <latest-update type='Blog' title='Web Components'
+            url='/blog/web-components'>
+            <span>Creating a boilerplate for webpages using web
+              components.</span>
+          </latest-update>
+          <latest-update type='Project' title='My son is also named Bort'
+            url='/projects/mysonisalsocalledbort'>
+            <span>A serverless/lambdaless API built in AWS.</span>
+          </latest-update>
+        </div>
+      </section>
+    </div>
+  </standard-page-wrapper>
+</body>
 
-    <social-footer>
-      <!-- Font awesome web component workaround -->
-      <i slot="github" class="fa fa-github" aria-hidden="true" title='github'></i>
-      <i slot="twitter" class="fa fa-twitter" aria-hidden="true" title='twitter'></i>
-      <i slot="email" class="fa fa-envelope" aria-hidden="true" title='email'></i>
-    </social-footer>
-  </body>
 </html>
