@@ -36,7 +36,8 @@ steps:
     STATE_BUCKET:
       from_secret: STATE_BUCKET
     TEST_VAR:
-      from_secret: TEST_VAR 
+      from_secret: TEST_VAR
+    SOME_VAR: "Hello you"
   commands:
     - cd infrastructure
     - export TF_VAR_environment="feature"
@@ -44,5 +45,7 @@ steps:
     - export TF_VAR_git_commit="$DRONE_COMMIT_SHA"
     - export TF_VAR_git_repository="$DRONE_COMMIT_LINK"
     - echo "TF_VAR_environment - $TF_VAR_environment"
-    - echo "TEST_VAR - $TEST_VAR"
+    - export temp=$TEST_VAR
+    - echo "TEST_VAR - $temp"
+    - echo "SOME_VAR - $SOME_VAR"
     # - terraform init --backend-config="bucket=$STATE_BUCKET"
