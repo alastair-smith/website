@@ -1,0 +1,7 @@
+kind: pipeline
+
+steps:
+- name: test
+  image: node:10-alpine
+  commands:
+  - npm audit
