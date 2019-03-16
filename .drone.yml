@@ -11,7 +11,7 @@ name: default
     from_secret: STATE_BUCKET
 
 # can't use in environment block :(
-.reassign-drone-variables: &re-assign-drone-variables
+.reassign-drone-variables: &reassign-drone-variables
   - export TF_VAR_git_branch=$DRONE_BRANCH
   - export TF_VAR_git_commit=$DRONE_COMMIT_SHA
   - export TF_VAR_git_repository=$DRONE_COMMIT_LINK
