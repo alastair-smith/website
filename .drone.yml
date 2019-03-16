@@ -13,7 +13,6 @@ name: default
     TF_VAR_git_branch: "$DRONE_BRANCH"
     TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
     TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
-    WORKSPACE: "$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
 
 .node-image: &node-image
   image: node:10-alpine
@@ -45,6 +44,7 @@ steps:
     - cd infrastructure
     - echo -n $AWS_ACCESS_KEY_ID | wc -m
     - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - export WORKSPACE="$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
     - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     - terraform plan
 
