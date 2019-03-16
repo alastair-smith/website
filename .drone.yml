@@ -5,6 +5,7 @@ environment:
   TF_VAR_git_branch: "$DRONE_BRANCH"
   TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
   TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
+  WORKSPACE: "$(([ $DRONE_BRANCH == "master" ] && echo "master") || echo "feature")"
   AWS_ACCESS_KEY_ID:
     from_secret: AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY:
@@ -30,15 +31,29 @@ steps:
   commands:
     - npm ci
 
-- name: linter
+- name: lint-javascript
   <<: *node-image
   commands:
     - npm run linter:js
 
+- name: validate-terraform
+  <<: *terraform-image
+  commands:
+    - cd infrastructure
+    - terraform validate
+
+- name: prepare-deploy
+  <<: *terraform-image
+    - cd infrastructure
+    - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
+    - terraform plan
+
 - name: deploy
   <<: *terraform-image  
   environment:
-    TF_VAR_environment: "feature"  
+    TF_VAR_environment: "feature"
   commands:
     - cd infrastructure
-    - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - terraform apply -y
+    
