@@ -74,7 +74,7 @@ resource "aws_s3_bucket_object" "website_files" {
   count = "8"
 
   bucket           = "${aws_s3_bucket.website_bucket.id}"
-  content_encoding = "${lookup(local.content_encodings, element(split(".", local.filenames[count.index]), -1))}"
+  content_encoding = "${lookup(local.content_encodings, basename(join("/", split(".", local.filenames[count.index]))))}"
   key              = "${local.filenames[count.index]}"
   source           = "../src/${element(local.filenames, count.index)}"
 }
