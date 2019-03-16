@@ -20,7 +20,7 @@ name: default
   image: hashicorp/terraform:light
   entrypoint: [""]
 
-.prepare-deploy:
+.prepare-deploy: &prepare-deploy
   <<: *terraform-image
   commands:
     - cd infrastructure
@@ -55,7 +55,7 @@ steps:
         - master
 
 - name: prepare master deploy
-  extends: .prepare-deploy
+  <<: *prepare-deploy
   environment: 
     <<: *deployment-variables
     WORKSPACE: master
