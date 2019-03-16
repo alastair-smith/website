@@ -45,7 +45,7 @@ steps:
     - npm run linter:js
 
 - name: prepare feature deploy
-  extends: .prepare-deploy
+  <<: *prepare-deploy
   environment: 
     <<: *deployment-variables
     WORKSPACE: feature
