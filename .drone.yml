@@ -9,6 +9,8 @@ name: default
   AWS_DEFAULT_REGION: eu-west-1
   STATE_BUCKET:
     from_secret: STATE_BUCKET
+  TF_VAR_feature_whitelist_cidr:
+    from_secret: feature_whitelist_cidr
 
 # can't use in environment block :(
 .reassign-drone-variables: &reassign-drone-variables

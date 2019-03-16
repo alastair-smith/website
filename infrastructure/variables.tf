@@ -16,3 +16,7 @@ variable "git_repository" {
   description = "The repository that has been deployed"
   default     = ""
 }
+
+variable "feature_whitelist_cidr" {
+  description = "The single cidr range to allow access to feature branch environments"
+}
