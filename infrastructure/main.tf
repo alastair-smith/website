@@ -34,14 +34,18 @@ locals {
 
 data "aws_iam_policy_document" "whitelist" {
   statement {
-    actions    = ["s3:GetObject"]
-    principals = ["*"]
-    resources  = ["arn:aws:s3:::${local.bucket_prefix}*"]
+    actions   = ["s3:GetObject"]
+    resources = ["arn:aws:s3:::${local.bucket_prefix}*"]
 
     condition {
       test     = "IpAddress"
       variable = "aws:SourceIp"
       values   = ["${local.whitelist_cidr[terraform.workspace]}"]
+    }
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
     }
   }
 }
