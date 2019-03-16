@@ -13,8 +13,8 @@ name: default
     from_secret: CLOUDFLARE_TOKEN
   STATE_BUCKET:
     from_secret: STATE_BUCKET
-  TF_VAR_feature_whitelist_cidr:
-    from_secret: feature_whitelist_cidr
+  TF_VAR_whitelist_cidr:
+    from_secret: whitelist_cidr
   TF_VAR_zone_id:
     from_secret: zone_id
 
