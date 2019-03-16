@@ -36,12 +36,6 @@ steps:
   commands:
     - npm run linter:js
 
-- name: validate-terraform
-  <<: *terraform-image
-  commands:
-    - cd infrastructure
-    - terraform validate
-
 - name: prepare-deploy
   <<: *terraform-image
   commands:
