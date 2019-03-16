@@ -44,7 +44,7 @@ steps:
     - cd infrastructure
     - echo -n $AWS_ACCESS_KEY_ID | wc -m
     - terraform init --backend-config="bucket=$STATE_BUCKET"
-    - export WORKSPACE="$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
+    - export WORKSPACE="$(([ \"$DRONE_BRANCH\" = \"master\" ] && echo master) || echo feature)"
     - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     - terraform plan
 
