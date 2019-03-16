@@ -21,6 +21,11 @@ locals {
     js   = "application/javascript"
   }
 
+  dns_value = {
+    feature = "${var.environment[terraform.workspace]}.website"
+    master  = ""
+  }
+
   tags {
     "Created By"     = "Terraform"
     "Git Branch"     = "${var.git_branch}"
@@ -83,7 +88,7 @@ resource "aws_s3_bucket_object" "website_files" {
 
 resource "cloudflare_record" "website" {
   domain = "${var.dns_name}"
-  name   = "${var.environment}.website"
+  name   = "${local.dns_value}"
   value  = "${aws_s3_bucket.website_bucket.website_endpoint}"
   type   = "CNAME"
   ttl    = 3600

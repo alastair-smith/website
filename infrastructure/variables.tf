@@ -1,5 +1,5 @@
 variable "dns_name" {
-  description = "The name of the dns for the website to use"
+  description = "The root name of the dns for the website to use"
 }
 
 variable "environment" {
