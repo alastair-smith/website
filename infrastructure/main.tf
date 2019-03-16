@@ -13,7 +13,6 @@ locals {
   tags {
     "Created By"     = "Terraform"
     "Git Branch"     = "${var.git_branch}"
-    "Git Commit"     = "${var.git_commit}"
     "Git Repository" = "${var.git_repository}"
     Environment      = "${var.environment[terraform.workspace]}"
     Project          = "website"
