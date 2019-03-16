@@ -6,12 +6,6 @@ environment:
   TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
   TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
   WORKSPACE: "$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
-  AWS_ACCESS_KEY_ID:
-    from_secret: AWS_ACCESS_KEY_ID
-  AWS_SECRET_ACCESS_KEY:
-    from_secret: AWS_SECRET_ACCESS_KEY
-  STATE_BUCKET:
-    from_secret: STATE_BUCKET
 
 .node-image: &node-image
   image: node:10-alpine
@@ -38,6 +32,13 @@ steps:
 
 - name: prepare deploy
   <<: *terraform-image
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    STATE_BUCKET:
+      from_secret: STATE_BUCKET
   commands:
     - cd infrastructure
     - echo -n $AWS_ACCESS_KEY_ID | wc -m
