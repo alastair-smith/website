@@ -17,8 +17,8 @@ variable "git_repository" {
   default     = ""
 }
 
-variable "feature_whitelist_cidr" {
-  description = "The single cidr range to allow access to feature branch environments"
+variable "whitelist_cidr" {
+  description = "Single cidr to allow access to s3 bucket for debugging purposes"
 }
 
 variable "zone_id" {

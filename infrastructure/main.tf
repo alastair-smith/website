@@ -35,11 +35,6 @@ locals {
   }
 
   filenames = "${sort(split(", ", lookup(data.external.website_files.result, "filenames")))}"
-
-  whitelist_cidr = {
-    feature = ["${var.feature_whitelist_cidr}"]
-    master  = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_s3_bucket" "website_bucket" {
@@ -53,6 +48,8 @@ resource "aws_s3_bucket" "website_bucket" {
   }
 }
 
+data "cloudflare_ip_ranges" "cloudflare" {}
+
 data "aws_iam_policy_document" "whitelist" {
   statement {
     actions   = ["s3:GetObject"]
@@ -61,7 +58,11 @@ data "aws_iam_policy_document" "whitelist" {
     condition {
       test     = "IpAddress"
       variable = "aws:SourceIp"
-      values   = ["${local.whitelist_cidr[terraform.workspace]}"]
+
+      values = [
+        "${var.whitelist_cidr}",
+        "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
+      ]
     }
 
     principals {
