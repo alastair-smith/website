@@ -90,7 +90,7 @@ resource "cloudflare_record" "website" {
   domain  = "${var.dns_name}"
   name    = "${local.dns_value[terraform.workspace]}"
   proxied = true
-  ttl     = 3600
+  ttl     = 1
   type    = "CNAME"
   value   = "${aws_s3_bucket.website_bucket.website_endpoint}"
 }
