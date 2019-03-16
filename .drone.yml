@@ -2,17 +2,16 @@ kind: pipeline
 name: default
 
 .deployment-variables: &deployment-variables
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    AWS_DEFAULT_REGION: eu-west-1
-    STATE_BUCKET:
-      from_secret: STATE_BUCKET
-    TF_VAR_git_branch: "$DRONE_BRANCH"
-    TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
-    TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
+  AWS_ACCESS_KEY_ID:
+    from_secret: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    from_secret: AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: eu-west-1
+  STATE_BUCKET:
+    from_secret: STATE_BUCKET
+  TF_VAR_git_branch: "$DRONE_BRANCH"
+  TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
+  TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
 
 .node-image: &node-image
   image: node:10-alpine
@@ -20,6 +19,14 @@ name: default
 .terraform-image: &terraform-image
   image: hashicorp/terraform:light
   entrypoint: [""]
+
+.prepare-deploy:
+  <<: *terraform-image
+  commands:
+    - cd infrastructure
+    - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
+    - terraform plan
 
 steps:
 - name: check dependencies
@@ -37,16 +44,25 @@ steps:
   commands:
     - npm run linter:js
 
-- name: prepare deploy
-  <<: *terraform-image
-  <<: *deployment-variables
-  commands:
-    - cd infrastructure
-    - echo -n $AWS_ACCESS_KEY_ID | wc -m
-    - terraform init --backend-config="bucket=$STATE_BUCKET"
-    - export WORKSPACE=$(([ "$DRONE_BRANCH" = "master" ] && echo master) || echo feature)
-    - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
-    - terraform plan
+- name: prepare feature deploy
+  extends: .prepare-deploy
+  environment: 
+    <<: *deployment-variables
+    WORKSPACE: feature
+  trigger:
+    branch:
+      exclude:
+        - master
+
+- name: prepare master deploy
+  extends: .prepare-deploy
+  environment: 
+    <<: *deployment-variables
+    WORKSPACE: master
+  trigger:
+    branch:
+      include:
+        - master
 
 - name: deploy
   <<: *terraform-image
