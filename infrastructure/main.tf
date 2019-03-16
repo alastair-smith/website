@@ -87,9 +87,10 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 
 resource "cloudflare_record" "website" {
-  domain = "${var.dns_name}"
-  name   = "${local.dns_value[terraform.workspace]}"
-  value  = "${aws_s3_bucket.website_bucket.website_endpoint}"
-  type   = "CNAME"
-  ttl    = 3600
+  domain  = "${var.dns_name}"
+  name    = "${local.dns_value[terraform.workspace]}"
+  proxied = true
+  ttl     = 3600
+  type    = "CNAME"
+  value   = "${aws_s3_bucket.website_bucket.website_endpoint}"
 }
