@@ -12,11 +12,6 @@ variable "git_branch" {
   default     = ""
 }
 
-variable "git_commit" {
-  description = "The git commit that has been deployed"
-  default     = ""
-}
-
 variable "git_repository" {
   description = "The repository that has been deployed"
   default     = ""

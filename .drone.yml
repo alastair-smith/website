@@ -13,8 +13,7 @@ name: default
 # can't use in environment block :(
 .reassign-drone-variables: &reassign-drone-variables
   export TF_VAR_git_branch=$DRONE_BRANCH &&
-  export TF_VAR_git_commit=$DRONE_COMMIT_SHA &&
-  export TF_VAR_git_repository=$DRONE_COMMIT_LINK
+  export TF_VAR_git_repository=$DRONE_REPO_LINK
 
 .node-image: &node-image
   image: node:10-alpine
