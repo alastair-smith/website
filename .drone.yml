@@ -32,12 +32,6 @@ name: default
     - terraform plan
 
 steps:
-- name: debug
-  <<: *terraform-image
-  commands:
-    - ls ./src
-    - cd infrastructure
-    - sh ./get-website-files.sh
 
 - name: check dependencies
   <<: *node-image
