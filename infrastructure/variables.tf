@@ -4,7 +4,6 @@ variable "dns_name" {
 
 variable "environment" {
   description = "The environment that has been deployed"
-  default     = ""
 }
 
 variable "git_branch" {

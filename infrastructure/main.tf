@@ -15,13 +15,13 @@ locals {
     "Git Branch"     = "${var.git_branch}"
     "Git Commit"     = "${var.git_commit}"
     "Git Repository" = "${var.git_repository}"
-    Environment      = "${var.environment}"
+    Environment      = "${var.environment[terraform.workspace]}"
     Project          = "website"
   }
 }
 
 resource "aws_s3_bucket" "website_bucket" {
   acl           = "private"
-  bucket_prefix = "${var.dns_name}.${var.environment}"
+  bucket_prefix = "${var.dns_name}.${var.environment[terraform.workspace]}"
   tags          = "${merge(map("Name", "website"), local.tags)}"
 }
