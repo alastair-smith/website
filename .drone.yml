@@ -44,6 +44,7 @@ steps:
 
 - name: prepare-deploy
   <<: *terraform-image
+  commands:
     - cd infrastructure
     - terraform init --backend-config="bucket=$STATE_BUCKET"
     - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
