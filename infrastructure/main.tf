@@ -14,7 +14,7 @@ data "external" "website_files" {
 }
 
 locals {
-  content_encodings = {
+  content_types = {
     html = "text/html"
     js   = "application/javascript"
   }
@@ -73,8 +73,8 @@ resource "aws_s3_bucket_object" "website_files" {
   # cannot have computed count, so this has to be increased when new files are added
   count = "8"
 
-  bucket           = "${aws_s3_bucket.website_bucket.id}"
-  content_encoding = "${lookup(local.content_encodings, basename(replace(local.filenames[count.index], ".", "/")))}"
-  key              = "${local.filenames[count.index]}"
-  source           = "../src/${element(local.filenames, count.index)}"
+  bucket       = "${aws_s3_bucket.website_bucket.id}"
+  content_type = "${lookup(local.content_types, basename(replace(local.filenames[count.index], ".", "/")))}"
+  key          = "${local.filenames[count.index]}"
+  source       = "../src/${element(local.filenames, count.index)}"
 }
