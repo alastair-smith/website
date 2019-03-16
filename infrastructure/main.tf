@@ -27,7 +27,7 @@ locals {
     Project          = "website"
   }
 
-  filenames = "${split(", ", lookup(data.external.website_files.result, "filenames"))}"
+  filenames = "${sort(split(", ", lookup(data.external.website_files.result, "filenames")))}"
 
   whitelist_cidr = {
     feature = ["${var.feature_whitelist_cidr}"]
