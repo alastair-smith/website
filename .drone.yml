@@ -49,7 +49,7 @@ steps:
   environment: 
     <<: *deployment-variables
     WORKSPACE: feature
-  trigger:
+  when:
     branch:
       exclude:
         - master
@@ -59,9 +59,10 @@ steps:
   environment: 
     <<: *deployment-variables
     WORKSPACE: master
-  trigger:
+  when:
     branch:
-      - master
+      include:
+        - master
 
 - name: deploy
   <<: *terraform-image
