@@ -14,6 +14,11 @@ data "external" "website_files" {
 }
 
 locals {
+  content_encodings = {
+    html = "text/html"
+    js   = "application/javascript"
+  }
+
   tags {
     "Created By"     = "Terraform"
     "Git Branch"     = "${var.git_branch}"
@@ -68,7 +73,8 @@ resource "aws_s3_bucket_object" "website_files" {
   # cannot have computed count, so this has to be increased when new files are added
   count = "8"
 
-  bucket = "${aws_s3_bucket.website_bucket.id}"
-  key    = "${local.filenames[count.index]}"
-  source = "../src/${element(local.filenames, count.index)}"
+  bucket           = "${aws_s3_bucket.website_bucket.id}"
+  content_encoding = "${lookup(local.content_encodings, element(split(".", local.filenames[count.index]), -1))}"
+  key              = "${local.filenames[count.index]}"
+  source           = "../src/${element(local.filenames, count.index)}"
 }
