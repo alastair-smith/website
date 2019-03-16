@@ -37,5 +37,5 @@ resource "aws_s3_bucket_object" "website_files" {
 
   bucket = "${aws_s3_bucket.website_bucket.id}"
   key    = "${local.filenames[count.index]}"
-  source = "./src/${element(local.filenames, count.index)}"
+  source = "../src/${element(local.filenames, count.index)}"
 }
