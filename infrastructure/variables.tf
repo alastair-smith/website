@@ -20,3 +20,7 @@ variable "git_repository" {
 variable "feature_whitelist_cidr" {
   description = "The single cidr range to allow access to feature branch environments"
 }
+
+variable "zone_id" {
+  description = "The cloudflare zone for DNS"
+}

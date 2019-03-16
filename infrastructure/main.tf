@@ -9,6 +9,8 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+provider "cloudflare" {}
+
 data "external" "website_files" {
   program = ["sh", "./get-website-files.sh"]
 }
@@ -77,4 +79,12 @@ resource "aws_s3_bucket_object" "website_files" {
   content_type = "${lookup(local.content_types, basename(replace(local.filenames[count.index], ".", "/")))}"
   key          = "${local.filenames[count.index]}"
   source       = "../src/${element(local.filenames, count.index)}"
+}
+
+resource "cloudflare_record" "website" {
+  domain = "${var.dns_name}"
+  name   = "${var.environment}.website"
+  value  = "${aws_s3_bucket.website_bucket.website_endpoint}"
+  type   = "CNAME"
+  ttl    = 3600
 }

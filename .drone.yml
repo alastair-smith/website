@@ -7,10 +7,16 @@ name: default
   AWS_SECRET_ACCESS_KEY:
     from_secret: AWS_SECRET_ACCESS_KEY
   AWS_DEFAULT_REGION: eu-west-1
+  CLOUDFLARE_EMAIL:
+    from_secret: CLOUDFLARE_EMAIL
+  CLOUDFLARE_TOKEN:
+    from_secret: CLOUDFLARE_TOKEN
   STATE_BUCKET:
     from_secret: STATE_BUCKET
   TF_VAR_feature_whitelist_cidr:
     from_secret: feature_whitelist_cidr
+  TF_VAR_zone_id:
+    from_secret: zone_id
 
 # can't use in environment block :(
 .reassign-drone-variables: &reassign-drone-variables
