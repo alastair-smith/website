@@ -10,8 +10,8 @@ name: default
   STATE_BUCKET:
     from_secret: STATE_BUCKET
   TF_VAR_git_branch: $DRONE_BRANCH
-  TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
-  TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
+  TF_VAR_git_commit: $DRONE_COMMIT_SHA
+  TF_VAR_git_repository: $DRONE_COMMIT_LINK
 
 .node-image: &node-image
   image: node:10-alpine
