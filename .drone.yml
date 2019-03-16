@@ -1,11 +1,19 @@
 kind: pipeline
 name: default
-environment:
-  AWS_DEFAULT_REGION: eu-west-1
-  TF_VAR_git_branch: "$DRONE_BRANCH"
-  TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
-  TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
-  WORKSPACE: "$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
+
+.deployment-variables: &deployment-variables
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    AWS_DEFAULT_REGION: eu-west-1
+    STATE_BUCKET:
+      from_secret: STATE_BUCKET
+    TF_VAR_git_branch: "$DRONE_BRANCH"
+    TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
+    TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
+    WORKSPACE: "$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
 
 .node-image: &node-image
   image: node:10-alpine
@@ -32,13 +40,7 @@ steps:
 
 - name: prepare deploy
   <<: *terraform-image
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    STATE_BUCKET:
-      from_secret: STATE_BUCKET
+  <<: *deployment-variables
   commands:
     - cd infrastructure
     - echo -n $AWS_ACCESS_KEY_ID | wc -m
@@ -47,9 +49,8 @@ steps:
     - terraform plan
 
 - name: deploy
-  <<: *terraform-image  
-  environment:
-    TF_VAR_environment: "feature"
+  <<: *terraform-image
+  <<: *deployment-variables
   commands:
     - cd infrastructure
     - terraform apply -y
