@@ -22,7 +22,7 @@ locals {
     Project          = "website"
   }
 
-  filenames = "${split(",", lookup(data.external.website_files.result, "filenames"))}"
+  filenames = "${split(", ", lookup(data.external.website_files.result, "filenames"))}"
 }
 
 resource "aws_s3_bucket" "website_bucket" {
