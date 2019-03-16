@@ -14,8 +14,6 @@ data "external" "website_files" {
 }
 
 locals {
-  bucket_prefix = "${var.dns_name}.${var.environment[terraform.workspace]}"
-
   tags {
     "Created By"     = "Terraform"
     "Git Branch"     = "${var.git_branch}"
@@ -32,10 +30,21 @@ locals {
   }
 }
 
+resource "aws_s3_bucket" "website_bucket" {
+  acl           = "public-read"
+  bucket_prefix = "${var.dns_name}.${var.environment[terraform.workspace]}"
+  tags          = "${merge(map("Name", "website"), local.tags)}"
+
+  website {
+    index_document = "index.html"
+    error_document = "404.html"
+  }
+}
+
 data "aws_iam_policy_document" "whitelist" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["arn:aws:s3:::${local.bucket_prefix}*"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.website_bucket.id}/*"]
 
     condition {
       test     = "IpAddress"
@@ -50,16 +59,9 @@ data "aws_iam_policy_document" "whitelist" {
   }
 }
 
-resource "aws_s3_bucket" "website_bucket" {
-  acl           = "public-read"
-  bucket_prefix = "${local.bucket_prefix}"
-  tags          = "${merge(map("Name", "website"), local.tags)}"
-  policy        = "${data.aws_iam_policy_document.whitelist.json}"
-
-  website {
-    index_document = "index.html"
-    error_document = "404.html"
-  }
+resource "aws_s3_bucket_policy" "whitelist" {
+  bucket = "${aws_s3_bucket.website_bucket.id}"
+  policy = "${data.aws_iam_policy_document.whitelist.json}"
 }
 
 resource "aws_s3_bucket_object" "website_files" {
