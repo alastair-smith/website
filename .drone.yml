@@ -21,25 +21,26 @@ environment:
   entrypoint: [""]
 
 steps:
-- name: check-dependencies
+- name: check dependencies
   <<: *node-image
   commands:
     - npm audit
 
-- name: install
+- name: install dependencies
   <<: *node-image
   commands:
     - npm ci
 
-- name: lint-javascript
+- name: lint javascript
   <<: *node-image
   commands:
     - npm run linter:js
 
-- name: prepare-deploy
+- name: prepare deploy
   <<: *terraform-image
   commands:
     - cd infrastructure
+    - echo -n $AWS_ACCESS_KEY_ID | wc -m
     - terraform init --backend-config="bucket=$STATE_BUCKET"
     - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     - terraform plan
