@@ -5,7 +5,7 @@ environment:
   TF_VAR_git_branch: "$DRONE_BRANCH"
   TF_VAR_git_commit: "$DRONE_COMMIT_SHA"
   TF_VAR_git_repository: "$DRONE_COMMIT_LINK"
-  WORKSPACE: "$(([ $DRONE_BRANCH == "master" ] && echo "master") || echo "feature")"
+  WORKSPACE: "$(([ $DRONE_BRANCH == \"master\" ] && echo \"master\") || echo \"feature\")"
   AWS_ACCESS_KEY_ID:
     from_secret: AWS_ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY:
