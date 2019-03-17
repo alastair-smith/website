@@ -17,18 +17,14 @@ data "external" "website_files" {
 
 locals {
   bucket_name {
-    feature = "${var.environment[terraform.workspace]}.website.${var.dns_name}"
+    # feature = "${var.environment[terraform.workspace]}.website.${var.dns_name}"
+    feature = "${var.dns_name}"
     master  = "${var.dns_name}"
   }
 
   content_types = {
     html = "text/html"
     js   = "application/javascript"
-  }
-
-  dns_value = {
-    feature = "${var.environment[terraform.workspace]}.website"
-    master  = ""
   }
 
   tags {
@@ -94,7 +90,7 @@ resource "aws_s3_bucket_object" "website_files" {
 
 resource "cloudflare_record" "website" {
   domain  = "${var.dns_name}"
-  name    = "${local.dns_value[terraform.workspace]}"
+  name    = "${aws_s3_bucket.website_bucket.id}"
   proxied = true
   ttl     = 1
   type    = "CNAME"
