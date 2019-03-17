@@ -96,7 +96,7 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 
 resource "cloudflare_record" "website" {
-  count = "${terraform.workspace == "master"}"
+  count = "${terraform.workspace == "master" ? 1 : 0}"
 
   domain  = "${var.dns_name}"
   name    = "${aws_s3_bucket.website_bucket.id}"
