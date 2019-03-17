@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "whitelist" {
       variable = "aws:SourceIp"
 
       values = [
-        "${local.bucket_whitelist}",
+        "${local.bucket_whitelist[terraform.workspace]}",
       ]
     }
 
