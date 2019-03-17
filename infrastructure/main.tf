@@ -16,6 +16,11 @@ data "external" "website_files" {
 }
 
 locals {
+  bucket_name {
+    feature = "${var.environment}.website.${var.dns_name}"
+    master  = "${var.dns_name}"
+  }
+
   content_types = {
     html = "text/html"
     js   = "application/javascript"
@@ -38,9 +43,9 @@ locals {
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  acl           = "public-read"
-  bucket_prefix = "${var.dns_name}.${var.environment[terraform.workspace]}"
-  tags          = "${merge(map("Name", "website"), local.tags)}"
+  acl    = "public-read"
+  bucket = "${local.bucket_name[terraform.workspace]}"
+  tags   = "${merge(map("Name", "website"), local.tags)}"
 
   website {
     index_document = "index.html"
