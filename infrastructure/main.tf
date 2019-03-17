@@ -17,8 +17,7 @@ data "external" "website_files" {
 
 locals {
   bucket_name {
-    # feature = "${var.environment[terraform.workspace]}.website.${var.dns_name}"
-    feature = "${var.dns_name}"
+    feature = "${var.environment[terraform.workspace]}.${var.dns_name}"
     master  = "${var.dns_name}"
   }
 
