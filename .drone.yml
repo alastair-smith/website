@@ -1,21 +1,92 @@
 kind: pipeline
 name: default
 
+.deployment-variables: &deployment-variables
+  AWS_ACCESS_KEY_ID:
+    from_secret: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    from_secret: AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: eu-west-1
+  CLOUDFLARE_EMAIL:
+    from_secret: CLOUDFLARE_EMAIL
+  CLOUDFLARE_TOKEN:
+    from_secret: CLOUDFLARE_TOKEN
+  STATE_BUCKET:
+    from_secret: STATE_BUCKET
+  TF_VAR_whitelist_cidr:
+    from_secret: whitelist_cidr
+  TF_VAR_zone_id:
+    from_secret: zone_id
+
+# can't use in environment block :(
+.reassign-drone-variables: &reassign-drone-variables
+  export TF_VAR_git_branch=$DRONE_BRANCH &&
+  export TF_VAR_git_repository=$DRONE_REPO_LINK
+
 .node-image: &node-image
   image: node:10-alpine
 
+.terraform-image: &terraform-image
+  image: hashicorp/terraform:light
+  entrypoint: [""]
+
+.prepare-deploy: &prepare-deploy
+  <<: *terraform-image
+  commands:
+    - cd infrastructure
+    - *reassign-drone-variables
+    - terraform init --backend-config="bucket=$STATE_BUCKET"
+    - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
+    - terraform plan
+
 steps:
-- name: check-dependencies
+
+- name: check dependencies
   <<: *node-image
   commands:
     - npm audit
 
-- name: install
+- name: install dependencies
   <<: *node-image
   commands:
     - npm ci
 
-- name: linter
+- name: lint javascript
   <<: *node-image
   commands:
     - npm run linter:js
+
+- name: prepare feature deploy
+  <<: *prepare-deploy
+  environment: 
+    <<: *deployment-variables
+    WORKSPACE: feature
+  when:
+    branch:
+      exclude:
+        - master
+
+- name: prepare master deploy
+  <<: *prepare-deploy
+  environment: 
+    <<: *deployment-variables
+    WORKSPACE: master
+  when:
+    branch:
+      include:
+        - master
+    event:
+      - push
+
+- name: deploy
+  <<: *terraform-image
+  environment:
+    <<: *deployment-variables
+  commands:
+    - cd infrastructure
+    - *reassign-drone-variables
+    - terraform apply -auto-approve
+  when:
+    event:
+      - push
+    
