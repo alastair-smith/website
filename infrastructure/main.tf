@@ -96,8 +96,10 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 
 resource "cloudflare_record" "website" {
+  count = "${terraform.workspace == "master" ? 1 : 0}"
+
   domain  = "${var.dns_name}"
-  name    = "${local.bucket_name[terraform.workspace]}"
+  name    = "${var.dns_name}"
   proxied = true
   ttl     = 1
   type    = "CNAME"
