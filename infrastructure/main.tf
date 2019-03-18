@@ -41,7 +41,7 @@ locals {
     ]
   }
 
-  website_files = "${split(",", var.cs_website_files)}"
+  website_files = "${split(", ", var.cs_website_files)}"
 }
 
 resource "aws_s3_bucket" "website_bucket" {
