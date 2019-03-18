@@ -75,6 +75,8 @@ steps:
     branch:
       include:
         - master
+    event:
+      - push
 
 - name: deploy
   <<: *terraform-image
@@ -84,4 +86,7 @@ steps:
     - cd infrastructure
     - *reassign-drone-variables
     - terraform apply -auto-approve
+  when:
+    event:
+      - push
     
