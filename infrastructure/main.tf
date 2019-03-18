@@ -97,7 +97,7 @@ resource "aws_s3_bucket_object" "website_files" {
 
 resource "cloudflare_record" "website" {
   domain  = "${var.dns_name}"
-  name    = "${aws_s3_bucket.website_bucket.id}"
+  name    = "${local.bucket_name[terraform.workspace]}"
   proxied = true
   ttl     = 1
   type    = "CNAME"
