@@ -47,9 +47,9 @@ locals {
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  acl           = "public-read"
-  bucket_prefix = "${local.bucket_name[terraform.workspace]}"
-  tags          = "${merge(map("Name", "website"), local.tags)}"
+  acl    = "public-read"
+  bucket = "${local.bucket_name[terraform.workspace]}"
+  tags   = "${merge(map("Name", "website"), local.tags)}"
 
   website {
     index_document = "index.html"
