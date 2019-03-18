@@ -48,7 +48,7 @@ steps:
 - name: check dependencies
   <<: *node-image
   commands:
-    - npm audit
+    - npm audit || echo "npm audit failures"
 
 - name: install dependencies
   <<: *node-image
