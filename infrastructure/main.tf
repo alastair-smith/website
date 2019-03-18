@@ -35,15 +35,6 @@ locals {
   }
 
   filenames = "${sort(split(", ", lookup(data.external.website_files.result, "filenames")))}"
-
-  bucket_whitelist = {
-    feature = ["${var.whitelist_cidr}"]
-
-    master = [
-      "${var.whitelist_cidr}",
-      "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
-    ]
-  }
 }
 
 resource "aws_s3_bucket" "website_bucket" {
@@ -69,7 +60,8 @@ data "aws_iam_policy_document" "whitelist" {
       variable = "aws:SourceIp"
 
       values = [
-        "${local.bucket_whitelist[terraform.workspace]}",
+        "${var.whitelist_cidr}",
+        "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
       ]
     }
 
@@ -96,10 +88,8 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 
 resource "cloudflare_record" "website" {
-  count = "${terraform.workspace == "master" ? 1 : 0}"
-
   domain  = "${var.dns_name}"
-  name    = "${var.dns_name}"
+  name    = "${aws_s3_bucket.website_bucket.id}"
   proxied = true
   ttl     = 1
   type    = "CNAME"
