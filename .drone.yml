@@ -63,6 +63,7 @@ steps:
 - name: build
   <<: *node-image
   commands:
+    - cp node_modules ./src/node_modules
     - npm run build
 
 - name: prepare feature deploy
