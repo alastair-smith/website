@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Standard web components to use accross website",
   "scripts": {
+    "build": "polymer build",
     "linter:js": "standard",
     "test": "npm audit && npm outdated && npm run linter:js"
   },
   "author": "Alastair Smith",
   "license": "MIT",
   "devDependencies": {
+    "polymer-cli": "^1.9.7",
     "standard": "^12.0.1"
   },
   "dependencies": {

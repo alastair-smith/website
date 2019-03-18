@@ -17,6 +17,10 @@ variable "git_repository" {
   default     = ""
 }
 
+variable "cs_website_files" {
+  description = "The comma seperated website files to serve"
+}
+
 variable "whitelist_cidr" {
   description = "Single cidr to allow access to s3 bucket for debugging purposes"
 }

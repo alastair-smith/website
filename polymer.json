@@ -1,0 +1,27 @@
+{
+  "root": "./src",
+  "entrypoint": "./index.html",
+  "npm": true,
+  "extraDependencies": [
+    "./404.html",
+    "./contact/index.html"
+  ],
+  "builds": [
+    {
+      "name": "dev",
+      "addServiceWorker": false,
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "css": {
+        "minify": false
+      },
+      "html": {
+        "minify": false
+      },
+      "bundle": false,
+      "addPushManifest": false
+    }
+  ]
+}
