@@ -47,9 +47,9 @@ locals {
 }
 
 resource "aws_s3_bucket" "website_bucket" {
-  acl    = "public-read"
-  bucket = "${local.bucket_name[terraform.workspace]}"
-  tags   = "${merge(map("Name", "website"), local.tags)}"
+  acl           = "public-read"
+  bucket_prefix = "${local.bucket_name[terraform.workspace]}"
+  tags          = "${merge(map("Name", "website"), local.tags)}"
 
   website {
     index_document = "index.html"
@@ -96,8 +96,6 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 
 resource "cloudflare_record" "website" {
-  count = "${terraform.workspace == "master" ? 1 : 0}"
-
   domain  = "${var.dns_name}"
   name    = "${aws_s3_bucket.website_bucket.id}"
   proxied = true
