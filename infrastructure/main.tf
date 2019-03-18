@@ -11,6 +11,8 @@ provider "aws" {
 
 provider "cloudflare" {}
 
+provider "external" {}
+
 locals {
   bucket_name {
     feature = "${var.environment[terraform.workspace]}.${var.dns_name}"
