@@ -11,9 +11,7 @@ provider "aws" {
 
 provider "cloudflare" {}
 
-data "external" "website_files" {
-  program = ["sh", "./get-website-files.sh"]
-}
+provider "external" {}
 
 locals {
   bucket_name {
@@ -34,8 +32,6 @@ locals {
     Project          = "website"
   }
 
-  filenames = "${sort(split(", ", lookup(data.external.website_files.result, "filenames")))}"
-
   bucket_whitelist = {
     feature = ["${var.whitelist_cidr}"]
 
@@ -44,6 +40,8 @@ locals {
       "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
     ]
   }
+
+  website_files = "${sort(split(", ", var.cs_website_files))}"
 }
 
 resource "aws_s3_bucket" "website_bucket" {
@@ -86,13 +84,13 @@ resource "aws_s3_bucket_policy" "whitelist" {
 }
 
 resource "aws_s3_bucket_object" "website_files" {
-  # cannot have computed count, so this has to be increased when new files are added
-  count = "8"
+  count = "${length(local.website_files)}"
 
   bucket       = "${aws_s3_bucket.website_bucket.id}"
-  content_type = "${lookup(local.content_types, basename(replace(local.filenames[count.index], ".", "/")))}"
-  key          = "${local.filenames[count.index]}"
-  source       = "../src/${element(local.filenames, count.index)}"
+  content_type = "${lookup(local.content_types, basename(replace(local.website_files[count.index], ".", "/")))}"
+  etag         = "${md5(file("../build/dev/src/${element(local.website_files, count.index)}"))}"
+  key          = "${local.website_files[count.index]}"
+  source       = "../build/dev/src/${element(local.website_files, count.index)}"
 }
 
 resource "cloudflare_record" "website" {
