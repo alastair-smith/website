@@ -12,7 +12,7 @@
       "addServiceWorker": false,
       "js": {
         "minify": false,
-        "compile": true
+        "compile": false
       },
       "css": {
         "minify": false
