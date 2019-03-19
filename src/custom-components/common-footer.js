@@ -160,7 +160,8 @@ export class CommonFooter extends LitElement {
               id='email'
               service='email'
               contact=${this.emailAddress}
-              url='mailto:${this.emailAddress}'>
+              url='mailto:${this.emailAddress}'
+              target='_blank'>
               <svg
                 slot='icon'
                 id='github'
