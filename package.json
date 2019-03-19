@@ -5,6 +5,7 @@
   "scripts": {
     "build": "polymer build",
     "linter:js": "standard",
+    "start": "polymer serve",
     "test": "npm audit && npm outdated && npm run linter:js"
   },
   "author": "Alastair Smith",
