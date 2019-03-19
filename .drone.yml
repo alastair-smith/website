@@ -24,7 +24,7 @@ name: default
   export TF_VAR_git_repository=$DRONE_REPO_LINK
 
 .get-website-files: &get-website-files
-  export TF_VAR_cs_website_files=$(sh ./infrastructure/get-website-files.sh)
+  export TF_VAR_cs_website_files=$(sh ./get-website-files.sh)
 
 .node-image: &node-image
   image: node:10-alpine
