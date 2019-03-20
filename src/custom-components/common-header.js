@@ -30,8 +30,8 @@ export class CommonHeader extends LitElement {
       a {
         text-decoration: none;
         color: #5c5e73;
-        margin: 1em 0;
-        font-size: x-large;
+        margin: 1em;
+        font-size: 60px;
       }
     `
   }
