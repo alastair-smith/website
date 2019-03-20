@@ -27,7 +27,7 @@ export default class CommonNavigation extends LitElement {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin: 0 20px;
+        margin: 0 40px;
         text-decoration: none;
       }
 
@@ -36,6 +36,10 @@ export default class CommonNavigation extends LitElement {
       }
 
       .description {
+        display: none;
+      }
+
+      #home {
         display: none;
       }
 
@@ -52,7 +56,7 @@ export default class CommonNavigation extends LitElement {
   render () {
     return html`
       <nav class=${this.darkMode ? 'dark-mode' : 'light-mode'}>
-        <a href='/' title='home'>
+        <a id='home' href='/' title='home'>
           <span class='icon'>🏠</span>
           <span class='description'>home</span>
         </a>
