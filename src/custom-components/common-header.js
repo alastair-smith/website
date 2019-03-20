@@ -31,10 +31,6 @@ export class CommonHeader extends LitElement {
         color: #5c5e73;
         font-size: 60px;
       }
-
-      common-navigation {
-
-      }
     `
   }
 

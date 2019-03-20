@@ -35,6 +35,10 @@ export default class CommonNavigation extends LitElement {
         font-size: 40px;
       }
 
+      .description {
+        display: none;
+      }
+
       .dark-mode a {
         color: #efefef;
       }
@@ -48,21 +52,21 @@ export default class CommonNavigation extends LitElement {
   render () {
     return html`
       <nav class=${this.darkMode ? 'dark-mode' : 'light-mode'}>
-        <a href='/'>
-          <span>🏠</span>
-          <span>home</span>
+        <a href='/' title='home'>
+          <span class='icon'>🏠</span>
+          <span class='description'>home</span>
         </a>
-        <a href='/projects'>
-          <span>⚗️</span>
-          <span>projects</span>
+        <a href='/projects' title='projects'>
+          <span class='icon'>⚗️</span>
+          <span class='description'>projects</span>
         </a>
-        <a href='/blog'>
-          <span>✍️</span>
-          <span>blog</span>
+        <a href='/blog' title='blog'>
+          <span class='icon'>✍️</span>
+          <span class='description'>blog</span>
         </a>
-        <a href='/contact'>
-          <span>📇</span>
-          <span>contact</span>
+        <a href='/contact' title='contact'>
+          <span class='icon'>📇</span>
+          <span class='description'>contact</span>
         </a>
       </nav>
     `
