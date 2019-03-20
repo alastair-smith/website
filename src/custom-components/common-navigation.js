@@ -32,7 +32,7 @@ export default class CommonNavigation extends LitElement {
       }
 
       span {
-        font-size: 40px;
+        font-size: 60px;
       }
 
       .description {
