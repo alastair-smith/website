@@ -24,7 +24,7 @@ export class CommonHeader extends LitElement {
         padding: 0 2em;
         margin: 1em 0 4em 0;
         width: calc(100% - 4em);
-        box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.1);
       }
 
       a {
