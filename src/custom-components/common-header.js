@@ -21,17 +21,19 @@ export class CommonHeader extends LitElement {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 0 2em;
-        margin: 1em 0 4em 0;
-        width: calc(100% - 4em);
         box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.1);
+        flex-wrap: wrap;
+        padding: 60px;
       }
 
       a {
         text-decoration: none;
         color: #5c5e73;
-        margin: 1em;
         font-size: 60px;
+      }
+
+      common-navigation {
+
       }
     `
   }

@@ -26,8 +26,13 @@ export default class CommonNavigation extends LitElement {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 0 1vw;
+        text-align: center;
+        margin: 0 10px;
         text-decoration: none;
+      }
+
+      span {
+        font-size: 40px;
       }
 
       .dark-mode a {
