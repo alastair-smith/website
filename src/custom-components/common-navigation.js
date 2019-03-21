@@ -5,11 +5,13 @@ export default class CommonNavigation extends LitElement {
     super()
 
     this.darkMode = false
+    this.compressed = false
   }
 
   static get properties () {
     return {
-      darkMode: { type: Boolean }
+      darkMode: { type: Boolean },
+      compressed: { type: Boolean }
     }
   }
 
@@ -35,11 +37,7 @@ export default class CommonNavigation extends LitElement {
         font-size: 60px;
       }
 
-      .description {
-        display: none;
-      }
-
-      #home {
+      .hide {
         display: none;
       }
 
@@ -54,23 +52,24 @@ export default class CommonNavigation extends LitElement {
   }
 
   render () {
+    console.log(this.compressed, 'x')
     return html`
       <nav class=${this.darkMode ? 'dark-mode' : 'light-mode'}>
-        <a id='home' href='/' title='home'>
+        <a id='home' href='/' title='home' class=${this.compressed ? 'hide' : ''}>
           <span class='icon'>🏠</span>
           <span class='description'>home</span>
         </a>
         <a href='/projects' title='projects'>
           <span class='icon'>⚗️</span>
-          <span class='description'>projects</span>
+          <span class=${this.compressed ? 'hide' : ''}>projects</span>
         </a>
         <a href='/blog' title='blog'>
           <span class='icon'>✍️</span>
-          <span class='description'>blog</span>
+          <span class=${this.compressed ? 'hide' : ''}>blog</span>
         </a>
         <a href='/contact' title='contact'>
           <span class='icon'>📇</span>
-          <span class='description'>contact</span>
+          <span class=${this.compressed ? 'hide' : ''}>contact</span>
         </a>
       </nav>
     `
