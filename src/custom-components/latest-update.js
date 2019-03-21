@@ -35,10 +35,13 @@ export default class LatestUpdate extends LitElement {
         flex-direction: column;
         flex-wrap: wrap;
         margin: 8px;
-        width: 300px;
+        width: 800px;
         padding: 8px;
         text-decoration: none;
         transition: 0.3s;
+        text-align: center;
+        font-size: 36px;
+        margin: 20px;
       }
 
       a:hover {
