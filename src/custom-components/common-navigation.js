@@ -22,6 +22,7 @@ export default class CommonNavigation extends LitElement {
         flex-direction: row;
         padding: 1vw 0;
         flex-wrap: wrap;
+        justify-content: center;
       }
 
       a {
@@ -29,7 +30,7 @@ export default class CommonNavigation extends LitElement {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin: 0 36px;
+        margin: 24px 36px;
         text-decoration: none;
       }
 
@@ -52,7 +53,6 @@ export default class CommonNavigation extends LitElement {
   }
 
   render () {
-    console.log(this.compressed, 'x')
     return html`
       <nav class=${this.darkMode ? 'dark-mode' : 'light-mode'}>
         <a id='home' href='/' title='home' class=${this.compressed ? 'hide' : ''}>

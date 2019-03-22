@@ -80,7 +80,6 @@ export class CommonFooter extends LitElement {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 4em 0 0 0;
       }
 
       ul {
