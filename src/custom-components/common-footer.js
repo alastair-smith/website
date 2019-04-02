@@ -32,8 +32,9 @@ export class ContactLI extends LitElement {
       list-style-type: none;
     }
 
-    span {
+    .detail {
       margin-left: 0.5em;
+      font-size: 48px;
     }
     `
   }
@@ -43,7 +44,7 @@ export class ContactLI extends LitElement {
       <li>
         <a href='${this.url}' target='_blank'>
           <slot name='icon'></slot>
-          <span>${this.service}</br>${this.contact}</span>
+          <span class='detail'>${this.service}</br>${this.contact}</span>
         </a>
       </li>
     `
@@ -83,15 +84,14 @@ export class CommonFooter extends LitElement {
       ul {
         display: flex;
         flex-direction: row;
-        justify-content: center;
         flex-wrap: wrap;
-        margin: 0;
+        margin: 48px;
         padding: 0;
       }
 
       svg {
-        height: 60px;
-        width: 60px;
+        height: 84px;
+        width: 84px;
       }
 
       path {
