@@ -35,7 +35,7 @@ export default class LatestUpdate extends LitElement {
         flex-direction: column;
         flex-wrap: wrap;
         margin: 8px;
-        width: 800px;
+        width: 804px;
         padding: 8px;
         text-decoration: none;
         transition: 0.3s;

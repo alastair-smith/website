@@ -20,7 +20,6 @@ export default class CommonNavigation extends LitElement {
       nav {
         display: flex;
         flex-direction: row;
-        padding: 1vw 0;
         flex-wrap: wrap;
         justify-content: center;
       }
@@ -30,7 +29,7 @@ export default class CommonNavigation extends LitElement {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin: 24px 36px;
+        margin: 36px;
         text-decoration: none;
       }
 

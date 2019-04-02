@@ -22,8 +22,6 @@ export class ContactLI extends LitElement {
     return css`
     a {
       color: white;
-      padding: 1em;
-      margin: 1em;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -75,32 +73,34 @@ export class CommonFooter extends LitElement {
     return css`
       footer {
         background-color: #5c5e73;
-        padding: 2em 0 4em;
+        padding: 24px 0 36px;
         width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        justify-content:center;
       }
 
       ul {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: center;
         flex-wrap: wrap;
-        width: 60em;
-        max-width: 100%;
         margin: 0;
         padding: 0;
       }
 
       svg {
-        width: 4em;
-        height: 4em;
+        height: 60px;
+        width: 60px;
       }
 
       path {
         fill: #efefef;
         transition: fill 0.5s ease;
+      }
+
+      contact-li {
+        margin: 24px;
       }
 
       #github:focus-within svg path, #github:hover svg path {
