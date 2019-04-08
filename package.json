@@ -11,7 +11,7 @@
   "author": "Alastair Smith",
   "license": "MIT",
   "devDependencies": {
-    "polymer-cli": "^1.9.7",
+    "polymer-cli": "^1.9.8",
     "standard": "^12.0.1"
   },
   "dependencies": {
