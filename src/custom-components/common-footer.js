@@ -34,7 +34,7 @@ export class ContactLI extends LitElement {
 
     .detail {
       margin-left: 0.5em;
-      font-size: 48px;
+      font-size: 42px;
     }
     `
   }

@@ -48,6 +48,10 @@ export default class CommonNavigation extends LitElement {
       .light-mode a {
         color: #5c5e73;
       }
+
+      .description {
+        font-size: 42px;
+      }
     `
   }
 
@@ -60,15 +64,15 @@ export default class CommonNavigation extends LitElement {
         </a>
         <a href='/projects' title='projects'>
           <span class='icon'>⚗️</span>
-          <span class=${this.compressed ? 'hide' : ''}>projects</span>
+          <span class=${this.compressed ? 'hide' : 'description'}>projects</span>
         </a>
         <a href='/blog' title='blog'>
           <span class='icon'>✍️</span>
-          <span class=${this.compressed ? 'hide' : ''}>blog</span>
+          <span class=${this.compressed ? 'hide' : 'description'}>blog</span>
         </a>
         <a href='/contact' title='contact'>
           <span class='icon'>📇</span>
-          <span class=${this.compressed ? 'hide' : ''}>contact</span>
+          <span class=${this.compressed ? 'hide' : 'description'}>contact</span>
         </a>
       </nav>
     `
