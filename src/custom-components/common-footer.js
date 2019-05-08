@@ -34,7 +34,7 @@ export class ContactLI extends LitElement {
 
     .detail {
       margin-left: 0.5em;
-      font-size: 42px;
+      font-size: 18px;
     }
     `
   }
@@ -85,12 +85,13 @@ export class CommonFooter extends LitElement {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
         margin: 48px;
         padding: 0;
       }
 
       svg {
-        height: 84px;
+        height: 40px;
         width: 84px;
       }
 

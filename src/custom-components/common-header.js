@@ -22,13 +22,13 @@ export class CommonHeader extends LitElement {
         align-items: center;
         justify-content: space-between;
         box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.1);
-        padding: 48px;
+        padding: 36px;
       }
 
       a {
         text-decoration: none;
         color: #5c5e73;
-        font-size: 60px;
+        font-size: 36px;
       }
     `
   }

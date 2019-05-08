@@ -39,7 +39,7 @@ export default class LatestUpdate extends LitElement {
         text-decoration: none;
         transition: 0.3s;
         text-align: center;
-        font-size: 36px;
+        font-size: 18px;
         margin: 20px;
       }
 
