@@ -42,7 +42,7 @@ export class ContactLI extends LitElement {
   render () {
     return html`
       <li>
-        <a href='${this.url}' target='_blank'>
+        <a href='${this.url}' target='_blank' rel='noopener'>
           <slot name='icon'></slot>
           <span class='detail'>${this.service}</br>${this.contact}</span>
         </a>
@@ -120,7 +120,6 @@ export class CommonFooter extends LitElement {
   render () {
     return html`
       <footer>
-        <common-navigation darkMode></common-navigation>
         <ul>
           ${this.githubUsername && html`
             <contact-li
