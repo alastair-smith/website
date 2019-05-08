@@ -102,6 +102,7 @@ export class CommonFooter extends LitElement {
 
       contact-li {
         margin: 12px;
+        min-width: 250px;
       }
 
       #github:focus-within svg path, #github:hover svg path {
