@@ -86,7 +86,7 @@ export class CommonFooter extends LitElement {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        margin: 48px;
+        margin: 36px;
         padding: 0;
       }
 
@@ -101,7 +101,7 @@ export class CommonFooter extends LitElement {
       }
 
       contact-li {
-        margin: 24px;
+        margin: 12px;
       }
 
       #github:focus-within svg path, #github:hover svg path {
