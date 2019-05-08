@@ -37,7 +37,6 @@ export class CommonHeader extends LitElement {
     return html`
       <header>
         <a href='/'>${this.name}</a>
-        <common-navigation compressed></common-navigation>
       </header>
     `
   }
