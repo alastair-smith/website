@@ -20,7 +20,7 @@ styleTemplate.innerHTML = `
   </style>
 `
 
-let headerTemplate = document.createElement('template')
+const headerTemplate = document.createElement('template')
 headerTemplate.innerHTML = `
   <header>
     <a href='/'>${WEBSITE_NAME}</a>

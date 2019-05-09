@@ -1,46 +1,44 @@
-import { LitElement, html, css } from 'lit-element'
 import './common-header'
 import './common-footer'
 
-export class StandardPageWrapper extends LitElement {
-  static get styles () {
-    return css`
-      #standard-page-wrapper {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        min-height: 100vh;
-      }
+const styleTemplate = document.createElement('template')
+styleTemplate.innerHTML = `
+  <style>
+    #standard-page-wrapper {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      min-height: 100vh;
+    }
 
-      main {
-        flex: 1;
-        display: flex;
-      }
+    slot {
+      display: flex;
+      flex: 1;
+    }
+  </style>
+`
 
-      slot {
-        display: flex;
-        flex: 1;
-      }
-    `
+const standardPageWrapperTemplate = document.createElement('template')
+standardPageWrapperTemplate.innerHTML = `
+  <div id='standard-page-wrapper'>
+    <common-header
+      name='alsmith.dev'>
+    </common-header>
+    <slot></slot>
+    <common-footer
+      githubUsername='alastair-smith'
+      twitterHandle='alsmithdev'
+      emailAddress='contact@alsmith.dev'>
+    </common-footer>
+  </div>
+`
+
+customElements.define('standard-page-wrapper', class extends HTMLElement {
+  constructor (...args) {
+    super(...args)
+
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.appendChild(styleTemplate.content.cloneNode(true))
+    shadowRoot.appendChild(standardPageWrapperTemplate.content.cloneNode(true))
   }
-
-  render () {
-    return html`
-    <div id='standard-page-wrapper'>
-      <common-header
-        name='alsmith.dev'>
-      </common-header>
-      <main>
-        <slot></slot>
-      </main>
-      <common-footer
-        githubUsername='alastair-smith'
-        twitterHandle='alsmithdev'
-        emailAddress='contact@alsmith.dev'>
-      </common-footer>
-    </div>
-    `
-  }
-}
-
-customElements.define('standard-page-wrapper', StandardPageWrapper)
+})

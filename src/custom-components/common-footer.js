@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit-element'
-import './common-navigation'
 
 export class ContactLI extends LitElement {
   constructor () {
