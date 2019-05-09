@@ -131,7 +131,6 @@ export class CommonFooter extends LitElement {
               url='http://github.com/${this.githubUsername}'>
               <svg
                 slot='icon'
-                id='github'
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'>
@@ -147,7 +146,6 @@ export class CommonFooter extends LitElement {
               url='https://twitter.com/${this.twitterHandle}'>
               <svg
                 slot='icon'
-                id='github'
                 role='img'
                 viewBox='0 0 24 24'
                 xmlns='http://www.w3.org/2000/svg'>
@@ -164,7 +162,6 @@ export class CommonFooter extends LitElement {
               target='_blank'>
               <svg
                 slot='icon'
-                id='github'
                 role='img'
                 viewBox='0 0 14 14'
                 xmlns='http://www.w3.org/2000/svg'>
