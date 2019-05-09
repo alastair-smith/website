@@ -14,6 +14,12 @@ export class StandardPageWrapper extends LitElement {
 
       main {
         flex: 1;
+        display: flex;
+      }
+
+      slot {
+        display: flex;
+        flex: 1;
       }
     `
   }

@@ -21,10 +21,10 @@
   }
 
   #main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 30px;
-    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: center;
   }
 
   #latest-updates {
@@ -36,9 +36,29 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    float: left;
-    margin: 0 12px 12px 0;
     border: 2px solid #5c5e73;
+    margin: 0 12px 0 0;
+  }
+
+  #about {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #statement {
+    max-width: calc(800px - 116px);
+  }
+
+  #center-column {
+    max-width: 800px;
+    padding: 30px;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
   }
 
   section:first-child {
@@ -53,31 +73,16 @@
 <body>
   <standard-page-wrapper>
     <div id='main'>
-      <section>
-        <h1>About</h1>
-        <img id='headshot' src='/assets/images/headshot.jpg'>
-        <p>My name is Alastair Smith and I am a Software Engineer based in the
-          UK.</p>
-        <p>I created this website to learn more about web technologies. It
-          contains <a href='/blog'>blog posts</a> about tools and techniques as
-          well as some <a href='/projects'>personal projects</a> that I
-          have been working on.</p>
-      </section>
-
-      <!-- <section>
-        <h1>Latest Updates</h1>
-        <div id='latest-updates'>
-          <latest-update type='Blog' title='Web Components'
-            url='/blog/web-components'>
-            <span>Creating a boilerplate for webpages using web
-              components.</span>
-          </latest-update>
-          <latest-update type='Project' title='My son is also named Bort'
-            url='/projects/mysonisalsocalledbort'>
-            <span>A serverless/lambdaless API built in AWS.</span>
-          </latest-update>
-        </div>
-      </section> -->
+      <div id='center-column'>
+        <section id='about'>
+          <!-- <h1>About</h1> -->
+          <img id='headshot' src='/assets/images/headshot.jpg'>
+          <div id='statement'>
+            I'm Alastair Smith, a Software Engineer based in the UK. I'm
+            interested in using new technologies to solve problems.
+          </div>
+        </section>
+      </div>
     </div>
   </standard-page-wrapper>
 </body>
