@@ -22,7 +22,8 @@
       "describe",
       "expect",
       "it",
-      "afterEach"
+      "afterEach",
+      "HTMLElement"
     ]
   }
 }
