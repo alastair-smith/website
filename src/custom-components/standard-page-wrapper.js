@@ -21,15 +21,9 @@ styleTemplate.innerHTML = `
 const standardPageWrapperTemplate = document.createElement('template')
 standardPageWrapperTemplate.innerHTML = `
   <div id='standard-page-wrapper'>
-    <common-header
-      name='alsmith.dev'>
-    </common-header>
+    <common-header></common-header>
     <slot></slot>
-    <common-footer
-      githubUsername='alastair-smith'
-      twitterHandle='alsmithdev'
-      emailAddress='contact@alsmith.dev'>
-    </common-footer>
+    <common-footer></common-footer>
   </div>
 `
 
