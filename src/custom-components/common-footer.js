@@ -24,7 +24,7 @@ contactStyleTemplate.innerHTML = `
 
     svg {
       height: 40px;
-      width: 84px;
+      width: 40px;
     }
 
     path {
@@ -85,7 +85,7 @@ footerStyleTemplate.innerHTML = `
 
     contact-link {
       margin: 12px;
-      min-width: 286px;
+      min-width: 204px;
     }
 
     #github:focus-within svg path, #github:hover svg path {
