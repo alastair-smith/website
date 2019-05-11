@@ -1,5 +1,5 @@
-import './common-header'
-import './common-footer'
+import './common-header.js'
+import './common-footer.js'
 
 const styleTemplate = document.createElement('template')
 styleTemplate.innerHTML = `
