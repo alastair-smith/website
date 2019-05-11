@@ -6,34 +6,6 @@ const GITHUB_PATH = 'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.
 const TWITTER_PATH = 'M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z'
 const EMAIL_PATH = 'M0 4v8c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H1c-.55 0-1 .45-1 1zm13 0L7 9 1 4h12zM1 5.5l4 3-4 3v-6zM2 12l3.5-3L7 10.5 8.5 9l3.5 3H2zm11-.5l-4-3 4-3v6z'
 
-const contactStyleTemplate = document.createElement('template')
-contactStyleTemplate.innerHTML = `
-  <style>
-    a {
-      color: white;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    span {
-      margin-left: 0.5em;
-      font-size: 18px;
-    }
-
-    svg {
-      height: 40px;
-      width: 40px;
-    }
-
-    path {
-      fill: #efefef;
-      transition: fill 0.5s ease;
-    }
-  </style>
-`
-
 const contactHTMLTemplate = document.createElement('template')
 contactHTMLTemplate.innerHTML = `
   <a target='_blank' rel='noopener'>
@@ -65,7 +37,6 @@ customElements.define('contact-link', class extends HTMLElement {
     const path = this.getAttribute('path')
     const viewBox = this.getAttribute('viewBox')
 
-    this.appendChild(contactStyleTemplate.content.cloneNode(true))
     this.appendChild(getContactHTML(url, service, path, contactName, viewBox))
   }
 })
@@ -99,6 +70,29 @@ footerStyleTemplate.innerHTML = `
     #email:focus-within a svg path, #email:hover svg path {
       fill: #e98c3f;
     }
+
+    a {
+      align-items: center;
+      color: white;
+      display: flex;
+      flex-direction: row;
+      text-decoration: none;
+    }
+
+    span {
+      font-size: 18px;
+      margin-left: 0.5em;
+    }
+
+    svg {
+      height: 40px;
+      width: 40px;
+    }
+
+    path {
+      fill: #efefef;
+      transition: fill 0.5s ease;
+    }
   </style>
 `
 const footerHTMLTemplate = document.createElement('template')
@@ -106,25 +100,25 @@ footerHTMLTemplate.innerHTML = `
   <footer>
     <contact-link
       id='github'
-      service='github'
-      path='${GITHUB_PATH}'
       contactName='@${GITHUB_USERNAME}'
+      path='${GITHUB_PATH}'
+      service='github'
       url='http://github.com/${GITHUB_USERNAME}'
       viewBox='0 0 24 24'>
     </contact-link>
     <contact-link
       id='twitter'
-      service='twitter'
-      path='${TWITTER_PATH}'
       contactName='@${TWITTER_HANDLE}'
+      path='${TWITTER_PATH}'
+      service='twitter'
       url='https://twitter.com/${TWITTER_HANDLE}'
       viewBox='0 0 24 24'>
     </contact-link>
     <contact-link
       id='email'
-      service='email'
-      path='${EMAIL_PATH}'
       contactName='${EMAIL_ADDRESS}'
+      path='${EMAIL_PATH}'
+      service='email'
       url='mailto:${EMAIL_ADDRESS}'
       viewBox='0 0 14 14'>
     </contact-link>
