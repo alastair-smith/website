@@ -28,6 +28,12 @@
     justify-content: center;
   }
 
+  h1 {
+    font-size: 1.2em;
+    color: #5c5e73;
+    font-weight: 100;
+  }
+
   #latest-updates {
     display: flex;
     flex-wrap: wrap;
@@ -46,6 +52,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    flex: 1;
   }
 
   #statement {
@@ -61,27 +68,18 @@
     justify-content: center;
     flex-grow: 1;
   }
-
-  section:first-child {
-    margin-top: 0;
-  }
-
-  section:last-child {
-    margin-bottom: 0;
-  }
 </style>
 
 <body>
   <standard-page-wrapper>
     <main>
       <div id='center-column'>
+        <h1>Home</h1>
         <section id='about'>
-          <!-- <h1>About</h1> -->
-          <img id='headshot' alt='Picture of Alastair Smith'
-            src='/assets/images/headshot.jpg'>
+          <!-- <img id='headshot' alt='Picture of Alastair Smith'
+          src='/assets/images/headshot.jpg'> -->
           <div id='statement'>
-            I'm Alastair Smith, a Software Engineer based in the UK. I'm
-            interested in using new technologies to solve problems.
+            I'm Alastair Smith, a Software Engineer based in the UK.
           </div>
         </section>
       </div>
