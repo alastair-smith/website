@@ -1,49 +1,38 @@
-import { LitElement, html, css } from 'lit-element'
-import './common-navigation'
+const WEBSITE_NAME = 'alsmith'
 
-export class CommonHeader extends LitElement {
-  constructor () {
-    super()
-
-    this.name = 'home'
-  }
-
-  static get properties () {
-    return {
-      name: { type: String }
+const styleTemplate = document.createElement('template')
+styleTemplate.innerHTML = `
+  <style>
+    header {
+      align-items: center;
+      box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 30px;
     }
+  
+    a {
+      color: #5c5e73;
+      font-size: 30px;
+      text-decoration: none;
+    }
+  </style>
+`
+
+const headerTemplate = document.createElement('template')
+headerTemplate.innerHTML = `
+  <header>
+    <a href='/'>${WEBSITE_NAME}</a>
+  </header>
+`
+
+customElements.define('common-header', class extends HTMLElement {
+  constructor (...args) {
+    super(...args)
+
+    const shadowRoot = this.attachShadow({ mode: 'open' })
+    shadowRoot.appendChild(styleTemplate.content.cloneNode(true))
+    shadowRoot.appendChild(headerTemplate.content.cloneNode(true))
   }
-
-  static get styles () {
-    return css`
-      header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 2em;
-        margin: 1em 0 4em 0;
-        width: calc(100% - 4em);
-        box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
-      }
-
-      a {
-        text-decoration: none;
-        color: #5c5e73;
-        margin: 1em 0;
-        font-size: x-large;
-      }
-    `
-  }
-
-  render () {
-    return html`
-      <header>
-        <a href='/'>${this.name}</a>
-        <common-navigation></common-navigation>
-      </header>
-    `
-  }
-}
-
-customElements.define('common-header', CommonHeader)
+})

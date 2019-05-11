@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="Description"
+    content="Personal website of Software Engineer Alastair Smith.">
   <title>al smith</title>
   <script type='module'
     src='./custom-components/standard-page-wrapper.js'></script>
-  <script type='module' src='./custom-components/latest-update.js'></script>
 </head>
 
 <style>
   body {
-    padding: 0;
     margin: 0;
+    padding: 0;
   }
 
   section {
     margin: 60px 0;
   }
 
-  #main {
-    max-width: 100%;
-    width: 50em;
-    margin: auto;
+  main {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: center;
+  }
+
+  h1 {
+    color: #5c5e73;
+    font-size: 1.2em;
+    font-weight: 100;
   }
 
   #latest-updates {
@@ -30,43 +39,50 @@
     flex-wrap: wrap;
   }
 
-  section:first-child {
-    margin-top: 0;
+  #headshot {
+    border-radius: 50%;
+    border: 2px solid #5c5e73;
+    height: 100px;
+    margin: 0 12px 0 0;
+    width: 100px;
   }
 
-  section:last-child {
-    margin-bottom: 0;
+  #about {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  #statement {
+    max-width: calc(800px - 116px);
+  }
+
+  #center-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    font-size: 24px;
+    justify-content: center;
+    max-width: 800px;
+    padding: 30px;
   }
 </style>
 
 <body>
   <standard-page-wrapper>
-    <div id='main'>
-      <section>
-        <h1>About</h1>
-        <p>My name is Alastair Smith and I am a Software Engineer based in the
-          UK.</p>
-        <p>I created this website to learn more about web technologies. It
-          contains <a href='/blog'>blog posts</a> about tools and techniques as
-          well as some of my <a href='/projects'>personal projects</a> that I
-          have been working on.</p>
-      </section>
-
-      <section>
-        <h1>Latest Updates</h1>
-        <div id='latest-updates'>
-          <latest-update type='Blog' title='Web Components'
-            url='/blog/web-components'>
-            <span>Creating a boilerplate for webpages using web
-              components.</span>
-          </latest-update>
-          <latest-update type='Project' title='My son is also named Bort'
-            url='/projects/mysonisalsocalledbort'>
-            <span>A serverless/lambdaless API built in AWS.</span>
-          </latest-update>
-        </div>
-      </section>
-    </div>
+    <main>
+      <div id='center-column'>
+        <h1>Home</h1>
+        <section id='about'>
+          <!-- <img id='headshot' alt='Picture of Alastair Smith'
+          src='/assets/images/headshot.jpg'> -->
+          <div id='statement'>
+            I'm Alastair Smith, a Software Engineer based in the UK.
+          </div>
+        </section>
+      </div>
+    </main>
   </standard-page-wrapper>
 </body>
 
