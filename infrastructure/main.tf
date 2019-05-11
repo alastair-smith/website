@@ -88,9 +88,9 @@ resource "aws_s3_bucket_object" "website_files" {
 
   bucket       = "${aws_s3_bucket.website_bucket.id}"
   content_type = "${lookup(local.content_types, basename(replace(local.website_files[count.index], ".", "/")))}"
-  etag         = "${md5(file("../build/dev/src/${element(local.website_files, count.index)}"))}"
+  etag         = "${md5(file("../src/${element(local.website_files, count.index)}"))}"
   key          = "${local.website_files[count.index]}"
-  source       = "../build/dev/src/${element(local.website_files, count.index)}"
+  source       = "../src/${element(local.website_files, count.index)}"
 }
 
 resource "cloudflare_record" "website" {

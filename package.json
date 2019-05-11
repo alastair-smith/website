@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Standard web components to use accross website",
   "scripts": {
-    "build": "polymer build",
     "linter:js": "standard",
     "start": "polymer serve src",
     "test": "npm audit && npm outdated && npm run linter:js"

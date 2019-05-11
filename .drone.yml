@@ -60,12 +60,6 @@ steps:
   commands:
     - npm run linter:js
 
-- name: build
-  <<: *node-image
-  commands:
-    - cp -r ./node_modules ./src/node_modules
-    - npm run build
-
 - name: prepare feature deploy
   <<: *prepare-deploy
   environment: 
