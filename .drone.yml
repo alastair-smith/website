@@ -98,7 +98,7 @@ steps:
       - push
 
 - name: lighthouse audit
-  <<: *node-image
+  image: alsmith/check-lighthouse-failures:dev
   commands:
-    - npm run lighthouse -- https://alsmith.dev
+    - checkLighthouse https://alsmith.dev
     
