@@ -96,4 +96,9 @@ steps:
   when:
     event:
       - push
+
+- name: lighthouse audit
+  <<: *node-image
+  commands:
+    - npm run lighthouse -- https://alsmith.dev
     
