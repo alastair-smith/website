@@ -21,7 +21,9 @@ locals {
 
   content_types = {
     html = "text/html"
+    jpg  = "image/jpeg"
     js   = "application/javascript"
+    webp = "image/webp"
   }
 
   tags {

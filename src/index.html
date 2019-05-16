@@ -40,11 +40,13 @@
   }
 
   #headshot {
-    border-radius: 50%;
-    border: 2px solid #5c5e73;
-    height: 100px;
-    margin: 0 12px 0 0;
-    width: 100px;
+    border-radius: 2.5%;
+  }
+
+  @media (min-width: 409px) {
+    picture {
+      margin-right: 6px;
+    }
   }
 
   #about {
@@ -55,7 +57,7 @@
   }
 
   #statement {
-    max-width: calc(800px - 116px);
+    max-width: calc(800px - 343px - 6px);
   }
 
   #center-column {
@@ -75,8 +77,16 @@
       <div id='center-column'>
         <h1>Home</h1>
         <section id='about'>
-          <!-- <img id='headshot' alt='Picture of Alastair Smith'
-          src='/assets/images/headshot.jpg'> -->
+          <picture>
+            <source type='image/webp' media='(min-width: 403px)'
+              srcset='/assets/images/alastair.343px.webp'>
+            <source type='image/webp'
+              srcset='/assets/images/alastair.260px.webp'>
+            <source type='image/jpeg' media='(min-width: 403px)'
+              srcset='/assets/images/alastair.343px.jpeg'>
+            <img id='headshot' alt='Picture of Alastair Smith'
+              src='/assets/images/alastair.260px.jpeg'>
+          </picture>
           <div id='statement'>
             I'm Alastair Smith, a Software Engineer based in the UK.
           </div>
