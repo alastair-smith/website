@@ -30,7 +30,7 @@ name: default
   image: node:10-alpine
 
 .terraform-image: &terraform-image
-  image: hashicorp/terraform:light
+  image: hashicorp/terraform:0.11.14
   entrypoint: [""]
 
 .prepare-deploy: &prepare-deploy
