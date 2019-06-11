@@ -100,5 +100,11 @@ steps:
 - name: lighthouse audit
   image: alsmith/check-lighthouse-failures:dev
   commands:
-    - checkLighthouse https://alsmith.dev
+    - checkLighthouse https://feature.alsmith.dev
+  when:
+    branch:
+      exclude:
+        - master
+    event:
+      - push
     
