@@ -34,14 +34,10 @@ locals {
     Project          = "website"
   }
 
-  bucket_whitelist = {
-    feature = ["${var.whitelist_cidr}"]
-
-    master = [
-      "${var.whitelist_cidr}",
-      "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
-    ]
-  }
+  bucket_whitelist = [
+    "${var.whitelist_cidr}",
+    "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
+  ]
 
   website_files = "${sort(split(", ", var.cs_website_files))}"
 }
@@ -69,7 +65,7 @@ data "aws_iam_policy_document" "whitelist" {
       variable = "aws:SourceIp"
 
       values = [
-        "${local.bucket_whitelist[terraform.workspace]}",
+        "${local.bucket_whitelist}",
       ]
     }
 
