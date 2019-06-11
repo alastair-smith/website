@@ -100,7 +100,7 @@ steps:
 - name: lighthouse audit
   image: alsmith/lighthouse-failures:latest
   commands:
-    - checkLighthouse https://feature.alsmith.dev
+    - checkLighthouseFailures https://feature.alsmith.dev
   when:
     branch:
       exclude:
