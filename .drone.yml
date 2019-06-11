@@ -98,7 +98,7 @@ steps:
       - push
 
 - name: lighthouse audit
-  image: alsmith/check-lighthouse-failures:dev
+  image: alsmith/check-lighthouse-failures:latest
   commands:
     - checkLighthouse https://feature.alsmith.dev
   when:
