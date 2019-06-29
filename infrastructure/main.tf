@@ -20,10 +20,15 @@ locals {
   }
 
   content_types = {
-    html = "text/html"
-    jpg  = "image/jpeg"
-    js   = "application/javascript"
-    webp = "image/webp"
+    html        = "text/html"
+    ico         = "image/x-icon"
+    jpg         = "image/jpeg"
+    js          = "application/javascript"
+    png         = "image/png"
+    svg         = "image/svg+xml"
+    webmanifest = "application/manifest+json"
+    webp        = "image/webp"
+    xml         = "text/xml"
   }
 
   tags {
