@@ -98,9 +98,9 @@ steps:
       - push
 
 - name: lighthouse audit
-  image: alsmith/lighthouse-failures:latest
+  image: alsmith/lighthouse-failures:2.0.0
   commands:
-    - checkLighthouseFailures https://feature.alsmith.dev || echo "lighthouse failures detected"
+    - checkLighthouseFailures --url https://feature.alsmith.dev --ignore-rules service-worker,works-offline,installable-manifest,splash-screen,themed-omnibox,offline-start-url,apple-touch-icon
   when:
     branch:
       exclude:
