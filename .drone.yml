@@ -30,7 +30,7 @@ name: default
   image: node:10-alpine
 
 .terraform-image: &terraform-image
-  image: hashicorp/terraform:light
+  image: hashicorp/terraform:0.11.14
   entrypoint: [""]
 
 .prepare-deploy: &prepare-deploy
@@ -94,6 +94,17 @@ steps:
     - *get-website-files
     - terraform apply -auto-approve
   when:
+    event:
+      - push
+
+- name: lighthouse audit
+  image: alsmith/lighthouse-failures:2.0.0
+  commands:
+    - checkLighthouseFailures --url https://feature.alsmith.dev --ignore-rules service-worker,works-offline,installable-manifest,splash-screen,themed-omnibox,offline-start-url,apple-touch-icon
+  when:
+    branch:
+      exclude:
+        - master
     event:
       - push
     
