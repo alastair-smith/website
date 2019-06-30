@@ -20,6 +20,7 @@ locals {
   }
 
   content_types = {
+    css         = "text/css"
     html        = "text/html"
     ico         = "image/x-icon"
     jpg         = "image/jpeg"
