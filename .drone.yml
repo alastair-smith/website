@@ -100,7 +100,7 @@ steps:
 - name: lighthouse audit
   image: alsmith/lighthouse-failures:2.0.0
   commands:
-    - checkLighthouseFailures --url https://feature.alsmith.dev --ignore-rules service-worker,works-offline,offline-start-url
+    - checkLighthouseFailures --url https://feature.alsmith.dev
   when:
     branch:
       exclude:
