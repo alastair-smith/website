@@ -1,7 +1,7 @@
 /* eslint-env serviceworker */
 
-const LATEST_CACHE_NAME = 'general-service-worker-v1'
-const OLD_CONTENT_CACHE_NAME = 'backup-cache-v1'
+const LATEST_CACHE_NAME = 'general-service-worker-v2'
+const OLD_CONTENT_CACHE_NAME = 'backup-cache-v2'
 const OFFLINE_URL = '/offline.html'
 
 const mandatoryCacheList = [
@@ -38,6 +38,11 @@ const getFromLatestCache = async request => {
   return cache.match(request)
 }
 
+const getFromOldCache = async request => {
+  const cache = await caches.open(OLD_CONTENT_CACHE_NAME)
+  return cache.match(request)
+}
+
 const addToNewCache = async request => {
   try {
     const latestCache = await caches.open(LATEST_CACHE_NAME)
@@ -47,32 +52,62 @@ const addToNewCache = async request => {
   }
 }
 
-const getFromOldCacheAndUpdateCache = async request => {
-  const oldCache = await caches.open(OLD_CONTENT_CACHE_NAME)
-  const oldResponse = await oldCache.match(request)
-
-  if (oldResponse) addToNewCache(request)
-
-  return oldResponse
+const updateCacheInBackground = getFromCache => async request => {
+  const response = await getFromCache(request)
+  if (response) addToNewCache(request)
+  return response
 }
 
 const fetchAndUpdateCache = async request => {
-  let response
-  try {
-    const cache = await caches.open(LATEST_CACHE_NAME)
-    response = await fetch(request)
-    cache.put(request, response.clone())
-  } catch (error) {
-    response = undefined
-  }
+  const cache = await caches.open(LATEST_CACHE_NAME)
+  const response = await fetch(request)
+  cache.put(request, response.clone())
   return response
+}
+
+const isImage = request =>
+  request.url.endsWith('.png') ||
+  request.url.endsWith('.jpg') ||
+  request.url.endsWith('.webp')
+
+const getImageSize = key => Number(key.url.split('.')[-2].split('x')[0])
+
+const getBiggestImageFromCache = async (
+  cacheName,
+  requestedImageName,
+  requestedFileType
+) => {
+  const cache = await caches.open(cacheName)
+  const keys = await cache.keys()
+
+  const alternativeImages = keys.filter(key => {
+    const pathSections = (new URL(key.url)).pathname.split('.')
+    const imageName = pathSections.slice(0, -2).join('.')
+    const fileType = pathSections[-1]
+
+    return imageName === requestedImageName && fileType === requestedFileType
+  })
+  const biggestImage = alternativeImages
+    .sort((keyA, keyB) => getImageSize(keyB) - getImageSize(keyA))[0]
+  return biggestImage ? cache.match(biggestImage) : undefined
+}
+
+const getAlternativeImage = async request => {
+  const path = (new URL(request.url)).pathname
+  const pathSections = path.split('.')
+  const imageName = pathSections.slice(0, -2).join('.')
+  const fileType = pathSections[-1]
+
+  return getBiggestImageFromCache(LATEST_CACHE_NAME, imageName, fileType) ||
+    getBiggestImageFromCache(OLD_CONTENT_CACHE_NAME, imageName, fileType)
 }
 
 const getResource = async request => {
   let response
   try {
     response = await getFromLatestCache(request) ||
-      await getFromOldCacheAndUpdateCache(request) ||
+    (isImage(request) && await updateCacheInBackground(getAlternativeImage)(request)) ||
+      await updateCacheInBackground(getFromOldCache)(request) ||
       await fetchAndUpdateCache(request)
   } catch (error) {
     response = (
