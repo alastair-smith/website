@@ -27,11 +27,18 @@ h1 {
 
 #headshot {
   border-radius: 2.5%;
+  width: 260px;
+  height: 260px;
 }
 
 @media (min-width: 409px) {
   picture {
     margin-right: 6px;
+  }
+
+  #headshot {
+    width: 343px;
+    height: 343px;
   }
 }
 
