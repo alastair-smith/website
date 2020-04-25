@@ -4,15 +4,14 @@
   "description": "Standard web components to use accross website",
   "scripts": {
     "linter:js": "standard",
-    "start": "polymer serve src",
+    "start": "node serve.js",
     "test": "npm audit && npm outdated && npm run linter:js"
   },
   "author": "Alastair Smith",
   "license": "MIT",
   "devDependencies": {
-    "lighthouse": "^5.0.0",
-    "polymer-cli": "^1.9.10",
-    "standard": "^12.0.1"
+    "express": "^4.17.1",
+    "standard": "^14.3.3"
   },
   "dependencies": {},
   "standard": {
