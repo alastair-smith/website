@@ -1,0 +1,26 @@
+{
+  "name": "website",
+  "version": "2.0.0",
+  "description": "Personal website for Alastair Smith",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npm run build && npm run start",
+    "start": "node local.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alastair-smith/website.git"
+  },
+  "author": "Alastair Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alastair-smith/website/issues"
+  },
+  "homepage": "https://alsmith.dev",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "html-minifier": "^4.0.0",
+    "nunjucks": "^3.2.2",
+    "standard": "^16.0.3"
+  }
+}
