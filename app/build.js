@@ -1,11 +1,25 @@
 const nunjucks = require('nunjucks')
 const { minify } = require('html-minifier')
+const sass = require('sass')
 const { promises: fsPromises } = require('fs')
 
 const buildDirectory = './build'
 const nestedDirectoryRegex = /\.\/build\/.*\//g
 
 nunjucks.configure(['pages', 'components'], { autoescape: true })
+
+const sassBuild = options => new Promise(
+  (resolve, reject) => sass.render(
+    options,
+    (error, result) => error ? reject(error) : resolve(result)
+  )
+)
+
+const buildCSS = async () => {
+  const outFile = `${buildDirectory}/assets/styles/styles.css`
+  const { css } = await sassBuild({ file: './styles/styles.scss', outFile })
+  await fsPromises.writeFile(outFile, css)
+}
 
 const getPageNames = async directory => {
   const pages = await fsPromises.readdir(directory, { withFileTypes: true })
@@ -44,14 +58,20 @@ const buildHTML = async () => {
 
 const build = async () => {
   try {
-    console.log('Creating build directory...')
+    console.log('📁 Creating build directory...')
     await fsPromises.rmdir(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)
-    console.log('Build directory created.')
+    await fsPromises.mkdir(`${buildDirectory}/assets`)
+    console.log('📁 Build directory created.')
 
-    console.log('Building HTML...')
+    console.log('🖌️  Building CSS...')
+    await fsPromises.mkdir(`${buildDirectory}/assets/styles`)
+    await buildCSS()
+    console.log('🖌️  CSS build complete')
+
+    console.log('📄 Building HTML...')
     await buildHTML()
-    console.log('HTML build complete')
+    console.log('📄 HTML build complete')
 
     console.log('✅ Build successful')
     process.exit(0)
