@@ -58,6 +58,8 @@ const buildHTML = async () => {
 
 const build = async () => {
   try {
+    console.log('👷 Starting build...\n')
+
     console.log('📁 Creating build directory...')
     await fsPromises.rmdir(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)

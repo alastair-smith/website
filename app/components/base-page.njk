@@ -22,7 +22,9 @@
 
 <body>
   {% block header %}
-    {{ header.component("alsmith.dev") }}
+    {{ header.component({
+      websiteName: "alsmith.dev"
+    }) }}
   {% endblock %}
 
   <main>
@@ -31,7 +33,11 @@
   </main>
 
   {% block footer %}
-    {{ footer.component()}}
+    {{ footer.component({
+      github: "alastair-smith",
+      twitter: "alastairsmith_",
+      email: "contact@alsmith.dev"
+    }) }}
   {% endblock %}
 </body>
 
