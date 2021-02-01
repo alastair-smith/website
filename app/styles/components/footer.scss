@@ -1,0 +1,44 @@
+.footer-component {
+  background-color: #5c5e73;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 36px 0 72px;
+  width: 100%;
+
+  #github:focus-within svg path, #github:hover svg path {
+    fill: #999;
+  }
+
+  #twitter:focus-within svg path, #twitter:hover svg path {
+    fill: #1DA1F2;
+  }
+
+  #email:focus-within a svg path, #email:hover svg path {
+    fill: #e98c3f;
+  }
+
+  a {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+  }
+
+  span {
+    font-size: 18px;
+    margin-left: 0.5em;
+  }
+
+  svg {
+    height: 40px;
+    width: 40px;
+  }
+
+  path {
+    fill: #efefef;
+    transition: fill 0.5s ease;
+  }
+}

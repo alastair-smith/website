@@ -62,7 +62,7 @@ const build = async () => {
     await fsPromises.rmdir(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)
     await fsPromises.mkdir(`${buildDirectory}/assets`)
-    console.log('📁 Build directory created.')
+    console.log('📁 Build directory created')
 
     console.log('🖌️  Building CSS...')
     await fsPromises.mkdir(`${buildDirectory}/assets/styles`)
@@ -73,7 +73,7 @@ const build = async () => {
     await buildHTML()
     console.log('📄 HTML build complete')
 
-    console.log('✅ Build successful')
+    console.log('\n✅ Build successful')
     process.exit(0)
   } catch (error) {
     console.error(error)
