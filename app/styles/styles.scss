@@ -1,2 +1,8 @@
-@import "./components/header.scss";
-@import "./components/footer.scss";
+@import "./variables.scss";
+@import "./components/base-page.scss";
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $color-1;
+}

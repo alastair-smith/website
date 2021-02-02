@@ -1,4 +1,5 @@
 {% import "./header.njk" as header %}
+{% import "./skip-links.njk" as skipLinks %}
 {% import "./footer.njk" as footer %}
 
 <!DOCTYPE html>
@@ -17,28 +18,43 @@
   <link rel="manifest" href="/site.webmanifest">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
+  <link href="/assets/styles/styles.css" rel="stylesheet">
 </head>
 {% endblock %}
 
 <body>
-  {% block header %}
-    {{ header.component({
-      websiteName: "alsmith.dev"
-    }) }}
-  {% endblock %}
+  <div id="root">
 
-  <main>
-    {% block main %}
+    {% set skipLinkValues = [{
+      text: "Skip to main content",
+      href: "#main-content"
+    }] %}
+
+    {{ skipLinks.component({
+      links: skipLinkValues
+    }) }}
+
+    {% block header %}
+      {{ header.component({
+        websiteName: "alsmith.dev"
+      }) }}
     {% endblock %}
-  </main>
 
-  {% block footer %}
-    {{ footer.component({
-      github: "alastair-smith",
-      twitter: "alastairsmith_",
-      email: "contact@alsmith.dev"
-    }) }}
-  {% endblock %}
+    <div>
+      <main id="content">
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+
+    {% block footer %}
+      {{ footer.component({
+        github: "alastair-smith",
+        twitter: "alastairsmith_",
+        email: "contact@alsmith.dev"
+      }) }}
+    {% endblock %}
+  </div>
 </body>
 
 </html>

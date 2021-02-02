@@ -79,7 +79,7 @@ const build = async () => {
     process.exit(0)
   } catch (error) {
     console.error(error)
-    console.error('❌ Build Failed')
+    console.error('\n❌ Build Failed')
     process.exit(1)
   }
 }

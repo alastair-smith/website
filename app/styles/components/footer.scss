@@ -1,5 +1,5 @@
 .footer-component {
-  background-color: #5c5e73;
+  background-color: $color-2;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -7,15 +7,15 @@
   padding: 36px 0 72px;
   width: 100%;
 
-  #github:focus-within svg path, #github:hover svg path {
-    fill: #999;
+  .social-github:focus-within svg path, .social-github:hover svg path {
+    fill: #b37af5;
   }
 
-  #twitter:focus-within svg path, #twitter:hover svg path {
+  .social-twitter:focus-within svg path, .social-twitter:hover svg path {
     fill: #1DA1F2;
   }
 
-  #email:focus-within a svg path, #email:hover svg path {
+  .social-email:focus-within svg path, .social-email:hover svg path {
     fill: #e98c3f;
   }
 
@@ -25,6 +25,8 @@
     display: flex;
     flex-direction: row;
     text-decoration: none;
+    margin: 12px;
+    min-width: 204px;
   }
 
   span {

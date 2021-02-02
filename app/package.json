@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/alastair-smith/website/issues"
   },
-  "homepage": "https://alsmith.dev",
+  "homepage": "https://alsmith.dev/",
   "devDependencies": {
     "express": "^4.17.1",
     "html-minifier": "^4.0.0",

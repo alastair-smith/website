@@ -1,0 +1,5 @@
+{% macro component(params) %}
+  {% for link in params.links %}
+    <a class="skip-link" href="{{ link.href }}">{{ link.text }}</a>
+  {% endfor %}
+{% endmacro %}
