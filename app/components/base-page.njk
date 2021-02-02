@@ -21,7 +21,6 @@
   <link href="/assets/styles/styles.css" rel="stylesheet">
 </head>
 {% endblock %}
-
 <body>
   <div id="root">
 
@@ -34,26 +33,31 @@
       links: skipLinkValues
     }) }}
 
-    {% block header %}
-      {{ header.component({
-        websiteName: "alsmith.dev"
-      }) }}
-    {% endblock %}
+    <div class="page-container">
+      {% block header %}
+        {{ header.component({
+          websiteName: "alsmith.dev"
+        }) }}
+      {% endblock %}
 
-    <div>
-      <main id="content">
-        {% block content %}
+      <div class="content-container">
+        {% block preMain %}
         {% endblock %}
-      </main>
-    </div>
 
-    {% block footer %}
-      {{ footer.component({
-        github: "alastair-smith",
-        twitter: "alastairsmith_",
-        email: "contact@alsmith.dev"
-      }) }}
-    {% endblock %}
+        <main id="content">
+          {% block content %}
+          {% endblock %}
+        </main>
+      </div>
+
+      {% block footer %}
+        {{ footer.component({
+          github: "alastair-smith",
+          twitter: "alastairsmith_",
+          email: "contact@alsmith.dev"
+        }) }}
+      {% endblock %}
+    </div>
   </div>
 </body>
 
