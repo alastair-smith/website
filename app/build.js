@@ -17,7 +17,11 @@ const sassBuild = options => new Promise(
 
 const buildCSS = async () => {
   const outFile = `${buildDirectory}/assets/styles/styles.css`
-  const { css } = await sassBuild({ file: './styles/styles.scss', outFile })
+  const { css } = await sassBuild({
+    file: './styles/styles.scss',
+    outFile,
+    outputStyle: 'compressed'
+  })
   await fsPromises.writeFile(outFile, css)
 }
 

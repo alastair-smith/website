@@ -21,43 +21,37 @@
   <link href="/assets/styles/styles.css" rel="stylesheet">
 </head>
 {% endblock %}
+<!-- TODO: Add nightmare mode, face flies at screen etc-->
 <body>
-  <div id="root">
+  {% set skipLinkValues = [{
+    text: "Skip to main content",
+    href: "#main-content"
+  }] %}
 
-    {% set skipLinkValues = [{
-      text: "Skip to main content",
-      href: "#main-content"
-    }] %}
+  {{ skipLinks.component({
+    links: skipLinkValues
+  }) }}
 
-    {{ skipLinks.component({
-      links: skipLinkValues
-    }) }}
+  <div class="page-container">
+    {% block header %}
+      {{ header.component({
+        websiteName: "alsmith.dev"
+      }) }}
+    {% endblock %}
 
-    <div class="page-container">
-      {% block header %}
-        {{ header.component({
-          websiteName: "alsmith.dev"
-        }) }}
+    {% set mainClasses = mainClasses | default("") %}
+    <main id="content" class="{{ mainClasses }}">
+      {% block content %}
       {% endblock %}
+    </main>
 
-      <div class="content-container">
-        {% block preMain %}
-        {% endblock %}
-
-        <main id="content">
-          {% block content %}
-          {% endblock %}
-        </main>
-      </div>
-
-      {% block footer %}
-        {{ footer.component({
-          github: "alastair-smith",
-          twitter: "alastairsmith_",
-          email: "contact@alsmith.dev"
-        }) }}
-      {% endblock %}
-    </div>
+    {% block footer %}
+      {{ footer.component({
+        github: "alastair-smith",
+        twitter: "alastairsmith_",
+        email: "contact@alsmith.dev"
+      }) }}
+    {% endblock %}
   </div>
 </body>
 
