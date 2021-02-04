@@ -10,5 +10,9 @@
 
 main {
   height: 100%;
-  // min-height: max(50vh, 30vw);
+}
+
+.limit-width {
+  max-width: $max-content-width;
+  margin: 0 auto;
 }

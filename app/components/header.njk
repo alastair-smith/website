@@ -1,5 +1,7 @@
 {% macro component(params) %}
   <header class="header-component">
-    <a href="/">{{ params.websiteName | default("/") }}</a>
+    <div class="header-component-content limit-width">
+      <a href="/">{{ params.websiteName | default("/") }}</a>
+    </div>
   </header>
 {% endmacro %}

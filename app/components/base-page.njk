@@ -39,7 +39,7 @@
       }) }}
     {% endblock %}
 
-    {% set mainClasses = mainClasses | default("") %}
+    {% set mainClasses = mainClasses | default("limit-width") %}
     <main id="content" class="{{ mainClasses }}">
       {% block content %}
       {% endblock %}

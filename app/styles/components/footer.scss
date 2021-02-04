@@ -1,11 +1,13 @@
 .footer-component {
   background-color: $color-2;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 36px 0 72px;
-  width: 100%;
+
+  .footer-component-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 36px 0 72px;
+  }
 
   .social-github:focus-within svg path, .social-github:hover svg path {
     fill: #b37af5;
