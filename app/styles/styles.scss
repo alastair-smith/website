@@ -1,29 +1,12 @@
 @import "./variables.scss";
+
 @import "./components/base-page.scss";
+
+@import "./pages/index.scss";
+@import "./pages/error-page.scss";
 
 body {
   margin: 0;
   padding: 0;
   background-color: $color-1;
 }
-
-.error-page-container {
-  display: grid;
-  justify-content: center;
-
-  div {
-    margin: 60px 0;
-  }
-}
-
-span,
-  h1 {
-    font-size: 30px;
-    margin: 10px;
-    text-align: center;
-    font-weight: 100;
-  }
-
-  #emojis {
-    font-size: 75px;
-  }

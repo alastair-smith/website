@@ -1,5 +1,22 @@
 {% extends "../components/base-page.njk" %}
 
+{% set mainClasses = "limit-width home-page" %}
+
 {% block content %}
-Hello world
+
+  <div class="about-me">
+    <img />
+    <div>
+      <span>I'm Alastair Smith, a software engineer from the UK, and here's some stupid stuff I've made in my spare time.</span>
+      <ul class="contact">
+        <li><a target="_blank" href="https://github.com/{{ github }}">github</a></li>
+        <li><a>twitter</a></li>
+        <li><a>gmail</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+
+
 {% endblock %}
