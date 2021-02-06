@@ -8,5 +8,14 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: $color-3;
+background-image: url("https://www.transparenttextures.com/patterns/textured-paper.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.card {
   background-color: $color-1;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin: 15px;
 }

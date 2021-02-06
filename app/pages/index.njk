@@ -4,19 +4,23 @@
 
 {% block content %}
 
-  <div class="about-me">
+  <div class="about-me card">
     <img />
     <div>
-      <span>I'm Alastair Smith, a software engineer from the UK, and here's some stupid stuff I've made in my spare time.</span>
+      <span>I'm Alastair Smith, a software engineer from the UK. This website is a collection of stupid stuff I've made in my spare time.</span>
       <ul class="contact">
-        <li><a target="_blank" href="https://github.com/{{ github }}">github</a></li>
-        <li><a>twitter</a></li>
-        <li><a>gmail</a></li>
+        <li>
+          <a target="_blank" rel="noopener" href="https://github.com/{{ github }}">github</a>
+        </li>
+        <li>
+          <a target="_blank" rel="noopener" href="https://twitter.com/{{ twitter }}">twitter</a>
+        </li>
+        <li>
+          <a target="_blank" rel="noopener" href="mailto:{{ email }}">email</a>
+        </li>
       </ul>
     </div>
   </div>
-
-  <div>
 
 
 {% endblock %}
