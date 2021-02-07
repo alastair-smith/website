@@ -1,26 +1,35 @@
 {% extends "../components/base-page.njk" %}
 
+{% import "icons/github.njk" as githubIcon %}
+{% import "icons/twitter.njk" as twitterIcon %}
+{% import "icons/email.njk" as emailIcon %}
+
 {% set mainClasses = "limit-width home-page" %}
 
 {% block content %}
 
-  <div class="about-me card">
-    <img />
-    <div>
+  <div class="about-me">
+    <div class="detail">
       <span>I'm Alastair Smith, a software engineer from the UK. This website is a collection of stupid stuff I've made in my spare time.</span>
-      <ul class="contact">
-        <li>
-          <a target="_blank" rel="noopener" href="https://github.com/{{ github }}">github</a>
-        </li>
-        <li>
-          <a target="_blank" rel="noopener" href="https://twitter.com/{{ twitter }}">twitter</a>
-        </li>
-        <li>
-          <a target="_blank" rel="noopener" href="mailto:{{ email }}">email</a>
-        </li>
-      </ul>
     </div>
   </div>
 
-
+  <div class="posts">
+    {% for post in allPostsInfo %}
+      <div class="card">
+        <h2>{{ post.title }}</h2>
+        <time class="post-date" datetime="{{ post.date }}">{{ post.date | date }}</time>
+        <span class="post-about">{{ post.about }}</span>
+        <div class="post-links">
+          {% if post.url %}
+            <a href="{{ post.url }}">🧑‍💻 App</a>
+          {% endif %}
+          {% if post.blogUrl %}
+            <a href="{{ post.blogUrl }}">📝 Blog</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
 {% endblock %}

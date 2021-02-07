@@ -19,9 +19,13 @@
   "homepage": "https://alsmith.dev/",
   "devDependencies": {
     "express": "^4.17.1",
+    "gray-matter": "^4.0.2",
     "html-minifier": "^4.0.0",
     "nunjucks": "^3.2.2",
+    "remark": "^13.0.0",
+    "remark-html": "^13.0.1",
     "sass": "^1.32.5",
     "standard": "^16.0.3"
-  }
+  },
+  "dependencies": {}
 }

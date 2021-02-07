@@ -1,12 +1,31 @@
 const nunjucks = require('nunjucks')
 const { minify } = require('html-minifier')
 const sass = require('sass')
+const matter = require('gray-matter')
+const remark = require('remark')
+const remarkHTML = require('remark-html')
 const { promises: fsPromises } = require('fs')
 
 const buildDirectory = './build'
 const nestedDirectoryRegex = /\.\/build\/.*\//g
+const postsDirectory = './posts'
+const blogPostTemplate = 'blog-post.njk'
 
-nunjucks.configure(['pages', 'components'], { autoescape: true })
+const nunjucksEnvironment = nunjucks
+  .configure(['pages', 'components'], { autoescape: true })
+
+nunjucksEnvironment.addFilter('date', dateText => {
+  const date = new Date(dateText)
+  return new Intl.DateTimeFormat(
+    'en-GB',
+    { year: 'numeric', month: 'long', day: 'numeric' }
+  ).format(date)
+})
+
+nunjucksEnvironment.addFilter('injectDate', ({ contents }, dateText) => {
+  console.log('date text', dateText)
+  return contents.replace('</h1>', `</h1>${dateText}`)
+})
 
 const sassBuild = options => new Promise(
   (resolve, reject) => sass.render(
@@ -34,6 +53,20 @@ const getPageNames = async directory => {
   ))).flat()
 }
 
+const getAllPostsInfo = async () => {
+  const postFileNames = await getPageNames(postsDirectory)
+  return (await Promise.all(postFileNames.map(async filePath => {
+    const fileDetail = matter(await fsPromises.readFile(filePath))
+    const blogUrl = `/blog/${fileDetail.content.split('\n')[1].replace(/&nbsp;/g, ' ').replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/ /g, '-').toLowerCase()}`
+    return {
+      filePath,
+      content: fileDetail.content,
+      blogUrl,
+      ...fileDetail.data
+    }
+  }))).sort((a, b) => a.date < b.date ? 1 : -1)
+}
+
 const minifyHtml = html => minify(html, {
   removeAttributeQuotes: true,
   collapseWhitespace: true,
@@ -46,11 +79,14 @@ const minifyHtml = html => minify(html, {
 })
 
 const buildHTML = async () => {
+  const allPostsInfo = await getAllPostsInfo()
   const pages = await getPageNames('./pages')
   const templatePages = pages.filter(page => page.endsWith('.njk'))
+
+  // render pages
   await Promise.all(templatePages.map(async page => {
     const pagePath = page.replace('./pages/', '')
-    const html = minifyHtml(nunjucks.render(pagePath))
+    const html = minifyHtml(nunjucksEnvironment.render(pagePath, { allPostsInfo }))
     const buildPath = `${buildDirectory}/${pagePath.replace('.njk', '.html')}`
     if (buildPath.match(nestedDirectoryRegex)) {
       const parentDirectory = buildPath.split('/').slice(0, -1).join('/')
@@ -58,6 +94,18 @@ const buildHTML = async () => {
     }
     await fsPromises.writeFile(buildPath, html)
   }))
+
+  // render blogs
+  await Promise.all(
+    allPostsInfo
+      .filter(postInfo => postInfo.blogUrl)
+      .map(async postInfo => {
+        const content = await remark().use(remarkHTML).process(postInfo.content)
+        const html = minifyHtml(nunjucksEnvironment.render(blogPostTemplate, { content, postDate: postInfo.date }))
+        const buildPath = `${buildDirectory}${postInfo.blogUrl}.html`
+        await fsPromises.writeFile(buildPath, html)
+      })
+  )
 }
 
 const build = async () => {
@@ -68,6 +116,7 @@ const build = async () => {
     await fsPromises.rmdir(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)
     await fsPromises.mkdir(`${buildDirectory}/assets`)
+    await fsPromises.mkdir(`${buildDirectory}/blog`)
     console.log('📁 Build directory created')
 
     console.log('🖌️  Building CSS...')

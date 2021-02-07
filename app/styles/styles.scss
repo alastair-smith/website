@@ -17,5 +17,10 @@ background-image: url("https://www.transparenttextures.com/patterns/textured-pap
   background-color: $color-1;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 5px;
-  margin: 15px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(80vw - 20px);
+  width: 450px;
 }
