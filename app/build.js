@@ -22,10 +22,9 @@ nunjucksEnvironment.addFilter('date', dateText => {
   ).format(date)
 })
 
-nunjucksEnvironment.addFilter('injectDate', ({ contents }, dateText) => {
-  console.log('date text', dateText)
-  return contents.replace('</h1>', `</h1>${dateText}`)
-})
+nunjucksEnvironment.addFilter('injectDate',
+  ({ contents }, dateText) => contents.replace('</h1>', `</h1>${dateText}`)
+)
 
 const sassBuild = options => new Promise(
   (resolve, reject) => sass.render(
