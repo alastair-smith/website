@@ -1,8 +1,10 @@
-{% extends "../components/base-page.njk" %}
+{% extends "base-page.njk" %}
 
 {% import "icons/github.njk" as githubIcon %}
 {% import "icons/twitter.njk" as twitterIcon %}
 {% import "icons/email.njk" as emailIcon %}
+
+{% import "card.njk" as card %}
 
 {% set mainClasses = "limit-width home-page" %}
 
@@ -16,19 +18,7 @@
 
   <div class="posts">
     {% for post in allPostsInfo %}
-      <div class="card">
-        <h2>{{ post.title }}</h2>
-        <time class="post-date" datetime="{{ post.date }}">{{ post.date | date }}</time>
-        <span class="post-about">{{ post.about }}</span>
-        <div class="post-links">
-          {% if post.url %}
-            <a href="{{ post.url }}">🧑‍💻 App</a>
-          {% endif %}
-          {% if post.blogUrl %}
-            <a href="{{ post.blogUrl }}">📝 Blog</a>
-          {% endif %}
-        </div>
-      </div>
+      {{ card.component(post) }}
     {% endfor %}
   </div>
   

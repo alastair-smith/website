@@ -1,0 +1,26 @@
+{% macro component(params) %}
+
+  <div class="card">
+    <h2>{{ params.title }}</h2>
+
+    {% if params.date %}
+      <time class="card-date" datetime="{{ params.date }}">
+        {{ params.date | date }}
+      </time>
+    {% endif %}
+    
+    <span class="card-about">{{ params.about }}</span>
+
+    {% if params.url or params.blogUrl %}
+      <div class="card-links">
+        {% if params.url %}
+          <a href="{{ params.url }}">🧑‍💻 App</a>
+        {% endif %}
+        {% if params.blogUrl %}
+          <a href="{{ params.blogUrl }}">📝 Blog</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+{% endmacro %}
