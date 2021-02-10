@@ -115,11 +115,16 @@ const build = async () => {
     await fsPromises.rmdir(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)
     await fsPromises.mkdir(`${buildDirectory}/assets`)
+    await fsPromises.mkdir(`${buildDirectory}/assets/images`)
+    await fsPromises.mkdir(`${buildDirectory}/assets/styles`)
     await fsPromises.mkdir(`${buildDirectory}/blog`)
     console.log('📁 Build directory created')
 
+    console.log('Copying assets')
+    await fsPromises.copyFile('./assets/images/line-background.svg', './build/assets/images/line-background.svg')
+    console.log('Copying assets complete')
+
     console.log('🖌️  Building CSS...')
-    await fsPromises.mkdir(`${buildDirectory}/assets/styles`)
     await buildCSS()
     console.log('🖌️  CSS build complete')
 

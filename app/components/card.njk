@@ -14,10 +14,16 @@
     {% if params.url or params.blogUrl %}
       <div class="card-links">
         {% if params.url %}
-          <a href="{{ params.url }}">🧑‍💻 App</a>
+          <a href="{{ params.url }}">
+            <span role="img" alt="">🧑‍💻</span>
+            <span>&nbsp;App</span>
+          </a>
         {% endif %}
         {% if params.blogUrl %}
-          <a href="{{ params.blogUrl }}">📝 Blog</a>
+          <a href="{{ params.blogUrl }}">
+            <span role="img" alt="">📝</span>
+            <span>&nbsp;Blog</span>
+          </a>
         {% endif %}
       </div>
     {% endif %}
