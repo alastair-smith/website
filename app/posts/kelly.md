@@ -5,4 +5,4 @@ about: "API to create a gif with custom text to message Kelly Rowland in excel."
 url: "/kelly"
 ---
 
-# Making a meme generator #
+# Making A Meme Generator #
