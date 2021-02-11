@@ -2,6 +2,11 @@
 {% import "skip-links.njk" as skipLinks %}
 {% import "footer.njk" as footer %}
 
+{% set fullTitle = "al smith" %}
+{% if pageTitle %}
+  {% set fullTitle = pageTitle + " - " + fullTitle %}
+{% endif %}
+
 {% set github = "alastair-smith" %}
 {% set twitter = "alastairsmith_" %}
 {% set email = "contact@alsmith.dev" %}
@@ -15,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="Description"
     content="Personal website of Alastair Smith.">
-  <title>al smith</title>
+  <title>{{ fullTitle }}</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -23,6 +28,7 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <link href="/assets/styles/styles.css" rel="stylesheet">
+  <link rel="preload" href="/assets/fonts/open-sans-v18-latin-800.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 {% endblock %}
 
