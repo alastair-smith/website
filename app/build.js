@@ -4,12 +4,14 @@ const sass = require('sass')
 const matter = require('gray-matter')
 const remark = require('remark')
 const remarkHTML = require('remark-html')
+const copydir = require('copy-dir')
 const { promises: fsPromises } = require('fs')
 
 const buildDirectory = './build'
 const nestedDirectoryRegex = /\.\/build\/.*\//g
 const postsDirectory = './posts'
 const blogPostTemplate = 'blog-post.njk'
+const assetsDirectory = './assets'
 
 const nunjucksEnvironment = nunjucks
   .configure(['pages', 'components'], { autoescape: true })
@@ -120,9 +122,9 @@ const build = async () => {
     await fsPromises.mkdir(`${buildDirectory}/blog`)
     console.log('📁 Build directory created')
 
-    console.log('Copying assets')
-    await fsPromises.copyFile('./assets/images/line-background.svg', './build/assets/images/line-background.svg')
-    console.log('Copying assets complete')
+    console.log('🖼️  Copying assets')
+    copydir.sync(assetsDirectory, `${buildDirectory}/assets`)
+    console.log('🖼️  Copying assets complete')
 
     console.log('🖌️  Building CSS...')
     await buildCSS()
