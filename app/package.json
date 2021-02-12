@@ -5,7 +5,8 @@
   "scripts": {
     "build": "node build.js",
     "dev": "npm run build && npm run start",
-    "start": "node local.js"
+    "start": "node local.js",
+    "linter": "standard"
   },
   "repository": {
     "type": "git",
