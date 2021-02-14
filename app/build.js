@@ -90,7 +90,12 @@ const buildHTML = async () => {
   // render pages
   await Promise.all(templatePages.map(async page => {
     const pagePath = page.replace('./pages/', '')
-    const html = minifyHtml(nunjucksEnvironment.render(pagePath, { allPostsInfo }))
+    const html = minifyHtml(
+      nunjucksEnvironment.render(
+        pagePath,
+        { allPostsInfo, pageUrl: `/${pagePath.replace(/.njk$/, '')}` }
+      )
+    )
     const buildPath = `${buildDirectory}/${pagePath.replace('.njk', '.html')}`
     if (buildPath.match(nestedDirectoryRegex)) {
       const parentDirectory = buildPath.split('/').slice(0, -1).join('/')
@@ -105,7 +110,18 @@ const buildHTML = async () => {
       .filter(postInfo => postInfo.blogUrl)
       .map(async postInfo => {
         const content = await remark().use(remarkHTML).process(postInfo.content)
-        const html = minifyHtml(nunjucksEnvironment.render(blogPostTemplate, { content, postDate: postInfo.date, pageTitle: postInfo.pageTitle }))
+        const html = minifyHtml(
+          nunjucksEnvironment.render(
+            blogPostTemplate,
+            {
+              content,
+              postDate: postInfo.date,
+              pageTitle: postInfo.pageTitle,
+              pageUrl: postInfo.blogUrl,
+              imageUrl: postInfo.imageUrl
+            }
+          )
+        )
         const buildPath = `${buildDirectory}${postInfo.blogUrl}.html`
         await fsPromises.writeFile(buildPath, html)
       })
