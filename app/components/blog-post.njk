@@ -1,11 +1,13 @@
 {% extends "../components/base-page.njk" %}
 
-{% set mainClasses = "limit-width blog-page" %}
+{% set mainClasses = "limit-width blog-post" %}
 
 {% macro dateString () %}
   <time class="post-date" datetime="{{ postDate }}">{{ postDate | date }}</time>
 {% endmacro %}
 
 {% block content %}
-{{ content | injectDate(dateString()) | safe }}
+<article>
+  {{ content | injectDate(dateString()) | safe }}
+</article>
 {% endblock %}

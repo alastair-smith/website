@@ -4,6 +4,8 @@ const sass = require('sass')
 const matter = require('gray-matter')
 const remark = require('remark')
 const remarkHTML = require('remark-html')
+const slug = require('remark-slug')
+const headings = require('remark-autolink-headings')
 const copydir = require('copy-dir')
 const { promises: fsPromises } = require('fs')
 
@@ -109,7 +111,23 @@ const buildHTML = async () => {
     allPostsInfo
       .filter(postInfo => postInfo.blogUrl)
       .map(async postInfo => {
-        const content = await remark().use(remarkHTML).process(postInfo.content)
+        const content = await remark()
+          .use(remarkHTML)
+          .use(slug)
+          .use(headings, {
+            content: {
+              type: 'element',
+              tagName: 'img',
+              properties: {
+                className: ['anchor-link'],
+                src: '/assets/images/anchor-link.svg',
+                alt: 'link icon',
+                height: '27px',
+                width: '27px'
+              }
+            }
+          })
+          .process(postInfo.content)
         const html = minifyHtml(
           nunjucksEnvironment.render(
             blogPostTemplate,
