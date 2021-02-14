@@ -115,15 +115,15 @@ const buildHTML = async () => {
           .use(remarkHTML)
           .use(slug)
           .use(headings, {
+            linkProperties: {
+              className: ['anchor-link']
+            },
             content: {
               type: 'element',
               tagName: 'img',
               properties: {
-                className: ['anchor-link'],
                 src: '/assets/images/anchor-link.svg',
-                alt: 'link icon',
-                height: '27px',
-                width: '27px'
+                alt: 'link icon'
               }
             }
           })
