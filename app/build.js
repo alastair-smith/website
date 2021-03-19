@@ -81,7 +81,8 @@ const minifyHtml = html => minify(html, {
   quoteCharacter: '"',
   removeComments: true,
   removeEmptyAttributes: true,
-  sortAttributes: true
+  sortAttributes: true,
+  minifyJS: true
 })
 
 const buildHTML = async () => {
