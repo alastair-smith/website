@@ -13,8 +13,9 @@ const buildDirectory = './build'
 const nestedDirectoryRegex = /\.\/build\/.*\//g
 const postsDirectory = './posts'
 const blogPostTemplate = 'blog-post.njk'
-const assetsDirectory = './assets'
+const assetsDirectory = './raw-assets'
 const rootDirectory = './root'
+const scriptsDirectory = './scripts'
 
 const nunjucksEnvironment = nunjucks
   .configure(['pages', 'components'], { autoescape: true })
@@ -157,6 +158,7 @@ const build = async () => {
     await fsPromises.mkdir(`${buildDirectory}/assets`)
     await fsPromises.mkdir(`${buildDirectory}/assets/images`)
     await fsPromises.mkdir(`${buildDirectory}/assets/styles`)
+    await fsPromises.mkdir(`${buildDirectory}/assets/scripts`)
     await fsPromises.mkdir(`${buildDirectory}/blog`)
     console.log('📁 Build directory created')
 
@@ -164,6 +166,10 @@ const build = async () => {
     copydir.sync(rootDirectory, buildDirectory)
     copydir.sync(assetsDirectory, `${buildDirectory}/assets`)
     console.log('🖼️  Copying assets complete')
+
+    console.log('📜  Copying scripts...')
+    copydir.sync(scriptsDirectory, `${buildDirectory}/assets/scripts`)
+    console.log('📜  Copying scripts complete')
 
     console.log('🖌️  Building CSS...')
     await buildCSS()

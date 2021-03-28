@@ -1,13 +1,6 @@
 {% extends "../components/base-page.njk" %}
 
-{% set mainClasses="error-page-container" %}
-
-{% block header %}
-  {{ header.component({
-    websiteName: "alsmith.dev",
-    blogUrl: blogUrl
-  }) }}
-{% endblock %}
+{% set mainClasses="kelly-page-container" %}
 
 {% block content %}
   <form id="kelly" method="get" action="https://api.alsmith.dev/kelly">
