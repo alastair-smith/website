@@ -5,9 +5,6 @@ name: default
 .nodejs: &nodejs
   image: node:14-alpine
 
-# .terraform: &terraform
-#   image: hashicorp/terraform:0.14.9
-
 steps:
   - name: check node modules
     <<: *nodejs
@@ -37,14 +34,3 @@ steps:
       - npm run build
     depends_on:
       - install dependencies
-  # - name: validate terraform
-  #   <<: *terraform
-  #   commands:
-  #     - cd infrastructure
-  #     - terraform init -backend=false
-  #     - terraform validate
-  # - name: check terraform formatting
-  #   <<: *terraform
-  #   commands:
-  #     - cd infrastructure
-  #     - terraform fmt -check -recursive
