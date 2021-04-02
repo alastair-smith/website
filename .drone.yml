@@ -22,19 +22,6 @@ steps:
       - cd app
       - npm ci
 
-  - name: validate terraform
-    <<: *terraform
-    commands:
-      - cd infrastructure
-      - terraform init -backend=false
-      - terraform validate
-
-  - name: check terraform formatting
-    <<: *terraform
-    commands:
-      - cd infrastructure
-      - terraform fmt -check -recursive
-
   - name: lint javascript
     <<: *nodejs
     commands:
@@ -50,3 +37,16 @@ steps:
       - npm run build
     depends_on:
       - install dependencies
+
+  - name: validate terraform
+    <<: *terraform
+    commands:
+      - cd infrastructure
+      - terraform init -backend=false
+      - terraform validate
+
+  - name: check terraform formatting
+    <<: *terraform
+    commands:
+      - cd infrastructure
+      - terraform fmt -check -recursive
