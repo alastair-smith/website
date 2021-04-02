@@ -5,8 +5,8 @@ name: default
 .nodejs: &nodejs
   image: node:14-alpine
 
-.terraform: &terraform
-  image: hashicorp/terraform:0.14.9
+# .terraform: &terraform
+#   image: hashicorp/terraform:0.14.9
 
 steps:
   - name: check node modules
