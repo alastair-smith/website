@@ -1,12 +1,18 @@
 {% extends "components/base-page.njk" %}
 
-{% set mainClasses="kelly-page-container" %}
+{% set mainClasses="limit-width kelly-page-container" %}
+
+{% set placeholder="/assets/images/kelly-placeholder.png" %}
+
+{% block headEnd %}
+  <link rel='preload' href='{{ placeholder }}' as='image' type='image/png'>
+{% endblock %}
 
 {% block content %}
   <form id="kelly" method="get" action="https://api.alsmith.dev/kelly">
     <input id="text-input" type="text" name="text" value="" autocomplete="off">
     <input hidden type="text" name="gif" value="1" autocomplete="off">
-    <button class="submit-btn" type="submit">Kelly!</button>
+    <button class="submit-btn" type="submit">Make gif</button>
   </form>
 
   <div id="image-container"></div>
@@ -46,7 +52,7 @@
         if (!container.firstChild) {
           // blurry placeholder
           const newImageNode = document.createElement('img')
-          newImageNode.src = '/kelly/placeholder.png'
+          newImageNode.src = '{{ placeholder }}'
           newImageNode.id = 'image'
           container.appendChild(newImageNode)
           // actual image
@@ -74,37 +80,6 @@
 
       return false
     }
-    {# let firstSubmission = true
-    const generatedImageId = 'generated-image'
-
-    const createImageElement = url => {
-      const imageNode = document.createElement('img')
-      imageNode.src = '/kelly/placeholder.png'
-      imageNode.id = generatedImageId
-    }
-
-    const processForm = event => {
-      event.preventDefault()
-
-      const text = event.target[0].value
-      if (text.length > 0) {
-        //const base64Text = btoa(encodeURIComponent(event.target[0].value))
-        //.replace(/=/g, '')
-        //const url = `https://api.alsmith.dev/kelly?b=${base64Text}`
-        const url = `https://api.alsmith.dev/kelly?text=${encodeURIComponent(event.target[0].value)}`
-
-        if (firstSubmission) {
-          alert(url)
-        } else {
-          const imageNode = document.getElementById('image')
-          imageNode.src = url
-        }
-
-      alert(base64Text)
-      }
-      
-      return false
-    } #}
 
     document
       .getElementById('kelly')
