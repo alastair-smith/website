@@ -10,12 +10,14 @@ steps:
     <<: *nodejs
     commands:
       - cd app
-      - npm run lax-audit
+      - npm audit --audit-level="high"
+      - npm audit --production
 
   - name: install dependencies
     <<: *nodejs
     commands:
       - cd app
+      - npm ci
 
   - name: lint javascript
     <<: *nodejs

@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "description": "Personal website for Alastair Smith",
   "scripts": {
-    "lax-audit": "npm audit --audit-level='high' && npm audit --production",
     "build": "node build.js",
     "dev": "npm run build && npm run start",
     "start": "node local.js",
