@@ -27,7 +27,7 @@ const replaceLastWord = (sentence, color) => {
   const lastWord = words.pop()
   const textStartNode = document.createTextNode(words.join(' '))
   const lastNode = emphasiseWord(` ${lastWord}`, color)
-  return [ textStartNode, lastNode ]
+  return [textStartNode, lastNode]
 }
 
 const replaceBes = (sentence, color) => {
