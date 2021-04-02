@@ -37,16 +37,14 @@ steps:
       - npm run build
     depends_on:
       - install dependencies
-
-  - name: validate terraform
-    <<: *terraform
-    commands:
-      - cd infrastructure
-      - terraform init -backend=false
-      - terraform validate
-
-  - name: check terraform formatting
-    <<: *terraform
-    commands:
-      - cd infrastructure
-      - terraform fmt -check -recursive
+  # - name: validate terraform
+  #   <<: *terraform
+  #   commands:
+  #     - cd infrastructure
+  #     - terraform init -backend=false
+  #     - terraform validate
+  # - name: check terraform formatting
+  #   <<: *terraform
+  #   commands:
+  #     - cd infrastructure
+  #     - terraform fmt -check -recursive
