@@ -1,15 +1,16 @@
 @import "./variables.scss";
 
 @import "./components/base-page.scss";
-@import "./components/card.scss";
-@import "./components/header.scss";
-@import "./components/footer.scss";
-@import "./components/skip-links.scss";
 @import "./components/blog-post.scss";
+@import "./components/card.scss";
+@import "./components/footer.scss";
+@import "./components/header.scss";
+@import "./components/skip-links.scss";
 
-@import "./pages/index.scss";
-@import "./pages/error-page.scss";
 @import "./pages/chandler.scss";
+@import "./pages/error-page.scss";
+@import "./pages/index.scss";
+@import "./pages/kelly.scss";
 
 /* open-sans-800 - latin */
 @font-face {
