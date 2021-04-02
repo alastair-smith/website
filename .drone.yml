@@ -2,25 +2,22 @@ kind: pipeline
 type: docker
 name: default
 
-.nodejs: &nodejs
-  image: node:14-alpine
-
 steps:
   - name: check node modules
-    <<: *nodejs
+    image: node:14-alpine
     commands:
       - cd app
       - npm audit --audit-level="high"
       - npm audit --production
 
   - name: install node modules
-    <<: *nodejs
+    image: node:14-alpine
     commands:
       - cd app
       - npm ci
 
   - name: lint javascript
-    <<: *nodejs
+    image: node:14-alpine
     commands:
       - cd app
       - npm run linter
@@ -28,7 +25,7 @@ steps:
       - install dependencies
 
   - name: build
-    <<: *nodejs
+    image: node:14-alpine
     commands:
       - cd app
       - npm run build
