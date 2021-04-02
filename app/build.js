@@ -11,14 +11,14 @@ const { promises: fsPromises } = require('fs')
 
 const buildDirectory = './build'
 const nestedDirectoryRegex = /\.\/build\/.*\//g
-const postsDirectory = './posts'
-const blogPostTemplate = 'blog-post.njk'
-const assetsDirectory = './raw-assets'
+const postsDirectory = './blog'
+const pagesDirectory = './templates/pages'
+const blogPostTemplate = 'components/blog-post.njk'
 const rootDirectory = './root'
 const scriptsDirectory = './scripts'
 
 const nunjucksEnvironment = nunjucks
-  .configure(['pages', 'components'], { autoescape: true })
+  .configure(['templates'], { autoescape: true })
 
 nunjucksEnvironment.addFilter('date', dateText => {
   const date = new Date(dateText)
@@ -88,19 +88,19 @@ const minifyHtml = html => minify(html, {
 
 const buildHTML = async () => {
   const allPostsInfo = await getAllPostsInfo()
-  const pages = await getPageNames('./pages')
+  const pages = await getPageNames(pagesDirectory)
   const templatePages = pages.filter(page => page.endsWith('.njk'))
 
   // render pages
   await Promise.all(templatePages.map(async page => {
-    const pagePath = page.replace('./pages/', '')
+    const pagePath = page.replace(`${pagesDirectory}/`, 'pages/')
     const html = minifyHtml(
       nunjucksEnvironment.render(
         pagePath,
         { allPostsInfo, pageUrl: `/${pagePath.replace(/.njk$/, '')}` }
       )
     )
-    const buildPath = `${buildDirectory}/${pagePath.replace('.njk', '.html')}`
+    const buildPath = `${buildDirectory}/${pagePath.replace('pages/', '').replace('.njk', '.html')}`
     if (buildPath.match(nestedDirectoryRegex)) {
       const parentDirectory = buildPath.split('/').slice(0, -1).join('/')
       await fsPromises.mkdir(parentDirectory, { recursive: true })
@@ -164,7 +164,6 @@ const build = async () => {
 
     console.log('🖼️  Copying assets')
     copydir.sync(rootDirectory, buildDirectory)
-    copydir.sync(assetsDirectory, `${buildDirectory}/assets`)
     console.log('🖼️  Copying assets complete')
 
     console.log('📜  Copying scripts...')
