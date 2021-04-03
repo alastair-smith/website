@@ -121,19 +121,19 @@ image_pull_secrets:
   - dockerconfig
 depends_on:
   - build
+environment:
+  PACKAGE_BUCKET:
+    from_secret: PACKAGE_BUCKET
+  STATE_BUCKET:
+    from_secret: STATE_BUCKET
+  AWS_ACCESS_KEY_ID:
+    from_secret: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    from_secret: AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: eu-west-1
 steps:
   - name: get package
     <<: *awscli
-    environment:
-      PACKAGE_BUCKET:
-        from_secret: PACKAGE_BUCKET
-      STATE_BUCKET:
-        from_secret: STATE_BUCKET
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY
-      AWS_DEFAULT_REGION: eu-west-1
     commands:
       - aws s3api get-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --bucket "$PACKAGE_BUCKET" package.tgz
 
@@ -146,16 +146,6 @@ steps:
 
   - name: terraform init
     <<: *terraform
-    environment:
-      PACKAGE_BUCKET:
-        from_secret: PACKAGE_BUCKET
-      STATE_BUCKET:
-        from_secret: STATE_BUCKET
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY
-      AWS_DEFAULT_REGION: eu-west-1
     commands:
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
@@ -164,16 +154,6 @@ steps:
 
   - name: terraform plan
     <<: *terraform
-    environment:
-      PACKAGE_BUCKET:
-        from_secret: PACKAGE_BUCKET
-      STATE_BUCKET:
-        from_secret: STATE_BUCKET
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY
-      AWS_DEFAULT_REGION: eu-west-1
     commands:
       - cd package/infrastructure
       - terraform plan -out=tfplan -input=false
@@ -182,16 +162,6 @@ steps:
 
   - name: terraform apply
     <<: *terraform
-    environment:
-      PACKAGE_BUCKET:
-        from_secret: PACKAGE_BUCKET
-      STATE_BUCKET:
-        from_secret: STATE_BUCKET
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY
-      AWS_DEFAULT_REGION: eu-west-1
     commands:
       - cd package/infrastructure
     depends_on:
