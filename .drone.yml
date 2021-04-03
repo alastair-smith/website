@@ -1,9 +1,4 @@
-kind: pipeline
-type: docker
-name: default
-
-image_pull_secrets:
-  - dockerconfig
+---
 
 .nodejs: &nodejs
   image: node:14-alpine
@@ -11,6 +6,13 @@ image_pull_secrets:
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
 
+---
+
+kind: pipeline
+type: docker
+name: validate
+image_pull_secrets:
+  - dockerconfig
 steps:
   - name: check node modules
     <<: *nodejs
@@ -33,14 +35,6 @@ steps:
     depends_on:
       - install node modules
 
-  - name: build
-    <<: *nodejs
-    commands:
-      - cd app
-      - npm run build
-    depends_on:
-      - install node modules
-
   - name: validate terraform
     <<: *terraform
     commands:
@@ -53,3 +47,19 @@ steps:
     commands:
       - cd infrastructure
       - terraform fmt -check -recursive
+
+---
+
+kind: pipeline
+type: docker
+name: build
+image_pull_secrets:
+  - dockerconfig
+depends_on:
+  - validate
+steps:
+  - name: build
+    <<: *nodejs
+    commands:
+      - cd app
+      - npm run build
