@@ -114,14 +114,7 @@ steps:
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
 
-kind: pipeline
-type: docker
-name: deploy
-image_pull_secrets:
-  - dockerconfig
-depends_on:
-  - build
-environment:
+.deployment-variables: &deployment-variables
   PACKAGE_BUCKET:
     from_secret: PACKAGE_BUCKET
   STATE_BUCKET:
@@ -131,9 +124,19 @@ environment:
   AWS_SECRET_ACCESS_KEY:
     from_secret: AWS_SECRET_ACCESS_KEY
   AWS_DEFAULT_REGION: eu-west-1
+
+kind: pipeline
+type: docker
+name: deploy
+image_pull_secrets:
+  - dockerconfig
+depends_on:
+  - build
 steps:
   - name: get package
     <<: *awscli
+    environment:
+      <<: *deployment-variables
     commands:
       - aws s3api get-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --bucket "$PACKAGE_BUCKET" package.tgz
 
@@ -146,6 +149,8 @@ steps:
 
   - name: terraform init
     <<: *terraform
+    environment:
+      <<: *deployment-variables
     commands:
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
@@ -154,6 +159,8 @@ steps:
 
   - name: terraform plan
     <<: *terraform
+    environment:
+      <<: *deployment-variables
     commands:
       - cd package/infrastructure
       - terraform plan -out=tfplan -input=false
@@ -162,6 +169,8 @@ steps:
 
   - name: terraform apply
     <<: *terraform
+    environment:
+      <<: *deployment-variables
     commands:
       - cd package/infrastructure
     depends_on:
