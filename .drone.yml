@@ -7,8 +7,6 @@
 kind: pipeline
 type: docker
 name: validate
-image_pull_secrets:
-  - dockerconfig
 steps:
   - name: check node modules
     <<: *nodejs
@@ -43,3 +41,6 @@ steps:
     commands:
       - cd infrastructure
       - terraform fmt -check -recursive
+
+image_pull_secrets:
+  - dockerconfig
