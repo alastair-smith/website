@@ -43,3 +43,21 @@ steps:
     commands:
       - cd infrastructure
       - terraform fmt -check -recursive
+
+---
+.nodejs: &nodejs
+  image: node:14-alpine
+
+kind: pipeline
+type: docker
+name: build
+image_pull_secrets:
+  - dockerconfig
+depends_on:
+  - validate
+steps:
+  - name: build app
+    <<: *nodejs
+    commands:
+      - cd app
+      - npm run build
