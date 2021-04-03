@@ -2,6 +2,9 @@ kind: pipeline
 type: docker
 name: default
 
+image_pull_secrets:
+  - dockerconfig
+
 .nodejs: &nodejs
   image: node:14-alpine
 
