@@ -9,6 +9,3 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-provider "cloudflare" {}
-
-provider "external" {}
