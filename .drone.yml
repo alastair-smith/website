@@ -1,4 +1,3 @@
----
 .nodejs: &nodejs
   image: node:14-alpine
 
@@ -44,24 +43,3 @@ steps:
     commands:
       - cd infrastructure
       - terraform fmt -check -recursive
-
----
-.nodejs: &nodejs
-  image: node:14-alpine
-
-.terraform: &terraform
-  image: hashicorp/terraform:0.14.9
-
-kind: pipeline
-type: docker
-name: build
-image_pull_secrets:
-  - dockerconfig
-depends_on:
-  - validate
-steps:
-  - name: build
-    <<: *nodejs
-    commands:
-      - cd app
-      - npm run build
