@@ -54,8 +54,7 @@ steps:
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
 
-.package-variables: &package-variables
-  - export PACKAGE_NAME="$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz"
+&package-variables export PACKAGE_NAME="$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz"
 
 kind: pipeline
 type: docker
@@ -87,9 +86,8 @@ steps:
 
   - name: package deployment
     <<: *alpine
-    <<: *package-variables
     commands:
-      *package-variables
+      - *package-variables
       - mkdir -p package/app
       - cp -r infrastructure package/infrastructure
       - cp -r app/build package/app/build
