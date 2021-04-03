@@ -98,54 +98,92 @@ steps:
         from_secret: AWS_ACCESS_KEY_ID
       AWS_SECRET_ACCESS_KEY:
         from_secret: AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: eu-west-1
     commands:
-      - aws s3api put-object --key "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz" --body package.tgz --bucket "$PACKAGE_BUCKET" --tagging="Build=$DRONE_BUILD_NUMBER&Commit=$DRONE_COMMIT_SHA&Repository=$DRONE_REPO_LINK&Service=$DRONE_REPO_NAME"
+      - aws s3api put-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --body package.tgz --bucket "$PACKAGE_BUCKET" --tagging="Build=$DRONE_BUILD_NUMBER&Commit=$DRONE_COMMIT_SHA&Repository=$DRONE_REPO_LINK&Service=$DRONE_REPO_NAME"
     depends_on:
       - bundle package
-# ---
-# .awscli: &awscli
-#   image: amazon/aws-cli:latest
-# .terraform: &terraform
-#   image: hashicorp/terraform:0.14.9
-# kind: pipeline
-# type: docker
-# name: deploy
-# image_pull_secrets:
-#   - dockerconfig
-# depends_on:
-#   - build
-# environment:
-#   PACKAGE_BUCKET:
-#     from_secret: PACKAGE_BUCKET
-#   STATE_BUCKET:
-#     from_secret: STATE_BUCKET
-# steps:
-#   - name: get package
-#     <<: *awscli
-#     commands:
-# - aws s3api get-object --key "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz" --bucket $PACKAGE_BUCKET package.tgz
-#       - tar -zxf package.tgz
 
-#   - name: terraform init
-#     <<: *terraform
-#     commands:
-#       - cd package/infrastructure
-#       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
-#     depends_on:
-#       - get package
+---
+.awscli: &awscli
+  image: amazon/aws-cli:latest
 
-#   - name: terraform plan
-#     <<: *terraform
-#     commands:
-#       - cd package/infrastructure
-#       - terraform plan -out=tfplan -input=false
-#     depends_on:
-#       - terraform init
+.terraform: &terraform
+  image: hashicorp/terraform:0.14.9
 
-#   - name: terraform apply
-#     <<: *terraform
-#     commands:
-#       - cd package/infrastructure
-#       # - terraform apply -input=false tfplan
-#     depends_on:
-#       - terraform plan
+kind: pipeline
+type: docker
+name: deploy
+image_pull_secrets:
+  - dockerconfig
+depends_on:
+  - build
+steps:
+  - name: get package
+    <<: *awscli
+    environment:
+      PACKAGE_BUCKET:
+        from_secret: PACKAGE_BUCKET
+      STATE_BUCKET:
+        from_secret: STATE_BUCKET
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: eu-west-1
+    commands:
+      - aws s3api get-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --bucket "$PACKAGE_BUCKET" package.tgz
+      - tar -zxf package.tgz
+
+  - name: terraform init
+    <<: *terraform
+    environment:
+      PACKAGE_BUCKET:
+        from_secret: PACKAGE_BUCKET
+      STATE_BUCKET:
+        from_secret: STATE_BUCKET
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: eu-west-1
+    commands:
+      - cd package/infrastructure
+      - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
+    depends_on:
+      - get package
+
+  - name: terraform plan
+    <<: *terraform
+    environment:
+      PACKAGE_BUCKET:
+        from_secret: PACKAGE_BUCKET
+      STATE_BUCKET:
+        from_secret: STATE_BUCKET
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: eu-west-1
+    commands:
+      - cd package/infrastructure
+      - terraform plan -out=tfplan -input=false
+    depends_on:
+      - terraform init
+
+  - name: terraform apply
+    <<: *terraform
+    environment:
+      PACKAGE_BUCKET:
+        from_secret: PACKAGE_BUCKET
+      STATE_BUCKET:
+        from_secret: STATE_BUCKET
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: eu-west-1
+    commands:
+      - cd package/infrastructure
+    depends_on:
+      - terraform plan

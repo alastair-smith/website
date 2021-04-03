@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    key    = "website"
+    key    = "website.json"
     region = "eu-west-1"
   }
 }
