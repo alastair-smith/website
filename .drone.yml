@@ -56,8 +56,16 @@ image_pull_secrets:
 depends_on:
   - validate
 steps:
+  - name: install node modules
+    <<: *nodejs
+    commands:
+      - cd app
+      - npm ci
+
   - name: build app
     <<: *nodejs
     commands:
       - cd app
       - npm run build
+    depends_on:
+      - install node modules
