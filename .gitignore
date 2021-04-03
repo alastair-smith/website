@@ -1,4 +1,5 @@
 .vscode
 node_modules
 .terraform
+.terraform.lock.hcl
 build

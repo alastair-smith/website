@@ -45,8 +45,18 @@ steps:
       - terraform fmt -check -recursive
 
 ---
+.alpine: &alpine
+  image: alpine:latest
+
 .nodejs: &nodejs
   image: node:14-alpine
+
+.terraform: &terraform
+  image: hashicorp/terraform:0.14.9
+
+.package-variables: &package-variables
+  environment:
+    - PACKAGE_NAME="$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER"
 
 kind: pipeline
 type: docker
@@ -69,3 +79,21 @@ steps:
       - npm run build
     depends_on:
       - install node modules
+
+  - name: terraform init
+    <<: *terraform
+    commands:
+      - cd infrastructure
+      - terraform init -backend=false
+
+  - name: package deployment
+    <<: *alpine
+    <<: *package-variables
+    commands:
+      - mkdir -p package/app
+      - cp -r infrastructure package/infrastructure
+      - cp -r app/build package/app/build
+      - tar -zcf "$PACKAGE_NAME" package
+    depends_on:
+      - build app
+      - terraform init
