@@ -56,7 +56,7 @@ steps:
 
 .package-variables: &package-variables
   environment:
-    PACKAGE_NAME: "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER"
+    PACKAGE_NAME: "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz"
 
 kind: pipeline
 type: docker
@@ -94,6 +94,7 @@ steps:
       - cp -r infrastructure package/infrastructure
       - cp -r app/build package/app/build
       - tar -zcf "$PACKAGE_NAME" package
+      - ls -la
     depends_on:
       - build app
       - terraform init
