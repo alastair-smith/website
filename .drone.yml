@@ -1,12 +1,9 @@
 ---
-
 .nodejs: &nodejs
   image: node:14-alpine
 
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
-
----
 
 kind: pipeline
 type: docker
@@ -49,6 +46,11 @@ steps:
       - terraform fmt -check -recursive
 
 ---
+.nodejs: &nodejs
+  image: node:14-alpine
+
+.terraform: &terraform
+  image: hashicorp/terraform:0.14.9
 
 kind: pipeline
 type: docker
