@@ -6,7 +6,7 @@ name: default
   image: node:14-alpine
 
 steps:
-  - name: check dependencies
+  - name: check node dependencies
     <<: *nodejs
     commands:
       - cd app
