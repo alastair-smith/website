@@ -105,6 +105,9 @@ steps:
       - bundle package
 
 ---
+.alpine: &alpine
+  image: alpine:latest
+
 .awscli: &awscli
   image: amazon/aws-cli:latest
 
@@ -133,7 +136,13 @@ steps:
       AWS_DEFAULT_REGION: eu-west-1
     commands:
       - aws s3api get-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --bucket "$PACKAGE_BUCKET" package.tgz
+
+  - name: extract package
+    <<: *alpine
+    commands:
       - tar -zxf package.tgz
+    depends_on:
+      - get package
 
   - name: terraform init
     <<: *terraform
@@ -151,7 +160,7 @@ steps:
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
     depends_on:
-      - get package
+      - extract package
 
   - name: terraform plan
     <<: *terraform
