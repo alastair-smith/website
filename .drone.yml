@@ -94,8 +94,12 @@ steps:
     environment:
       PACKAGE_BUCKET:
         from_secret: PACKAGE_BUCKET
+      AWS_ACCESS_KEY_ID:
+        from_secret: AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: AWS_SECRET_ACCESS_KEY
     commands:
-      - aws s3api put-object --key "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz" --body package.tgz --bucket $PACKAGE_BUCKET --tagging="Build=$DRONE_BUILD_NUMBER&Commit=$DRONE_COMMIT_SHA&Repository=$DRONE_REPO_LINK&Service=$DRONE_REPO_NAME"
+      - aws s3api put-object --key "$DRONE_REPO_NAME-$DRONE_BUILD_NUMBER.tgz" --body package.tgz --bucket "$PACKAGE_BUCKET" --tagging="Build=$DRONE_BUILD_NUMBER&Commit=$DRONE_COMMIT_SHA&Repository=$DRONE_REPO_LINK&Service=$DRONE_REPO_NAME"
     depends_on:
       - bundle package
 # ---
