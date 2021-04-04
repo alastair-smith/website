@@ -3,7 +3,6 @@ variable "build" {
 
   validation {
     condition = (
-      tonumber(var.build) == tostring(var.build) &&
       var.build > 0 &&
       var.build % 1 == 0
     )
