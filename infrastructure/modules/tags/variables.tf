@@ -21,14 +21,14 @@ variable "commit" {
 }
 
 variable "environment" {
-  description = "The tier of the environment"
+  description = "The tier of the environment, either prod for the default branch, or the branch slug otherwise."
 
   validation {
     condition = (
-      var.environment == "dev" ||
-      var.environment == "prod"
+      length(var.environment) > 0 &&
+      regex("^[a-zA-Z0-9-]*$", var.environment) == var.environment
     )
-    error_message = "The environment value should be dev or prod."
+    error_message = "The environment value should be prod or the slug of a branch name."
   }
 }
 
