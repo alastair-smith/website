@@ -1,13 +1,13 @@
+variable "app_directory_path" {
+  description = "The absolute path to the built app"
+}
+
 variable "build" {
   description = "Build number"
 }
 
 variable "commit" {
   description = "Full git commit sha"
-}
-
-variable "environment" {
-  description = "The tier of the environment"
 }
 
 variable "repository" {

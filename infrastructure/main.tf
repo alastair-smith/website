@@ -28,5 +28,5 @@ module "s3_static_website" {
     ? ""
     : "${terraform.workspace}."
   }${var.root_domain}"
-  local_directory_path = var.local_directory_path
+  app_directory_path = var.app_directory_path
 }

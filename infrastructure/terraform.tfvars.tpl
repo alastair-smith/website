@@ -1,9 +1,11 @@
-build       = "${DRONE_BUILD_NUMBER}"
+app_directory_path = "${APP_DIRECTORY_PATH}"
 
-commit      = "${DRONE_COMMIT_SHA}"
+build              = "${DRONE_BUILD_NUMBER}"
 
-repository  = "${DRONE_REPO_LINK}"
+commit             = "${DRONE_COMMIT_SHA}"
 
-root_domain = "alsmith.dev"
+repository         = "${DRONE_REPO_LINK}"
 
-service     = "${DRONE_REPO_NAME}"
+root_domain        = "alsmith.dev"
+
+service            = "${DRONE_REPO_NAME}"

@@ -42,12 +42,12 @@ resource "aws_s3_bucket" "website" {
 # }
 
 resource "aws_s3_bucket_object" "website_files" {
-  for_each = fileset(var.local_directory_path, "**")
+  for_each = fileset(var.app_directory_path, "**")
 
   bucket        = aws_s3_bucket.website.id
   cache_control = contains(local.no_cache_extensions, basename(replace(each.key, ".", "/"))) ? "no-cache" : "public, max-age=31536000, immutable"
   content_type  = local.content_types[basename(replace(each.key, ".", "/"))]
   etag          = filemd5(each.key)
   key           = each.key
-  source        = "${var.local_directory_path}${each.key}"
+  source        = "${var.app_directory_path}${each.key}"
 }
