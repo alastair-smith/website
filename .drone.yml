@@ -155,7 +155,8 @@ steps:
       - apk add --no-cache gettext
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
-      - echo "$WORKSPACE" > workspace.tmp
+      - echo "$" > workspace.tmp
+      - echo "WORKSPACE:$WORKSPACE"
       - cat workspace.tmp
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
