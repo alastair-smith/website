@@ -154,6 +154,7 @@ steps:
       - cd infrastructure
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
+      - echo "$WORKSPACE" > workspace.tmp
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
 
@@ -163,6 +164,7 @@ steps:
       <<: *deployment-variables
     commands:
       - cd package/infrastructure
+      - export WORKSPACE=$(cat workspace.tmp)
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
       - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     depends_on:
