@@ -147,6 +147,15 @@ steps:
     depends_on:
       - get package
 
+  - name: construct IAC variables
+    <<: *alpine
+    commands:
+      - apk add --no-cache gettext
+      - cd infrastructure
+      - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-')
+      - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
+      - ensubst < terraform.tfvars.tpl > terraform.tfvars
+
   - name: terraform init
     <<: *terraform
     environment:
@@ -154,6 +163,7 @@ steps:
     commands:
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
+      - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     depends_on:
       - extract package
 

@@ -9,6 +9,24 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-locals {
-  tags = {}
+module "tags" {
+  source = "./modules/tags"
+
+  build       = var.build
+  commit      = var.commit
+  environment = terraform.workspace
+  repository  = var.repository
+  service     = var.service
+}
+
+module "s3_static_website" {
+  source = "./modules/s3_static_website"
+
+  tags = module.tags.value
+  hostname = "${
+    terraform.workspace == "prod"
+    ? ""
+    : "${terraform.workspace}."
+  }${var.root_domain}"
+  local_directory_path = var.local_directory_path
 }
