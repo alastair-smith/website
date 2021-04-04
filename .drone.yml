@@ -155,7 +155,7 @@ steps:
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
-      - ensubst < terraform.tfvars.tpl > terraform.tfvars
+      - envsubst < terraform.tfvars.tpl > terraform.tfvars
 
   - name: terraform init
     <<: *terraform
