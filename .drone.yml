@@ -168,9 +168,10 @@ steps:
       <<: *deployment-variables
     commands:
       - export WORKSPACE=$(cat workspace.tmp)
+      - echo "Workspace is $WORKSPACE"
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
-      - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
+      - terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
     depends_on:
       - construct IAC variables
 
