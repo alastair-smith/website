@@ -152,11 +152,11 @@ steps:
   - name: construct IAC variables
     <<: *alpine
     commands:
+      - apk add --no-cache gettext
+      - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
       - echo "$WORKSPACE" > workspace.tmp
       - cd package/infrastructure
-      - apk add --no-cache gettext
-      - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
     depends_on:
