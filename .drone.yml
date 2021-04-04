@@ -159,6 +159,8 @@ steps:
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
+    depends_on:
+      - extract package
 
   - name: terraform init
     <<: *terraform
@@ -170,7 +172,7 @@ steps:
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
       - terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
     depends_on:
-      - extract package
+      - construct IAC variables
 
   - name: terraform plan
     <<: *terraform
