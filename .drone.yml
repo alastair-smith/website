@@ -154,10 +154,8 @@ steps:
     commands:
       - apk add --no-cache gettext
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
-      - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
-      - echo "$" > workspace.tmp
-      - echo "WORKSPACE:$WORKSPACE"
-      - cat workspace.tmp
+      - if [ ! -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
+      - echo "$WORKSPACE" > workspace.tmp
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
@@ -170,7 +168,6 @@ steps:
       <<: *deployment-variables
     commands:
       - export WORKSPACE=$(cat workspace.tmp)
-      - echo "Workspace is $WORKSPACE"
       - cd package/infrastructure
       - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
       - terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
