@@ -153,11 +153,10 @@ steps:
     <<: *alpine
     commands:
       - apk add --no-cache gettext
-      - echo "drone branch:$DRONE_BRANCH"
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
-      - echo "branch_slug:$branch_slug"
       - if [ -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
       - echo "$WORKSPACE" > workspace.tmp
+      - cat workspace.tmp
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
