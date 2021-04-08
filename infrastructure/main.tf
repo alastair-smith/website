@@ -41,24 +41,24 @@ module "tags" {
   service     = var.service
 }
 
-module "s3_static_website" {
-  source = "./modules/s3_static_website"
+# module "s3_static_website" {
+#   source = "./modules/s3_static_website"
 
-  tags               = module.tags.value
-  hostname           = local.hostname
-  app_directory_path = var.app_directory_path
-}
+#   tags               = module.tags.value
+#   hostname           = local.hostname
+#   app_directory_path = var.app_directory_path
+# }
 
-data "cloudflare_zones" "website" {
-  filter {
-    name = var.root_domain
-  }
-}
+# data "cloudflare_zones" "website" {
+#   filter {
+#     name = var.root_domain
+#   }
+# }
 
-resource "cloudflare_record" "website" {
-  name    = local.hostname
-  proxied = true
-  type    = "CNAME"
-  value   = module.s3_static_website.domain
-  zone_id = data.cloudflare_zones.website.zones[0].id
-}
+# resource "cloudflare_record" "website" {
+#   name    = local.hostname
+#   proxied = true
+#   type    = "CNAME"
+#   value   = module.s3_static_website.domain
+#   zone_id = data.cloudflare_zones.website.zones[0].id
+# }
