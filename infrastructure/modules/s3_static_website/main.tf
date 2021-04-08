@@ -15,31 +15,22 @@ resource "aws_s3_bucket" "website" {
   }
 }
 
-# data "aws_iam_policy_document" "whitelist" {
-#   statement {
-#     actions   = ["s3:GetObject"]
-#     resources = ["arn:aws:s3:::${aws_s3_bucket.website_bucket.id}/*"]
+data "aws_iam_policy_document" "bucket_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.website.id}/*"]
 
-#     condition {
-#       test     = "IpAddress"
-#       variable = "aws:SourceIp"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
 
-#       values = [
-#         "${local.bucket_whitelist}",
-#       ]
-#     }
-
-#     principals {
-#       type        = "*"
-#       identifiers = ["*"]
-#     }
-#   }
-# }
-
-# resource "aws_s3_bucket_policy" "whitelist" {
-#   bucket = "${aws_s3_bucket.website_bucket.id}"
-#   policy = "${data.aws_iam_policy_document.whitelist.json}"
-# }
+resource "aws_s3_bucket_policy" "policy" {
+  bucket = aws_s3_bucket.website.id
+  policy = data.aws_iam_policy_document.bucket_policy.json
+}
 
 resource "aws_s3_bucket_object" "website_files" {
   for_each = fileset(var.app_directory_path, "**")
