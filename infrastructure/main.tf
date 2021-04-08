@@ -11,7 +11,7 @@ provider "aws" {
 
 provider "cloudflare" {}
 
-locals = {
+locals {
   hostname = "${
     terraform.workspace == "prod"
     ? ""
