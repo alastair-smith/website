@@ -10,7 +10,6 @@ const copydir = require('copy-dir')
 const { promises: fsPromises } = require('fs')
 
 const buildDirectory = './build'
-const nestedDirectoryRegex = /\.\/build\/.*\//g
 const postsDirectory = './blog'
 const pagesDirectory = './templates/pages'
 const blogPostTemplate = 'components/blog-post.njk'
@@ -100,12 +99,15 @@ const buildHTML = async () => {
         { allPostsInfo, pageUrl: `/${pagePath.replace(/.njk$/, '')}` }
       )
     )
-    const buildPath = `${buildDirectory}/${pagePath.replace('pages/', '').replace('.njk', '.html')}`
-    if (buildPath.match(nestedDirectoryRegex)) {
-      const parentDirectory = buildPath.split('/').slice(0, -1).join('/')
-      await fsPromises.mkdir(parentDirectory, { recursive: true })
+
+    const pageName = `${buildDirectory}/${pagePath.replace('pages/', '').replace('.njk', '')}`
+    if (pageName.endsWith('index') || pageName.endsWith('404')) {
+      // write to root
+      await fsPromises.writeFile(`${pageName}.html`, html)
+    } else {
+      await fsPromises.mkdir(pageName, { recursive: true })
+      await fsPromises.writeFile(`${pageName}/index.html`, html)
     }
-    await fsPromises.writeFile(buildPath, html)
   }))
 
   // render blogs
@@ -142,8 +144,9 @@ const buildHTML = async () => {
             }
           )
         )
-        const buildPath = `${buildDirectory}${postInfo.blogUrl}.html`
-        await fsPromises.writeFile(buildPath, html)
+        const pageName = `${buildDirectory}${postInfo.blogUrl}`
+        await fsPromises.mkdir(pageName, { recursive: true })
+        await fsPromises.writeFile(`${pageName}/index.html`, html)
       })
   )
 }
