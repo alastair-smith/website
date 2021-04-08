@@ -60,5 +60,5 @@ resource "cloudflare_record" "website" {
   proxied = true
   type    = "CNAME"
   value   = module.s3_static_website.domain
-  zone_id = data.cloudflare_zones.website
+  zone_id = data.cloudflare_zones.website.zones[0].id
 }
