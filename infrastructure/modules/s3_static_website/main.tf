@@ -50,4 +50,5 @@ resource "aws_s3_bucket_object" "website_files" {
   etag          = filemd5("${var.app_directory_path}/${each.key}")
   key           = each.key
   source        = "${var.app_directory_path}/${each.key}"
+  tags          = merge({ Name = each.key }, var.tags)
 }

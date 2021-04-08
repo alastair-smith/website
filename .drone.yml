@@ -180,7 +180,7 @@ steps:
       <<: *deployment-variables
     commands:
       - cd package/infrastructure
-      - terraform plan -out=tfplan -input=false
+      - terraform plan -input=false -out=tfplan
     depends_on:
       - terraform init
 
@@ -190,5 +190,6 @@ steps:
       <<: *deployment-variables
     commands:
       - cd package/infrastructure
+      - terraform apply -input=false tfplan
     depends_on:
       - terraform plan
