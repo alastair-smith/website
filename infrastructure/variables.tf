@@ -6,6 +6,10 @@ variable "build" {
   description = "Build number"
 }
 
+variable "cloudflare_worker_scripts" {
+  description = "The absolute path to the worker scripts directory"
+}
+
 variable "commit" {
   description = "Full git commit sha"
 }

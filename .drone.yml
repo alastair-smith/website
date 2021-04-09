@@ -159,7 +159,8 @@ steps:
       - if [ ! -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
       - echo "$WORKSPACE" > workspace.tmp
       - cd package/infrastructure
-      - export APP_DIRECTORY_PATH=$(cd ../app/build && pwd)
+      - export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"
+      - export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
     depends_on:
       - extract package

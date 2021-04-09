@@ -37,7 +37,9 @@
     ],
     "globals": [
       "customElements",
-      "HTMLElement"
+      "HTMLElement",
+      "addEventListener",
+      "Response"
     ]
   }
 }
