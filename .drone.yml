@@ -85,6 +85,7 @@ steps:
       - mkdir -p package/app
       - cp -r infrastructure package/infrastructure
       - cp -r app/build package/app/build
+      - cp -r app/workers package/app/workers
       - tar -zcf package.tgz package
     depends_on:
       - build app
