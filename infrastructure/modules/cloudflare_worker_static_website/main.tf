@@ -11,16 +11,21 @@ resource "cloudflare_workers_kv_namespace" "static_content" {
   title = "${var.hostname}/static-content"
 }
 
+data "local_file" "static_content" {
+  for_each = fileset(var.app_directory_path, "**")
+  filename = "${var.app_directory_path}/${each.key}"
+}
+
 resource "cloudflare_workers_kv" "static_content" {
   for_each = fileset(var.app_directory_path, "**")
 
   namespace_id = cloudflare_workers_kv_namespace.static_content.id
   key          = each.key
-  value        = filebase64("${var.app_directory_path}/${each.key}")
+  value        = data.local_file.static_content[each.key].content_base64
 }
 
 resource "cloudflare_worker_script" "static_content_handler" {
-  name    = "${var.hostname}/static-content"
+  name    = "static-content"
   content = file(var.worker_path)
 
   kv_namespace_binding {
