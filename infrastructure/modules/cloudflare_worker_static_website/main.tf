@@ -20,7 +20,7 @@ resource "cloudflare_workers_kv" "static_content" {
   for_each = fileset(var.app_directory_path, "**")
 
   namespace_id = cloudflare_workers_kv_namespace.static_content.id
-  key          = each.key
+  key          = "/${each.key}"
   value        = data.local_file.static_content[each.key].content_base64
 }
 

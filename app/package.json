@@ -39,7 +39,8 @@
       "customElements",
       "HTMLElement",
       "addEventListener",
-      "Response"
+      "Response",
+      "STATIC_CONTENT"
     ]
   }
 }
