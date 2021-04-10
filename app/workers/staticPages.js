@@ -10,7 +10,7 @@ const defaultHeaders = {
   'x-content-type-options': 'nosniff',
   'referrer-policy': 'strict-origin',
   'permissions-policy': 'camera=(), microphone=(), payment=()',
-  'content-security-policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' *.alsmith.dev",
+  'content-security-policy': "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.alsmith.dev",
   'strict-transport-security': 'max-age=31536000; includeSubDomains'
 }
 
