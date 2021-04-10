@@ -195,6 +195,7 @@ steps:
     environment:
       <<: *deployment-variables
     commands:
+      - apk add --no-cache curl
       - cd package/infrastructure
       - terraform apply -input=false tfplan
     depends_on:

@@ -11,17 +11,22 @@ resource "cloudflare_workers_kv_namespace" "static_content" {
   title = "${var.hostname}/static-content"
 }
 
-data "local_file" "static_content" {
-  for_each = fileset(var.app_directory_path, "**")
-  filename = "${var.app_directory_path}/${each.key}"
-}
-
-resource "cloudflare_workers_kv" "static_content" {
+resource "null_resource" "kv_static_content" {
   for_each = fileset(var.app_directory_path, "**")
 
-  namespace_id = cloudflare_workers_kv_namespace.static_content.id
-  key          = "/${each.key}"
-  value        = data.local_file.static_content[each.key].content_base64
+  triggers = {
+    file_hash    = filemd5("${var.app_directory_path}/${each.key}")
+    namespace_id = cloudflare_workers_kv_namespace.static_content.id
+  }
+
+  provisioner "local-exec" {
+    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '%2F${each.key}' --namespace '${cloudflare_workers_kv_namespace.static_content.id}'"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "${path.module}/delete-file-from-kv.sh --key '%2F${each.key}' --namespace '${self.triggers.namespace_id}'"
+  }
 }
 
 resource "cloudflare_worker_script" "static_content_handler" {
