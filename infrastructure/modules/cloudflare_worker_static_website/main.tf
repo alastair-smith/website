@@ -16,12 +16,16 @@ resource "null_resource" "kv_static_content" {
 
   triggers = {
     key          = "%2F${each.key}"
-    file_hash    = filemd5("${var.app_directory_path}/${each.key}")
     namespace_id = cloudflare_workers_kv_namespace.static_content.id
+
+    metadata = replace(jsonencode(merge(
+      local.metadata_by_file_extension[basename(replace(each.key, ".", "/"))],
+      { etag = filemd5("${var.app_directory_path}/${each.key}") }
+    )), "\"", "\\\"")
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '${self.triggers.key}' --namespace '${self.triggers.namespace_id}'"
+    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '${self.triggers.key}' --metadata '${self.triggers.metadata}' --namespace '${self.triggers.namespace_id}'"
   }
 
   provisioner "local-exec" {

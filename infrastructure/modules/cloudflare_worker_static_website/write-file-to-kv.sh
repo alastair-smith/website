@@ -5,11 +5,12 @@ set -e
 # setup
 
 print_help() {
-  echo "Usage: write-file-to-kv.sh --key <key> --file-path <file-path> --namespace <namespace>" 
+  echo "Usage: write-file-to-kv.sh --key <key> --file-path <file-path> [--metadata <metadata>] --namespace <namespace>" 
   echo "  options:"
   echo "    -h, --help                       display this help message"
   echo "    -f, --file-path <file-path>      path of the file to upload"
   echo "    -k, --key <key>                  key for the KV entry"
+  echo "    -m, --metadata <metadata>        (optional) metadata in escaped json format to assign to the entry, defaults to {}, e.g. \"{\\\"etag\\\":\\\"1234\\\"}\""
   echo "    -n, --namespace <namespace>      KV namespace to store the entry"
 }
 
@@ -27,6 +28,9 @@ while true; do
     -k|--key)
       key="$2"
       shift 2;;
+    -m|--metadata)
+      metadata="$2"
+      shift 2;;
     -n|--namespace)
       namespace="$2"
       shift 2;;
@@ -41,6 +45,10 @@ done
 if [ -z "$key" ]; then
   echo "mandatory --key option not set" >&2
   exit 1
+fi
+
+if [ -z "$metadata" ]; then
+  metadata="{}"
 fi
 
 if [ -z "$namespace" ]; then
@@ -65,7 +73,7 @@ fi
 
 # start
 
-upload_status=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/storage/kv/namespaces/$namespace/values/$key" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: text/plain" --upload-file "$file_path" -w "%{http_code}" -o /dev/null)
+upload_status=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/storage/kv/namespaces/$namespace/values/$key" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" --form "value=@\"$file_path\"" --form "metadata=\"$metadata\"" -w "%{http_code}" -o /dev/null)
 
 if [ "$upload_status" = "200" ]; then
   echo "Upload successful"
