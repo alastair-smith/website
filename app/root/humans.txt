@@ -1,0 +1,9 @@
+/* ME */
+
+Software Engineer: Alastair Smith
+Site: https://alsmith.dev/
+Twitter: @alastairsmith_
+Location: UK
+
+/* SITE */
+Repository: https://github.com/alastair-smith/website
