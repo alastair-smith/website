@@ -15,17 +15,18 @@ resource "null_resource" "kv_static_content" {
   for_each = fileset(var.app_directory_path, "**")
 
   triggers = {
+    key          = "%2F${each.key}"
     file_hash    = filemd5("${var.app_directory_path}/${each.key}")
     namespace_id = cloudflare_workers_kv_namespace.static_content.id
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '%2F${each.key}' --namespace '${cloudflare_workers_kv_namespace.static_content.id}'"
+    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '${self.triggers.key}' --namespace '${self.triggers.namespace_id}'"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${path.module}/delete-file-from-kv.sh --key '%2F${each.key}' --namespace '${self.triggers.namespace_id}'"
+    command = "${path.module}/delete-file-from-kv.sh --key '${self.triggers.key}' --namespace '${self.triggers.namespace_id}'"
   }
 }
 
