@@ -2,6 +2,8 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
+const defaultContentType = 'application/octet-stream'
+
 const contentTypes = {
   '7z': 'application/x-7z-compressed',
   aac: 'audio/aac',
@@ -79,24 +81,44 @@ const contentTypes = {
   zip: 'application/zip'
 }
 
-const getDetails = url => {
+const getPath = url => {
   const rawPath = (new URL(url)).pathname
-  const contentType = Object
-    .entries(contentTypes)
-    .find(([extension]) => rawPath.endsWith(`.${extension}`))
-  return {
-    path: contentType ? rawPath : `${rawPath}/index.html`,
-    contentType: contentType ? contentType[1] : contentTypes.html
-  }
+  return rawPath.includes('.')
+    ? rawPath
+    : rawPath.endsWith('/')
+      ? `${rawPath}index.html`
+      : `${rawPath}/index.html`
+}
+
+const getContentType = path => {
+  const extension = path.split('.').slice(-1)[0]
+  return contentTypes[extension] || defaultContentType
 }
 
 const handleRequest = async request => {
   try {
-    const { path, contentType } = getDetails(request.url)
+    const path = getPath(request.url)
     const value = await STATIC_CONTENT.get(path)
-    if (value === null) return new Response('Not Found', { status: 404 })
-    return new Response(value, { headers: { 'Content-Type': contentType } })
+    if (value === null) {
+      const notFoundPath = '/404.html'
+      const errorPage = await STATIC_CONTENT.get(notFoundPath)
+      return new Response(
+        errorPage,
+        {
+          status: 404,
+          headers: { 'Content-Type': getContentType(notFoundPath) }
+        }
+      )
+    } else {
+      return new Response(
+        value,
+        {
+          status: 200,
+          headers: { 'Content-Type': getContentType(path) }
+        }
+      )
+    }
   } catch (error) {
-    return new Response(error.message, { status: 500 })
+    return new Response('Internal Server Error', { status: 500 })
   }
 }
