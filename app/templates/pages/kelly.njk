@@ -5,7 +5,7 @@
 {% set placeholder="/assets/images/kelly-placeholder.png" %}
 
 {% block headEnd %}
-  <link rel='preload' href='{{ placeholder }}' as='image' type='image/png'>
+  <link rel='preload' href='{{ placeholder | asset }}' as='image' type='image/png'>
 {% endblock %}
 
 {% block content %}

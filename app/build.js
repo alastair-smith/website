@@ -16,21 +16,6 @@ const blogPostTemplate = 'components/blog-post.njk'
 const rootDirectory = './root'
 const scriptsDirectory = './scripts'
 
-const nunjucksEnvironment = nunjucks
-  .configure(['templates'], { autoescape: true })
-
-nunjucksEnvironment.addFilter('date', dateText => {
-  const date = new Date(dateText)
-  return new Intl.DateTimeFormat(
-    'en-GB',
-    { year: 'numeric', month: 'long', day: 'numeric' }
-  ).format(date)
-})
-
-nunjucksEnvironment.addFilter('injectDate',
-  ({ contents }, dateText) => contents.replace('</h1>', `</h1>${dateText}`)
-)
-
 const sassBuild = options => new Promise(
   (resolve, reject) => sass.render(
     options,
@@ -38,12 +23,18 @@ const sassBuild = options => new Promise(
   )
 )
 
-const buildCSS = async () => {
+const buildCSS = async assetsVersion => {
+  const addAssetVersion = url => new sass.types.String(
+    `${url.getValue()}?v=${assetsVersion}`
+  )
   const outFile = `${buildDirectory}/assets/styles/styles.css`
   const { css } = await sassBuild({
     file: './styles/styles.scss',
     outFile,
-    outputStyle: 'compressed'
+    outputStyle: 'compressed',
+    functions: {
+      'asset($url)': addAssetVersion
+    }
   })
   await fsPromises.writeFile(outFile, css)
 }
@@ -85,7 +76,23 @@ const minifyHtml = html => minify(html, {
   minifyJS: true
 })
 
-const buildHTML = async () => {
+const buildHTML = async assetsVersion => {
+  const nunjucksEnvironment = nunjucks.configure(['templates'], { autoescape: true })
+
+  nunjucksEnvironment.addFilter('asset', url => `${url}?v=${assetsVersion}`)
+
+  nunjucksEnvironment.addFilter('date', dateText => {
+    const date = new Date(dateText)
+    return new Intl.DateTimeFormat(
+      'en-GB',
+      { year: 'numeric', month: 'long', day: 'numeric' }
+    ).format(date)
+  })
+
+  nunjucksEnvironment.addFilter('injectDate',
+    ({ contents }, dateText) => contents.replace('</h1>', `</h1>${dateText}`)
+  )
+
   const allPostsInfo = await getAllPostsInfo()
   const pages = await getPageNames(pagesDirectory)
   const templatePages = pages.filter(page => page.endsWith('.njk'))
@@ -151,6 +158,29 @@ const buildHTML = async () => {
   )
 }
 
+const buildOtherStaticAssets = async assetsVersion => {
+  const buildManifests = async filename => {
+    const rawManifest = await fsPromises.readFile(`./misc/${filename}`, 'utf8')
+    const versionedManifest = rawManifest
+      .replace(/\.png/g, `.png?v=${assetsVersion}`)
+    await fsPromises
+      .writeFile(`${buildDirectory}/${filename}`, versionedManifest)
+  }
+
+  const buildVersionEndpoint = async () => {
+    const versionData = JSON.stringify({
+      assetsVersion,
+      commit: process.env.DRONE_COMMIT_SHA,
+      build: process.env.DRONE_BUILD_NUMBER
+    }, null, 2)
+    await fsPromises.writeFile(`${buildDirectory}/version.json`, versionData)
+  }
+
+  await buildManifests('site.webmanifest')
+  await buildManifests('browserconfig.xml')
+  await buildVersionEndpoint()
+}
+
 const build = async () => {
   try {
     console.log('👷 Starting build...\n')
@@ -169,17 +199,27 @@ const build = async () => {
     copydir.sync(rootDirectory, buildDirectory)
     console.log('🖼️  Copying assets complete')
 
-    console.log('📜  Copying scripts...')
+    console.log('🔢 Generating asset version...')
+    const assetsVersion = Date.now().toString(32)
+    console.log('🔢 Generated asset version')
+
+    console.log('📜 Copying scripts...')
     copydir.sync(scriptsDirectory, `${buildDirectory}/assets/scripts`)
-    console.log('📜  Copying scripts complete')
+    console.log('📜 Copying scripts complete')
 
     console.log('🖌️  Building CSS...')
-    await buildCSS()
+    await buildCSS(assetsVersion)
     console.log('🖌️  CSS build complete')
 
     console.log('📄 Building HTML...')
-    await buildHTML()
+    await buildHTML(assetsVersion)
     console.log('📄 HTML build complete')
+
+    console.log('🗃️  Building other static assets...')
+    await buildOtherStaticAssets(assetsVersion)
+    console.log('🗃️  Build of other static assets complete')
+
+    console.log(`\n🆔 Version Information:\n${await fsPromises.readFile(`${buildDirectory}/version.json`, 'utf8')}`)
 
     console.log('\n✅ Build successful')
     process.exit(0)

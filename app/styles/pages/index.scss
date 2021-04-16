@@ -5,7 +5,7 @@
   flex-direction: column;
   color: $color-2;
   align-items: center;
-  background-image: url("/assets/images/line-background.svg");
+  background-image: url(asset("/assets/images/line-background.svg"));
   background-repeat: repeat-y;
 
   .about-me {

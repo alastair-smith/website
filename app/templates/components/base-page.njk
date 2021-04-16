@@ -30,7 +30,7 @@
     <meta name="author" content="Alastair Smith">
 
     <meta property="og:title" content="{{ pageTitle }}">
-    <meta property="og:image" content="{{ imageUrl }}">
+    <meta property="og:image" content="{{ imageUrl | asset }}">
     <meta property="og:description" content="{{ about }}">
     <meta property="og:url" content="{{ baseUrl }}{{ pageUrl }}">
     <meta property="og:site_name" content="al smith">
@@ -41,18 +41,18 @@
     <meta name="twitter:url" content="{{ baseUrl }}{{ pageUrl }}">
     <meta name="twitter:title" content="{{ pageTitle }}">
     <meta name="twitter:description" content="{{ about }}">
-    <meta name="twitter:image" content="{{ imageUrl }}">
+    <meta name="twitter:image" content="{{ imageUrl | asset }}">
     <meta name="twitter:site" content="@{{ twitter }}">
   {% endblock %}
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/apple-touch-icon.png' | asset }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/favicon-32x32.png' | asset }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/favicon-16x16.png' | asset }}">
+  <link rel="manifest" href="{{ '/site.webmanifest' | asset }}">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
 
-  <link href="/assets/styles/styles.css" rel="stylesheet">
+  <link href="{{ '/assets/styles/styles.css' | asset }}" rel="stylesheet">
   {% block headEnd %}
   {% endblock %}
 </head>

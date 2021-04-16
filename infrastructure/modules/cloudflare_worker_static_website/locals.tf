@@ -52,7 +52,7 @@ locals {
     json = {
       contentType  = "application/json"
       kvType       = local.kvType.text
-      cacheControl = local.cacheControl.cache
+      cacheControl = local.cacheControl.noCache
     }
     mjs = {
       contentType  = "text/javascript"
