@@ -35,7 +35,7 @@ resource "null_resource" "kv_static_content" {
 }
 
 resource "cloudflare_worker_script" "static_content_handler" {
-  name    = "static-content"
+  name    = replace("${var.hostname}-static-content", ".", "-")
   content = file(var.worker_path)
 
   kv_namespace_binding {
