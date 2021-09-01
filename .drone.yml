@@ -230,10 +230,12 @@ steps:
       - terraform plan -input=false -destroy
     depends_on:
       - terraform init
+      - terraform apply
     when:
       event:
         include:
           - rollback
+          - push
 
   - name: terraform destroy
     <<: *terraform
@@ -249,3 +251,4 @@ steps:
       event:
         include:
           - rollback
+          - push
