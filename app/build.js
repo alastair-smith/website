@@ -159,8 +159,8 @@ const buildHTML = async assetsVersion => {
 }
 
 const buildOtherStaticAssets = async assetsVersion => {
-  const buildManifests = async filename => {
-    const rawManifest = await fsPromises.readFile(`./misc/${filename}`, 'utf8')
+  const buildManifest = async filename => {
+    const rawManifest = await fsPromises.readFile(`./manifests/${filename}`, 'utf8')
     const versionedManifest = rawManifest
       .replace(/\.png/g, `.png?v=${assetsVersion}`)
     await fsPromises
@@ -176,8 +176,8 @@ const buildOtherStaticAssets = async assetsVersion => {
     await fsPromises.writeFile(`${buildDirectory}/version.json`, versionData)
   }
 
-  await buildManifests('site.webmanifest')
-  await buildManifests('browserconfig.xml')
+  await buildManifest('site.webmanifest')
+  await buildManifest('browserconfig.xml')
   await buildVersionEndpoint()
 }
 
