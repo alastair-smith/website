@@ -54,11 +54,24 @@ steps:
 .awscli: &awscli
   image: amazon/aws-cli:latest
 
+.amazonlinux: &amazonlinux
+  image: amazonlinux:latest
+
 .nodejs: &nodejs
   image: node:14-alpine
 
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
+
+.variables-for-uploading: &variables-for-uploading
+  environment:
+    PACKAGE_BUCKET:
+      from_secret: PACKAGE_BUCKET
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    AWS_DEFAULT_REGION: eu-west-1
 
 kind: pipeline
 type: docker
@@ -85,6 +98,37 @@ steps:
     depends_on:
       - install node modules
 
+  - name: kelly lambda layer checksum
+    <<: *alpine
+    commands:
+      - apk add --no-cache zip
+      - cd app/kelly
+      - mkdir -p tmp
+      - cp package.json package-lock.json build-layer.sh tmp/
+      - zip -r tmp.zip tmp
+      - sha256sum tmp.zip | awk '{ print $1 }' > layer.sha256
+      - rm -r tmp tmp.zip
+
+  - name: build kelly lambda layer
+    <<: *amazonlinux
+    <<: *variables-for-uploading
+    commands:
+      - mkdir kelly-layer-tmp
+      - cd kelly-layer-tmp
+      - curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - yum install -y zip unzip
+      - unzip awscliv2.zip
+      - ./aws/install
+      - cd ..
+      - cd app/kelly
+      - LAYER_HASH=$(cat layer.sha256)
+      - LAYER_ZIP_OBJECT_NAME="$DRONE_REPO_NAME/kelly-layer/$LAYER_HASH.zip"
+      - aws s3api head-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME" && exit 0 || echo "Building new layer"
+      - ./build-layer.sh
+      - aws s3api put-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME" --body layer.zip
+    depends_on:
+      - kelly lambda layer checksum
+
   - name: bundle package
     <<: *alpine
     commands:
@@ -95,17 +139,11 @@ steps:
       - tar -zcf package.tgz package
     depends_on:
       - build app
+      - kelly lambda layer checksum
 
   - name: store package
     <<: *awscli
-    environment:
-      PACKAGE_BUCKET:
-        from_secret: PACKAGE_BUCKET
-      AWS_ACCESS_KEY_ID:
-        from_secret: AWS_ACCESS_KEY_ID
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: AWS_SECRET_ACCESS_KEY
-      AWS_DEFAULT_REGION: eu-west-1
+    <<: *variables-for-uploading
     commands:
       - aws s3api put-object --key "$DRONE_REPO_NAME/$DRONE_BUILD_NUMBER.tgz" --body package.tgz --bucket "$PACKAGE_BUCKET" --tagging="Build=$DRONE_BUILD_NUMBER&Commit=$DRONE_COMMIT_SHA&Repository=$DRONE_REPO_LINK&Service=$DRONE_REPO_NAME"
     depends_on:

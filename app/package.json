@@ -36,11 +36,12 @@
       "build"
     ],
     "globals": [
-      "customElements",
       "HTMLElement",
-      "addEventListener",
       "Response",
-      "STATIC_CONTENT"
+      "STATIC_CONTENT",
+      "addEventListener",
+      "customElements",
+      "fetch"
     ]
   }
 }
