@@ -99,43 +99,46 @@ steps:
       - install node modules
 
   - name: kelly lambda layer checksum
-    <<: *alpine
+    <<: *awscli
+    <<: *variables-for-uploading
     commands:
-      - apk add --no-cache zip
       - cd app/kelly
-      - mkdir -p tmp
-      - cp package.json package-lock.json build-layer.sh tmp/
-      - zip -r tmp.zip tmp
-      - sha256sum tmp.zip | awk '{ print $1 }' > layer.sha256
-      - rm -r tmp tmp.zip
+      - LAYER_HASH=$(sha1sum package.json package-lock.json build-layer.sh | sha1sum | awk '{ print $1 }')
+      - echo "LAYER_HASH = $LAYER_HASH"
+      - LAYER_ZIP_OBJECT_NAME="$DRONE_REPO_NAME/kelly-layer/$LAYER_HASH.zip"
+      - echo "LAYER_ZIP_OBJECT_NAME = $LAYER_ZIP_OBJECT_NAME"
+      - echo "$LAYER_ZIP_OBJECT_NAME" > .layer-zip-object-name
+      - if ! aws s3api head-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME"; then echo "run-build" > .run-build; fi
 
   - name: build kelly lambda layer
     <<: *amazonlinux
-    <<: *variables-for-uploading
     commands:
-      - mkdir kelly-layer-tmp
-      - cd kelly-layer-tmp
-      - curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      - yum install -y zip unzip
-      - unzip awscliv2.zip
-      - ./aws/install
-      - cd ..
       - cd app/kelly
-      - LAYER_HASH=$(cat layer.sha256)
-      - LAYER_ZIP_OBJECT_NAME="$DRONE_REPO_NAME/kelly-layer/$LAYER_HASH.zip"
-      - aws s3api head-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME" && exit 0 || echo "Building new layer"
-      - ./build-layer.sh
-      - aws s3api put-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME" --body layer.zip
+      - if [ -f ".run-build" ]; then ./build-layer.sh; else echo "Skipping build"; fi
     depends_on:
       - kelly lambda layer checksum
+
+  - name: upload kelly lambda layer
+    <<: *awscli
+    <<: *variables-for-uploading
+    commands:
+      - cd app/kelly
+      - |
+        if [ -f ".run-build" ]; then
+          LAYER_ZIP_OBJECT_NAME="$(cat .layer-zip-object-name)"
+          aws s3api put-object --bucket "$PACKAGE_BUCKET" --key "$LAYER_ZIP_OBJECT_NAME" --body layer.zip; else echo "Skipping upload"
+        fi
+    depends_on:
+      - build kelly lambda layer
 
   - name: bundle package
     <<: *alpine
     commands:
-      - mkdir -p package/app
+      - mkdir -p package/app/kelly
       - cp -r infrastructure package/infrastructure
       - cp -r app/build package/app/build
       - cp -r app/workers package/app/workers
+      - cp app/kelly/.layer-zip-object-name package/app/kelly/.layer-zip-object-name
       - tar -zcf package.tgz package
     depends_on:
       - build app
@@ -159,9 +162,12 @@ steps:
 .terraform: &terraform
   image: hashicorp/terraform:0.14.9
 
-.deployment-variables: &deployment-variables
+.iac-variables: &iac-variables
   PACKAGE_BUCKET:
     from_secret: PACKAGE_BUCKET
+
+.deployment-variables: &deployment-variables
+  <<: *iac-variables
   STATE_BUCKET:
     from_secret: STATE_BUCKET
   AWS_ACCESS_KEY_ID:
@@ -206,6 +212,8 @@ steps:
 
   - name: construct IAC variables
     <<: *alpine
+    environment:
+      <<: *iac-variables
     commands:
       - apk add --no-cache gettext
       - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
@@ -214,6 +222,7 @@ steps:
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"
       - export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"
+      - export KELLY_LAYER_KEY="$(cat ../app/kelly/.layer-zip-object-name)"
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
     depends_on:
       - extract package

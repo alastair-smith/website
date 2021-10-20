@@ -2,7 +2,7 @@
 
 # intended to be ran in docker image amazonlinux
 
-set -e
+set -eu
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
