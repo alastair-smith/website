@@ -64,11 +64,11 @@ module "cloudflare_worker_static_website" {
   worker_path        = "${var.cloudflare_worker_scripts}/staticPages.js"
 }
 
-resource "aws_lambda_layer_version" "kelly_dependencies" {
-  compatible_architectures = ["x86_64"]
-  compatible_runtimes      = ["nodejs14.x"]
-  description              = "Dependencies required for the Kelly lambda function"
-  layer_name               = "${terraform.workspace}-kelly-dependencies"
-  s3_bucket                = var.package_bucket
-  s3_key                   = var.kelly_layer_key
+module "kelly_endpoint" {
+  source = "./modules/kelly_endpoint"
+
+  kelly_function_key = var.kelly_function_key
+  kelly_layer_key    = var.kelly_layer_key
+  package_bucket     = var.package_bucket
+  tags               = module.aws_tags.value
 }

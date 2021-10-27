@@ -6,6 +6,8 @@ cloudflare_worker_scripts = "${CLOUDFLARE_WORKER_SCRIPTS}"
 
 commit = "${DRONE_COMMIT_SHA}"
 
+kelly_function_key = "${KELLY_FUNCTION_KEY}"
+
 kelly_layer_key = "${KELLY_LAYER_KEY}"
 
 package_bucket = "${PACKAGE_BUCKET}"

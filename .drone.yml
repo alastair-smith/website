@@ -131,6 +131,16 @@ steps:
     depends_on:
       - build kelly lambda layer
 
+  - name: upload kelly lambda
+    <<: *awscli
+    <<: *variables-for-uploading
+    commands:
+      - cd app/kelly
+      - FUNCTION_ZIP_OBJECT_NAME="$DRONE_REPO_NAME/kelly-function/$DRONE_BUILD_NUMBER.zip"
+      - yum install -y zip
+      - cat .zipignore | tr '\r\n' ' ' | xargs zip -r function.zip . -x
+      - aws s3api put-object --bucket "$PACKAGE_BUCKET" --key "$FUNCTION_ZIP_OBJECT_NAME" --body function.zip
+
   - name: bundle package
     <<: *alpine
     commands:
@@ -222,6 +232,7 @@ steps:
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"
       - export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"
+      - export KELLY_FUNCTION_KEY="$DRONE_REPO_NAME/kelly-function/$DRONE_BUILD_NUMBER.zip"
       - export KELLY_LAYER_KEY="$(cat ../app/kelly/.layer-zip-object-name)"
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
     depends_on:

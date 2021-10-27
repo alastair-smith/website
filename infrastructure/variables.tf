@@ -14,6 +14,10 @@ variable "commit" {
   description = "Full git commit sha"
 }
 
+variable "kelly_function_key" {
+  description = "The path within the build bucket to the kelly function zip"
+}
+
 variable "kelly_layer_key" {
   description = "The path within the build bucket to the kelly dependencies zip"
 }
