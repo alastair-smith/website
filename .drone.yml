@@ -203,6 +203,114 @@ trigger:
   event:
     - push
     - promote
+steps:
+  - name: get package
+    <<: *awscli
+    environment:
+      <<: *deployment-variables
+    commands:
+      - if [ "$DRONE_BUILD_PARENT" -gt 0 ]; then package_name="$DRONE_BUILD_PARENT"; else package_name="$DRONE_BUILD_NUMBER"; fi
+      - aws s3api get-object --key "$DRONE_REPO_NAME/$package_name.tgz" --bucket "$PACKAGE_BUCKET" package.tgz
+
+  - name: extract package
+    <<: *alpine
+    commands:
+      - tar -zxf package.tgz
+    depends_on:
+      - get package
+
+  - name: construct IAC variables
+    <<: *alpine
+    environment:
+      <<: *iac-variables
+    commands:
+      - apk add --no-cache gettext
+      - export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')
+      - if [ ! -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi
+      - echo "$WORKSPACE" > workspace.tmp
+      - cd package/infrastructure
+      - export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"
+      - export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"
+      - if [ "$DRONE_BUILD_PARENT" -gt 0 ]; then build_number="$DRONE_BUILD_PARENT"; else build_number="$DRONE_BUILD_NUMBER"; fi
+      - export KELLY_FUNCTION_KEY="$DRONE_REPO_NAME/kelly-function/$build_number.zip"
+      - export KELLY_LAYER_KEY="$(cat ../app/kelly/.layer-zip-object-name)"
+      - envsubst < terraform.tfvars.tpl > terraform.tfvars
+    depends_on:
+      - extract package
+
+  - name: terraform init
+    <<: *terraform
+    environment:
+      <<: *deployment-variables
+    commands:
+      - export WORKSPACE=$(cat workspace.tmp)
+      - cd package/infrastructure
+      - terraform init -input=false --backend-config="bucket=$STATE_BUCKET"
+      - terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
+    depends_on:
+      - construct IAC variables
+
+  - name: terraform plan
+    <<: *terraform
+    environment:
+      <<: *deployment-variables
+    commands:
+      - cd package/infrastructure
+      - terraform plan -input=false -out=tfplan
+    depends_on:
+      - terraform init
+
+  - name: terraform apply
+    <<: *terraform
+    environment:
+      <<: *deployment-variables
+    commands:
+      - apk add --no-cache curl
+      - cd package/infrastructure
+      - terraform apply -input=false tfplan
+    depends_on:
+      - terraform plan
+
+---
+.alpine: &alpine
+  image: alpine:latest
+
+.awscli: &awscli
+  image: amazon/aws-cli:latest
+
+.terraform: &terraform
+  image: hashicorp/terraform:0.14.9
+
+.iac-variables: &iac-variables
+  PACKAGE_BUCKET:
+    from_secret: PACKAGE_BUCKET
+
+.deployment-variables: &deployment-variables
+  <<: *iac-variables
+  STATE_BUCKET:
+    from_secret: STATE_BUCKET
+  AWS_ACCESS_KEY_ID:
+    from_secret: AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY:
+    from_secret: AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: eu-west-1
+  CLOUDFLARE_API_TOKEN:
+    from_secret: CLOUDFLARE_API_TOKEN
+  CLOUDFLARE_ACCOUNT_ID:
+    from_secret: CLOUDFLARE_ACCOUNT_ID
+
+kind: pipeline
+type: docker
+name: destroy
+image_pull_secrets:
+  - dockerconfig
+depends_on:
+  - deploy
+clone:
+  disable: true
+trigger:
+  event:
+    - push
     - rollback
 steps:
   - name: get package
@@ -232,7 +340,8 @@ steps:
       - cd package/infrastructure
       - export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"
       - export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"
-      - export KELLY_FUNCTION_KEY="$DRONE_REPO_NAME/kelly-function/$DRONE_BUILD_NUMBER.zip"
+      - if [ "$DRONE_BUILD_PARENT" -gt 0 ]; then build_number="$DRONE_BUILD_PARENT"; else build_number="$DRONE_BUILD_NUMBER"; fi
+      - export KELLY_FUNCTION_KEY="$DRONE_REPO_NAME/kelly-function/$build_number.zip"
       - export KELLY_LAYER_KEY="$(cat ../app/kelly/.layer-zip-object-name)"
       - envsubst < terraform.tfvars.tpl > terraform.tfvars
     depends_on:
@@ -250,35 +359,6 @@ steps:
     depends_on:
       - construct IAC variables
 
-  - name: terraform plan
-    <<: *terraform
-    environment:
-      <<: *deployment-variables
-    commands:
-      - cd package/infrastructure
-      - terraform plan -input=false -out=tfplan
-    depends_on:
-      - terraform init
-    when:
-      event:
-        exclude:
-          - rollback
-
-  - name: terraform apply
-    <<: *terraform
-    environment:
-      <<: *deployment-variables
-    commands:
-      - apk add --no-cache curl
-      - cd package/infrastructure
-      - terraform apply -input=false tfplan
-    depends_on:
-      - terraform plan
-    when:
-      event:
-        exclude:
-          - rollback
-
   - name: terraform destroy plan
     <<: *terraform
     environment:
@@ -288,12 +368,6 @@ steps:
       - terraform plan -input=false -destroy
     depends_on:
       - terraform init
-      - terraform apply
-    when:
-      event:
-        include:
-          - rollback
-          - push
 
   - name: terraform destroy
     <<: *terraform
@@ -305,8 +379,3 @@ steps:
       - terraform destroy -input=false -auto-approve
     depends_on:
       - terraform destroy plan
-    when:
-      event:
-        include:
-          - rollback
-          - push
