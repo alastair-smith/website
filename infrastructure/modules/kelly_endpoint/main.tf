@@ -58,6 +58,7 @@ resource "aws_lambda_function" "kelly" {
   s3_bucket     = var.package_bucket
   s3_key        = var.kelly_function_key
   tags          = local.tags
+  timeout       = 10
 
   depends_on = [
     aws_iam_role_policy_attachment.permissions
