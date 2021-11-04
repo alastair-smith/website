@@ -82,6 +82,13 @@ raw_jobs = {
         "image": images["python"],
         "commands": ["pip install black", "black --check .drone.star"],
     },
+    "spellcheck markdown files": {
+        "image": images["nodejs"],
+        "commands": [
+            "npm i -g markdown-spellcheck",
+            "mdspell '**/*.md' '!**/node_modules/**/*.md' -n -x --en-gb -r || echo \"allowing failure\"",  # todo don't allow failure
+        ],
+    },
     "build app": {
         "image": images["nodejs"],
         "depends_on": ["install node modules"],
@@ -248,6 +255,7 @@ validate = extend_default(
             jobs["install node modules"],
             jobs["lint javascript"],
             jobs["check drone config formatting"],
+            jobs["spellcheck markdown files"],
             jobs["validate terraform"],
             jobs["check terraform formatting"],
         ],
