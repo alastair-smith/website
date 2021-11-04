@@ -46,7 +46,7 @@ default_pipeline_config = {
 }
 
 raw_jobs = {
-    "audit node modules": {
+    "audit app node modules": {
         "image": images["nodejs"],
         "commands": [
             "cd app",
@@ -54,13 +54,21 @@ raw_jobs = {
             "npm audit --production",
         ],
     },
-    "install node modules": {
+    "audit kelly node modules": {
+        "image": images["nodejs"],
+        "commands": [
+            "cd app/kelly",
+            'npm audit --audit-level="high"',
+            "npm audit --production",
+        ],
+    },
+    "install app node modules": {
         "image": images["nodejs"],
         "commands": ["cd app", "npm ci"],
     },
     "lint javascript": {
         "image": images["nodejs"],
-        "depends_on": ["install node modules"],
+        "depends_on": ["install app node modules"],
         "commands": ["cd app", "npm run linter"],
     },
     "validate terraform": {
@@ -91,7 +99,7 @@ raw_jobs = {
     },
     "build app": {
         "image": images["nodejs"],
-        "depends_on": ["install node modules"],
+        "depends_on": ["install app node modules"],
         "commands": ["cd app", "npm run build"],
     },
     "checksum kelly lambda layer": {
@@ -251,8 +259,9 @@ validate = extend_default(
         "name": "validate",
         "trigger": {"event": ["push"]},
         "steps": [
-            jobs["audit node modules"],
-            jobs["install node modules"],
+            jobs["audit app node modules"],
+            jobs["audit kelly node modules"],
+            jobs["install app node modules"],
             jobs["lint javascript"],
             jobs["check drone config formatting"],
             jobs["spellcheck markdown files"],
@@ -268,7 +277,7 @@ build = extend_default(
         "trigger": {"event": ["push"]},
         "depends_on": ["validate"],
         "steps": [
-            jobs["install node modules"],
+            jobs["install app node modules"],
             jobs["build app"],
             jobs["checksum kelly lambda layer"],
             jobs["build kelly lambda layer"],
