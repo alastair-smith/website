@@ -12,6 +12,7 @@ images = {
     "aws cli": "amazon/aws-cli:latest",
     "nodejs": "node:14-alpine",
     "terraform": "hashicorp/terraform:0.14.9",
+    "python": "python:3.9",
 }
 
 aws_credentials = {
@@ -76,6 +77,10 @@ raw_jobs = {
             "cd infrastructure",
             "terraform fmt -check -recursive",
         ],
+    },
+    "check drone config formatting": {
+        "image": images["python"],
+        "commands": ["pip install black", "black --check .drone.star"],
     },
     "build app": {
         "image": images["nodejs"],
@@ -242,6 +247,7 @@ validate = extend_default(
             jobs["audit node modules"],
             jobs["install node modules"],
             jobs["lint javascript"],
+            jobs["check drone config formatting"],
             jobs["validate terraform"],
             jobs["check terraform formatting"],
         ],
