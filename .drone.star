@@ -1,5 +1,5 @@
 def main(ctx):
-    return [validate, build, deploy, destroy, report]
+    return [validate, build, deploy, test, destroy, report]
 
 
 def extend_default(pipeline):
@@ -22,6 +22,7 @@ aws_credentials = {
     "AWS_ACCESS_KEY_ID": {"from_secret": "AWS_ACCESS_KEY_ID"},
     "AWS_SECRET_ACCESS_KEY": {"from_secret": "AWS_SECRET_ACCESS_KEY"},
     "AWS_DEFAULT_REGION": "eu-west-1",
+    "AWS_REGION": "eu-west-1",
 }
 
 cloudflare_credentials = {
@@ -41,6 +42,8 @@ deploy_variables = dict(
     + state_bucket_variable.items()
     + cloudflare_credentials.items()
 )
+
+set_workspace_variable = "if [ ! -z \"$DRONE_DEPLOY_TO\" ]; then export WORKSPACE=\"$DRONE_DEPLOY_TO\"; else export WORKSPACE=\"$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')\"; fi"
 
 default_pipeline_config = {
     "kind": "pipeline",
@@ -67,6 +70,14 @@ raw_jobs = {
         "image": images["nodejs"],
         "commands": [
             "cd app/kelly",
+            'npm audit --audit-level="high"',
+            "npm audit --production",
+        ],
+    },
+    "audit kelly integration tests node modules": {
+        "image": images["nodejs"],
+        "commands": [
+            "cd app/kelly/test/integration",
             'npm audit --audit-level="high"',
             "npm audit --production",
         ],
@@ -196,7 +207,7 @@ raw_jobs = {
         "commands": [
             "apk add --no-cache gettext",
             "export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')",
-            'if [ ! -z "$DRONE_DEPLOY_TO" ]; then export WORKSPACE="$DRONE_DEPLOY_TO"; else export WORKSPACE="$branch_slug"; fi',
+            set_workspace_variable,
             'echo "$WORKSPACE" > workspace.tmp',
             "cd package/infrastructure",
             'export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"',
@@ -256,6 +267,16 @@ raw_jobs = {
             "terraform destroy -input=false -auto-approve",
         ],
     },
+    "kelly integration tests": {
+        "image": images["nodejs"],
+        "environment": aws_credentials,
+        "commands": [
+            "cd app/kelly/test/integration",
+            "npm ci",
+            set_workspace_variable,
+            "npm test",
+        ],
+    },
 }
 
 jobs = {
@@ -270,6 +291,7 @@ validate = extend_default(
         "steps": [
             jobs["audit app node modules"],
             jobs["audit kelly node modules"],
+            jobs["audit kelly integration tests node modules"],
             jobs["install app node modules"],
             jobs["lint javascript"],
             jobs["check drone config formatting"],
@@ -315,11 +337,20 @@ deploy = extend_default(
     }
 )
 
+test = extend_default(
+    {
+        "name": "test",
+        "trigger": {"event": ["push"]},
+        "depends_on": ["deploy"],
+        "steps": [jobs["kelly integration tests"]],
+    }
+)
+
 destroy = extend_default(
     {
         "name": "destroy",
-        "trigger": {"event": ["push", "rollback"]},
-        "depends_on": ["deploy"],
+        "trigger": {"event": ["push", "rollback"], "status": ["success", "failure"]},
+        "depends_on": ["deploy", "test"],
         "clone": {"disable": True},
         "steps": [
             jobs["get deployment package"],

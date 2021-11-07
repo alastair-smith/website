@@ -42,6 +42,9 @@
       "addEventListener",
       "customElements",
       "fetch"
+    ],
+    "envs": [
+      "mocha"
     ]
   }
 }
