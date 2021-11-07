@@ -60,6 +60,12 @@ resource "aws_lambda_function" "kelly" {
   tags          = local.tags
   timeout       = 10
 
+  environment {
+    variables = {
+      LD_PRELOAD = "/opt/nodejs/node_modules/canvas/build/Release/libz.so.1"
+    }
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.permissions
   ]
