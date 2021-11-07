@@ -1,5 +1,5 @@
 def main(ctx):
-    return [validate, build, deploy, destroy]
+    return [validate, build, deploy, destroy, report]
 
 
 def extend_default(pipeline):
@@ -13,7 +13,10 @@ images = {
     "nodejs": "node:14-alpine",
     "terraform": "hashicorp/terraform:0.14.9",
     "python": "python:3.9",
+    "slack": "plugins/slack",
 }
+
+slack_webhook = {"from_secret": "SLACK_WEBHOOK"}
 
 aws_credentials = {
     "AWS_ACCESS_KEY_ID": {"from_secret": "AWS_ACCESS_KEY_ID"},
@@ -46,6 +49,12 @@ default_pipeline_config = {
 }
 
 raw_jobs = {
+    "report pipeline outcome": {
+        "image": images["slack"],
+        "settings": {
+            "webhook": slack_webhook,
+        },
+    },
     "audit app node modules": {
         "image": images["nodejs"],
         "commands": [
@@ -320,5 +329,15 @@ destroy = extend_default(
             jobs["terraform destroy plan"],
             jobs["terraform destroy"],
         ],
+    }
+)
+
+report = extend_default(
+    {
+        "name": "report",
+        "depends_on": ["validate", "build", "deploy", "destroy"],
+        "clone": {"disable": True},
+        "trigger": {"status": ["success", "failure"]},
+        "steps": [jobs["report pipeline outcome"]],
     }
 )
