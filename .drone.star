@@ -6,11 +6,13 @@ def extend_default(pipeline):
     return dict(default_pipeline_config.items() + pipeline.items())
 
 
+node_version = "14.18.1"
+
 images = {
     "alpine": "alpine:latest",
     "amazon linux": "amazonlinux:latest",
     "aws cli": "amazon/aws-cli:latest",
-    "nodejs": "node:14-alpine",
+    "nodejs": "node:" + node_version + "-alpine",
     "terraform": "hashicorp/terraform:0.14.9",
     "python": "python:3.9",
     "slack": "plugins/slack",
@@ -140,6 +142,7 @@ raw_jobs = {
         "depends_on": ["checksum kelly lambda layer"],
         "commands": [
             "cd app/kelly",
+            'echo "' + node_version + '" > .nvmrc',
             'if [ -f ".run-build" ]; then ./build-layer.sh; else echo "Skipping build"; fi',
         ],
     },

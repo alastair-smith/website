@@ -52,9 +52,10 @@ yellow_echo "Installed yum packages"
 yellow_echo "Installing nodejs..."
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-. ~/.nvm/nvm.sh
-# TODO swap to nvmrc file
-nvm install --lts
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || echo "supressing failure"
+echo "Installed nvm, installing node: $(cat .nvmrc)"
+nvm install
 
 yellow_echo "Installed nodejs"
 yellow_echo "Copying binaries..."
