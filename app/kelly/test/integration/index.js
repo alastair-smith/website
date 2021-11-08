@@ -24,6 +24,25 @@ describe('Integration tests', () => {
     expect(responseBody).to.have.property('statusCode', 200)
   }).timeout(10000)
 
+  it('should return a gif response from the lambda function', async () => {
+    const lambda = new Lambda()
+    const lambdaFunctionName = `${environment}-kelly`
+    const lambdaPayload = { queryStringParameters: { text: 'hello', gif: '1' } }
+
+    const result = await lambda.invoke({
+      FunctionName: lambdaFunctionName,
+      Payload: Buffer.from(JSON.stringify(lambdaPayload))
+    }).promise()
+
+    if (result.FunctionError) throw new Error(`Invoke of function returned a FunctionError: ${result.FunctionError}`)
+    if (result instanceof Error) throw new Error(`'Invoke of function returned an error object:' ${result.errorMessage}`)
+
+    expect(result).to.have.property('StatusCode', 200)
+    expect(result).to.have.property('Payload')
+    const responseBody = JSON.parse(result.Payload.toString())
+    expect(responseBody).to.have.property('statusCode', 200)
+  }).timeout(10000)
+
   it('should return a response from the api gateway', async () => {
     const apiGateway = new ApiGatewayV2()
     const apiName = `${environment}-kelly`
