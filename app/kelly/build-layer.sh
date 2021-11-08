@@ -38,6 +38,8 @@ mkdir -p "$NODE_LAYER_FULL_DIR"
 yellow_echo "Created directories"
 yellow_echo "Installing yum packages..."
 
+amazon-linux-extras install epel -y
+
 yum install -y \
   gcc-c++ \
   cairo-devel \
@@ -46,7 +48,8 @@ yum install -y \
   giflib-devel \
   tar \
   gzip \
-  zip
+  zip \
+  gifsicle
 
 yellow_echo "Installed yum packages"
 yellow_echo "Installing nodejs..."
@@ -66,6 +69,8 @@ cp "$BIN_IMAGE_DIR/libblkid.so.1" \
   "$BIN_IMAGE_DIR/libfontconfig.so.1" \
   "$BIN_IMAGE_DIR/libpixman-1.so.0" \
   "$BIN_LAYER_FULL_DIR"
+
+cp "/usr/bin/gifsicle" "$BIN_LAYER_FULL_DIR"
 
 yellow_echo "Copied binaries"
 yellow_echo "Installing node modules..."
