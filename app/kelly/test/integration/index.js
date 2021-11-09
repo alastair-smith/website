@@ -52,4 +52,12 @@ describe('Integration tests', () => {
 
     expect(result).to.have.property('status', 200)
   }).timeout(10000)
+
+  it('should return a response from the cloudflare worker', async () => {
+    const url = `https://${environment}.alsmith.dev/kelly/api?text=hello`
+
+    const result = await axios.get(url)
+
+    expect(result).to.have.property('status', 200)
+  }).timeout(10000)
 })

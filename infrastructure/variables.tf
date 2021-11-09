@@ -1,7 +1,3 @@
-variable "app_directory_path" {
-  description = "The absolute path to the built app"
-}
-
 variable "build" {
   description = "Build number"
 }
@@ -12,6 +8,10 @@ variable "cloudflare_worker_scripts" {
 
 variable "commit" {
   description = "Full git commit sha"
+}
+
+variable "dynamic_app_directory_path" {
+  description = "Path to the directory on the local machine to be uploaded and served as workers"
 }
 
 variable "kelly_function_key" {
@@ -36,4 +36,8 @@ variable "root_domain" {
 
 variable "service" {
   description = "The name of the service"
+}
+
+variable "static_app_directory_path" {
+  description = "The absolute path to the built app"
 }

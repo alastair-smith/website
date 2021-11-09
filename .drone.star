@@ -176,6 +176,7 @@ raw_jobs = {
         "commands": [
             "mkdir -p package/app/kelly",
             "cp -r infrastructure package/infrastructure",
+            "cp -r app/dynamic package/app/dynamic",
             "cp -r app/build package/app/build",
             "cp -r app/workers package/app/workers",
             "cp app/kelly/.layer-zip-object-name package/app/kelly/.layer-zip-object-name",
@@ -213,7 +214,8 @@ raw_jobs = {
             set_workspace_variable,
             'echo "$WORKSPACE" > workspace.tmp',
             "cd package/infrastructure",
-            'export APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"',
+            'export DYNAMIC_APP_DIRECTORY_PATH="$(cd ../app/dynamic && pwd)"',
+            'export STATIC_APP_DIRECTORY_PATH="$(cd ../app/build && pwd)"',
             'export CLOUDFLARE_WORKER_SCRIPTS="$(cd ../app/workers && pwd)"',
             'if [ "$DRONE_BUILD_PARENT" -gt 0 ]; then build_number="$DRONE_BUILD_PARENT"; else build_number="$DRONE_BUILD_NUMBER"; fi',
             'export KELLY_FUNCTION_KEY="$DRONE_REPO_NAME/kelly-function/$build_number.zip"',

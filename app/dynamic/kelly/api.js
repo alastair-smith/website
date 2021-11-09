@@ -5,5 +5,5 @@ addEventListener('fetch', event => {
 const handleRequest = async request => {
   const publicUrl = new URL(request.url)
 
-  return fetch(`${process.env.API_GATEWAY_URL}${publicUrl.search}`)
+  return fetch(`${KELLY_API_URL}/${publicUrl.search}`)
 }

@@ -41,7 +41,8 @@
       "STATIC_CONTENT",
       "addEventListener",
       "customElements",
-      "fetch"
+      "fetch",
+      "KELLY_API_URL"
     ],
     "envs": [
       "mocha"

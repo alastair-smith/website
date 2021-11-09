@@ -12,7 +12,7 @@ resource "cloudflare_workers_kv_namespace" "static_content" {
 }
 
 resource "null_resource" "kv_static_content" {
-  for_each = fileset(var.app_directory_path, "**")
+  for_each = fileset(var.static_app_directory_path, "**")
 
   triggers = {
     key          = "%2F${each.key}"
@@ -20,12 +20,12 @@ resource "null_resource" "kv_static_content" {
 
     metadata = replace(jsonencode(merge(
       local.metadata_by_file_extension[basename(replace(each.key, ".", "/"))],
-      { etag = filemd5("${var.app_directory_path}/${each.key}") }
+      { etag = filemd5("${var.static_app_directory_path}/${each.key}") }
     )), "\"", "\\\"")
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/write-file-to-kv.sh --file-path '${var.app_directory_path}/${each.key}' --key '${self.triggers.key}' --metadata '${self.triggers.metadata}' --namespace '${self.triggers.namespace_id}'"
+    command = "${path.module}/write-file-to-kv.sh --file-path '${var.static_app_directory_path}/${each.key}' --key '${self.triggers.key}' --metadata '${self.triggers.metadata}' --namespace '${self.triggers.namespace_id}'"
   }
 
   provisioner "local-exec" {

@@ -55,13 +55,13 @@ resource "cloudflare_record" "website" {
   zone_id = data.cloudflare_zones.website.zones[0].id
 }
 
-module "cloudflare_worker_static_website" {
-  source = "./modules/cloudflare_worker_static_website"
+module "cloudflare_worker_static_pages" {
+  source = "./modules/cloudflare_worker_static_pages"
 
-  app_directory_path = var.app_directory_path
-  cloudflare_zone_id = data.cloudflare_zones.website.zones[0].id
-  hostname           = local.hostname
-  worker_path        = "${var.cloudflare_worker_scripts}/staticPages.js"
+  cloudflare_zone_id        = data.cloudflare_zones.website.zones[0].id
+  hostname                  = local.hostname
+  static_app_directory_path = var.static_app_directory_path
+  worker_path               = "${var.cloudflare_worker_scripts}/staticPages.js"
 }
 
 module "kelly_endpoint" {
@@ -71,4 +71,13 @@ module "kelly_endpoint" {
   kelly_layer_key    = var.kelly_layer_key
   package_bucket     = var.package_bucket
   tags               = module.aws_tags.value
+}
+
+module "cloudflare_worker_dynamic_pages" {
+  source = "./modules/cloudflare_worker_dynamic_pages"
+
+  cloudflare_zone_id         = data.cloudflare_zones.website.zones[0].id
+  dynamic_app_directory_path = var.dynamic_app_directory_path
+  environment_variables      = { KELLY_API_URL = module.kelly_endpoint.url }
+  hostname                   = local.hostname
 }

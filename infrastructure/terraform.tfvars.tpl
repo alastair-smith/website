@@ -1,10 +1,10 @@
-app_directory_path = "${APP_DIRECTORY_PATH}"
-
 build = "${DRONE_BUILD_NUMBER}"
 
 cloudflare_worker_scripts = "${CLOUDFLARE_WORKER_SCRIPTS}"
 
 commit = "${DRONE_COMMIT_SHA}"
+
+dynamic_app_directory_path = "${DYNAMIC_APP_DIRECTORY_PATH}"
 
 kelly_function_key = "${KELLY_FUNCTION_KEY}"
 
@@ -17,3 +17,5 @@ repository = "${DRONE_REPO_LINK}"
 root_domain = "alsmith.dev"
 
 service = "${DRONE_REPO_NAME}"
+
+static_app_directory_path = "${STATIC_APP_DIRECTORY_PATH}"
