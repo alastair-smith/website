@@ -62,7 +62,8 @@ resource "aws_lambda_function" "kelly" {
 
   environment {
     variables = {
-      LD_PRELOAD = "/opt/nodejs/node_modules/canvas/build/Release/libz.so.1"
+      FONTCONFIG_PATH = "/opt/fonts"
+      LD_PRELOAD      = "/opt/nodejs/node_modules/canvas/build/Release/libz.so.1"
     }
   }
 

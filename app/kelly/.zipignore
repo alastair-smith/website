@@ -3,5 +3,7 @@ build-layer.sh
 package.json
 package-lock.json
 README.md
+fonts.conf
 *node_modules*
 *test*
+*layer*

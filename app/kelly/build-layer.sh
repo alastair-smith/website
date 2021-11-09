@@ -25,6 +25,8 @@ BIN_LAYER_FULL_DIR="$LAYER_DIR/$BIN_LAYER_DIR"
 NODE_LAYER_DIR="nodejs/"
 NODE_LAYER_FULL_DIR="$LAYER_DIR/$NODE_LAYER_DIR"
 BIN_IMAGE_DIR="/usr/lib64"
+FONTS_LAYER_DIR="fonts/"
+FONTS_LAYER_FULL_DIR="$LAYER_DIR/$FONTS_LAYER_DIR"
 ARCHIVE_OUTPUT="$WORKING_DIR/layer.zip"
 
 yellow_echo "Configured variables"
@@ -34,6 +36,7 @@ rm -rf "$LAYER_DIR"
 rm -f "$ARCHIVE_OUTPUT"
 mkdir -p "$BIN_LAYER_FULL_DIR"
 mkdir -p "$NODE_LAYER_FULL_DIR"
+mkdir -p "$FONTS_LAYER_FULL_DIR"
 
 yellow_echo "Created directories"
 yellow_echo "Installing yum packages..."
@@ -81,10 +84,17 @@ npm ci --production
 rm "package.json" "package-lock.json"
 
 yellow_echo "Installed node modules"
+yellow_echo "Installing fonts..."
+
+curl -o "LibreBaskerville-Regular.otf" -s "https://raw.githubusercontent.com/impallari/Libre-Baskerville/master/src/LibreBaskerville-Regular.otf"
+cp "LibreBaskerville-Regular.otf" "$FONTS_LAYER_FULL_DIR"
+cp "$WORKING_DIR/fonts.conf" "$FONTS_LAYER_FULL_DIR"
+
+yellow_echo "Installed fonts"
 yellow_echo "Creating archive"
 
 cd "$LAYER_DIR"
-zip -r "$ARCHIVE_OUTPUT" "$BIN_LAYER_DIR" "$NODE_LAYER_DIR"
+zip -r "$ARCHIVE_OUTPUT" "$BIN_LAYER_DIR" "$NODE_LAYER_DIR" "$FONTS_LAYER_DIR"
 
 yellow_echo "Created archive"
 yellow_echo "Cleaning up workspace..."

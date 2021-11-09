@@ -1,4 +1,4 @@
-const { createCanvas, loadImage } = require('canvas')
+const { createCanvas, loadImage, registerFont } = require('canvas')
 const { exec } = require('child_process')
 const GifEncoder = require('gif-encoder')
 
@@ -7,9 +7,14 @@ const IMAGE_DIMENSIONS = [968, 681]
 const INCREASED_MAX_BUFFER = 1024 * 1024 * 5
 const MAX_WIDTH = 580
 const TEXT_COLOR = '#0049af'
-const TEXT_FONT = '38px AbhayaLibre-Regular'
+const TEXT_FONT = '34px LibreBaskerville'
 const TEXT_POSITION = [320, -110]
 const TEXT_ROTATION = 0.6
+
+registerFont(
+  '/opt/fonts/LibreBaskerville-Regular.otf',
+  { family: 'LibreBaskerville' }
+)
 
 exports.handler = async event => {
   if (event.queryStringParameters && event.queryStringParameters.text) {
