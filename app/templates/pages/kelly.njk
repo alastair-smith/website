@@ -44,7 +44,7 @@
       const isGif = event.target[1].checked
       if (text.length > 0) {
         const container = document.getElementById('image-container')
-        const url = `/kelly/api?text=${encodeURI(text)}`
+        const url = `/kelly/api?text=${encodeURI(text)}&gif=1`
         //const base64Text = btoa(encodeURIComponent(event.target[0].value))
         //.replace(/=/g, '')
         //const url = `https://api.alsmith.dev/kelly?b=${base64Text}`
