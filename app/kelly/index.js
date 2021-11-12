@@ -7,7 +7,7 @@ const IMAGE_DIMENSIONS = [968, 681]
 const INCREASED_MAX_BUFFER = 1024 * 1024 * 5
 const MAX_WIDTH = 580
 const TEXT_COLOR = '#0049af'
-const TEXT_FONT = '34px LibreBaskerville'
+const TEXT_FONT = '28px LibreBaskerville'
 const TEXT_POSITION = [320, -110]
 const TEXT_ROTATION = 0.6
 
