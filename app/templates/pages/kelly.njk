@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-  <form id="kelly" method="get" action="https://api.alsmith.dev/kelly">
+  <form id="kelly" method="get" action="/kelly/api">
     <input id="text-input" type="text" name="text" value="" autocomplete="off">
     <input hidden type="text" name="gif" value="1" autocomplete="off">
     <button class="submit-btn" type="submit">Make gif</button>
@@ -44,7 +44,7 @@
       const isGif = event.target[1].checked
       if (text.length > 0) {
         const container = document.getElementById('image-container')
-        const url = `https://api.alsmith.dev/kelly?text=${encodeURI(text)}`
+        const url = `/kelly/api?text=${encodeURI(text)}`
         //const base64Text = btoa(encodeURIComponent(event.target[0].value))
         //.replace(/=/g, '')
         //const url = `https://api.alsmith.dev/kelly?b=${base64Text}`
@@ -65,7 +65,7 @@
           const share = document.createElement('div')
           share.id = 'share'
           share.innerHTML = `
-            <input id='direct-link' value='${url}' readonly />
+            <input id='direct-link' value='${new URL(url, document.location).href}' readonly />
             <button class='share-btn' onClick='copyDirect()'>📋 Copy direct link</button>
           `
           container.appendChild(share)
