@@ -46,7 +46,8 @@
       "addEventListener",
       "customElements",
       "fetch",
-      "KELLY_API_URL"
+      "KELLY_API_URL",
+      "BORT_API_URL"
     ],
     "envs": [
       "mocha"
