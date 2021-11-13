@@ -2,6 +2,8 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
+const INCORRECT_METHOD_MESSAGE = 'Method not allowed'
+
 const headersToAdd = [
   ['x-frame-options', 'DENY'],
   ['x-content-type-options', 'nosniff'],
@@ -36,13 +38,24 @@ const getResponseWithUpdatedHeaders = (originalResponse, headersToAdd, headersTo
   return response
 }
 
+const validateRequest = request => {
+  if (request.method !== 'GET') return new Response(JSON.stringify({ error: INCORRECT_METHOD_MESSAGE }), { status: 405 })
+}
+
 const handleRequest = async request => {
-  const publicUrl = new URL(request.url)
-  const queryString = publicUrl.search
+  try {
+    const validationError = validateRequest(request)
+    if (validationError) return validationError
 
-  const response = await fetch(`${KELLY_API_URL}/${queryString}`)
+    const publicUrl = new URL(request.url)
+    const queryString = publicUrl.search
 
-  const newResponse = getResponseWithUpdatedHeaders(response, headersToAdd, headersToRemove)
+    const response = await fetch(`${KELLY_API_URL}/${queryString}`)
 
-  return newResponse
+    const newResponse = getResponseWithUpdatedHeaders(response, headersToAdd, headersToRemove)
+
+    return newResponse
+  } catch (error) {
+    return new Response('Internal Server Error', { status: 500 })
+  }
 }

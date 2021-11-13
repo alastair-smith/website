@@ -2,6 +2,7 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
+const INCORRECT_METHOD_MESSAGE = 'Method not allowed'
 const defaultKvType = 'text'
 const notFoundPath = '/404.html'
 
@@ -54,8 +55,15 @@ const getStaticAssetsResponse = async (path, status = 200) => {
   )
 }
 
+const validateRequest = request => {
+  if (request.method !== 'GET') return new Response(JSON.stringify({ error: INCORRECT_METHOD_MESSAGE }), { status: 405 })
+}
+
 const handleRequest = async request => {
   try {
+    const validationError = validateRequest(request)
+    if (validationError) return validationError
+
     const path = getPath(request.url)
     const response = await getStaticAssetsResponse(path) ||
       await getStaticAssetsResponse(notFoundPath)
