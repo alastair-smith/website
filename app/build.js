@@ -1,13 +1,15 @@
-const nunjucks = require('nunjucks')
-const { minify } = require('html-minifier')
-const sass = require('sass')
-const matter = require('gray-matter')
-const remark = require('remark')
-const remarkHTML = require('remark-html')
-const slug = require('remark-slug')
-const headings = require('remark-autolink-headings')
-const copydir = require('copy-dir')
-const { promises: fsPromises } = require('fs')
+import remarkParse from 'remark-parse'
+import nunjucks from 'nunjucks'
+import { minify } from 'html-minifier'
+import sass from 'sass'
+import matter from 'gray-matter'
+import { unified } from 'unified'
+import remarkRehype from 'remark-rehype'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeStringify from 'rehype-stringify'
+import copydir from 'copy-dir'
+import { promises as fsPromises } from 'fs'
 
 const buildDirectory = './build'
 const postsDirectory = './blog'
@@ -90,7 +92,7 @@ const buildHTML = async assetsVersion => {
   })
 
   nunjucksEnvironment.addFilter('injectDate',
-    ({ contents }, dateText) => contents.replace('</h1>', `</h1>${dateText}`)
+    (contents, dateText) => contents.replace('</h1>', `</h1>${dateText}`)
   )
 
   const allPostsInfo = await getAllPostsInfo()
@@ -122,11 +124,13 @@ const buildHTML = async assetsVersion => {
     allPostsInfo
       .filter(postInfo => postInfo.blogUrl)
       .map(async postInfo => {
-        const content = await remark()
-          .use(remarkHTML)
-          .use(slug)
-          .use(headings, {
-            linkProperties: {
+        const content = String(await unified()
+          .use(remarkParse)
+          .use(remarkRehype)
+          .use(rehypeSlug)
+          .use(rehypeAutolinkHeadings, {
+            behavior: 'prepend',
+            properties: {
               className: ['anchor-link']
             },
             content: {
@@ -138,7 +142,9 @@ const buildHTML = async assetsVersion => {
               }
             }
           })
-          .process(postInfo.content)
+          .use(rehypeStringify)
+          .process(postInfo.content))
+
         const html = minifyHtml(
           nunjucksEnvironment.render(
             blogPostTemplate,
