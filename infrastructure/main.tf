@@ -34,8 +34,6 @@ locals {
 module "aws_tags" {
   source = "./modules/aws_tags"
 
-  build       = var.build
-  commit      = var.commit
   environment = terraform.workspace
   repository  = var.repository
   service     = var.service

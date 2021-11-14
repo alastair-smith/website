@@ -1,8 +1,4 @@
-build = "${DRONE_BUILD_NUMBER}"
-
 cloudflare_worker_scripts = "${CLOUDFLARE_WORKER_SCRIPTS}"
-
-commit = "${DRONE_COMMIT_SHA}"
 
 dynamic_app_directory_path = "${DYNAMIC_APP_DIRECTORY_PATH}"
 

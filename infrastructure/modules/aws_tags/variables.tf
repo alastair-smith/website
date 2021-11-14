@@ -1,24 +1,3 @@
-variable "build" {
-  description = "Build number"
-
-  validation {
-    condition = (
-      var.build > 0 &&
-      var.build % 1 == 0
-    )
-    error_message = "The build value must be a positive number."
-  }
-}
-
-variable "commit" {
-  description = "Full git commit sha"
-
-  validation {
-    condition     = regex("[[:xdigit:]]{40}", var.commit) == var.commit
-    error_message = "The commit value should be the full 40 character commit sha."
-  }
-}
-
 variable "environment" {
   description = "The tier of the environment, either prod for the default branch, or the branch slug otherwise."
 

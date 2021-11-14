@@ -1,4 +1,3 @@
-
 locals {
   cacheControl = {
     noCache = "no-cache"
