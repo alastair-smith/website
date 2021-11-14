@@ -1,4 +1,5 @@
 {% import "components/icons/github.njk" as githubIcon %}
+{% import "components/icons/linkedin.njk" as linkedinIcon %}
 {% import "components/icons/twitter.njk" as twitterIcon %}
 {% import "components/icons/email.njk" as emailIcon %}
 
@@ -12,6 +13,13 @@
         <a target="_blank" rel="noopener" href="https://github.com/{{ params.github }}" class="social-github">
           {{ githubIcon.component({ fill: iconColor }) }}
           <span>github<br>@{{ params.github }}</span>
+        </a>
+      {% endif %}
+
+      {% if params.linkedin %}
+        <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{ params.linkedin }}/" class="social-linkedin">
+          {{ linkedinIcon.component({ fill: iconColor }) }}
+          <span>linkedin<br>{{ params.linkedin }}</span>
         </a>
       {% endif %}
 

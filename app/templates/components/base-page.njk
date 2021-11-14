@@ -9,6 +9,7 @@
 {% set pageTitle = pageTitle | default(fullTitle) %}
 
 {% set github = "alastair-smith" %}
+{% set linkedin = "alastair-smith-uk" %}
 {% set twitter = "alastairsmith_" %}
 {% set email = "contact@alsmith.dev" %}
 
@@ -84,6 +85,7 @@
     {% block footer %}
       {{ footer.component({
         github: github,
+        linkedin: linkedin,
         twitter: twitter,
         email: email
       }) }}

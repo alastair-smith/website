@@ -13,6 +13,10 @@
     fill: #b37af5;
   }
 
+  .social-linkedin:focus-within svg path, .social-linkedin:hover svg path {
+    fill: #2867B2;
+  }
+
   .social-twitter:focus-within svg path, .social-twitter:hover svg path {
     fill: #1DA1F2;
   }
