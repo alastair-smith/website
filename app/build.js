@@ -5,6 +5,7 @@ import sass from 'sass'
 import matter from 'gray-matter'
 import { unified } from 'unified'
 import remarkRehype from 'remark-rehype'
+import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeStringify from 'rehype-stringify'
@@ -70,7 +71,6 @@ const minifyHtml = html => minify(html, {
   removeAttributeQuotes: true,
   collapseWhitespace: true,
   collapseBooleanAttributes: true,
-  collapseInlineTagWhitespace: true,
   quoteCharacter: '"',
   removeComments: true,
   removeEmptyAttributes: true,
@@ -127,6 +127,7 @@ const buildHTML = async assetsVersion => {
         const content = String(await unified()
           .use(remarkParse)
           .use(remarkRehype)
+          .use(rehypeExternalLinks, { target: '_blank', rel: ['noreferrer'] })
           .use(rehypeSlug)
           .use(rehypeAutolinkHeadings, {
             behavior: 'prepend',
