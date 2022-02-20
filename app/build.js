@@ -195,7 +195,7 @@ const build = async () => {
     console.log('👷 Starting build...\n')
 
     console.log('📁 Creating build directory...')
-    await fsPromises.rmdir(buildDirectory, { recursive: true })
+    await fsPromises.rm(buildDirectory, { recursive: true })
     await fsPromises.mkdir(buildDirectory)
     await fsPromises.mkdir(`${buildDirectory}/assets`)
     await fsPromises.mkdir(`${buildDirectory}/assets/images`)
