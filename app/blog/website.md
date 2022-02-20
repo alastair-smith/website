@@ -2,6 +2,7 @@
 title: "Website"
 date: "2020-02-04"
 about: "How I made my personal website."
+publish: false
 ---
 
 # Creating My Personal Website

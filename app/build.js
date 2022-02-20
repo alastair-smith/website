@@ -56,7 +56,7 @@ const getAllPostsInfo = async () => {
   return (await Promise.all(postFileNames.map(async filePath => {
     const fileDetail = matter(await fsPromises.readFile(filePath))
     const pageTitle = fileDetail.content.split('\n')[1].replace(/&nbsp;/g, ' ').replace(/[^a-zA-Z0-9: ]/g, '').trim()
-    const blogUrl = `/blog/${pageTitle.replace(/:/g, '').replace(/ /g, '-').toLowerCase()}`
+    const blogUrl = fileDetail.data.publish ? `/blog/${pageTitle.replace(/:/g, '').replace(/ /g, '-').toLowerCase()}` : undefined
     return {
       filePath,
       pageTitle,
@@ -64,7 +64,9 @@ const getAllPostsInfo = async () => {
       blogUrl,
       ...fileDetail.data
     }
-  }))).sort((a, b) => a.date < b.date ? 1 : -1)
+  })))
+  .filter(({ publish, url }) => publish || url)
+  .sort((a, b) => a.date < b.date ? 1 : -1)
 }
 
 const minifyHtml = html => minify(html, {

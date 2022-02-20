@@ -3,7 +3,7 @@
   <div class="card">
     <h2>{{ params.title }}</h2>
 
-    {% if params.date %}
+    {% if params.date and params.publish %}
       <time class="card-date" datetime="{{ params.date }}">
         {{ params.date | date }}
       </time>
