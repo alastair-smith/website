@@ -65,8 +65,8 @@ const getAllPostsInfo = async () => {
       ...fileDetail.data
     }
   })))
-  .filter(({ publish, url }) => publish || url)
-  .sort((a, b) => a.date < b.date ? 1 : -1)
+    .filter(({ publish, url }) => publish || url)
+    .sort((a, b) => a.date < b.date ? 1 : -1)
 }
 
 const minifyHtml = html => minify(html, {
