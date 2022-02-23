@@ -292,7 +292,7 @@ jobs = {
 validate = extend_default(
     {
         "name": "validate",
-        "trigger": {"event": ["push"]},
+        "trigger": {"event": ["custom", "push"]},
         "steps": [
             jobs["audit app node modules"],
             jobs["audit kelly node modules"],
@@ -310,7 +310,7 @@ validate = extend_default(
 build = extend_default(
     {
         "name": "build",
-        "trigger": {"event": ["push"]},
+        "trigger": {"event": ["custom", "push"]},
         "depends_on": ["validate"],
         "steps": [
             jobs["install app node modules"],
@@ -328,7 +328,7 @@ build = extend_default(
 deploy = extend_default(
     {
         "name": "deploy",
-        "trigger": {"event": ["push", "promote"]},
+        "trigger": {"event": ["custom", "push", "promote"]},
         "depends_on": ["build"],
         "clone": {"disable": True},
         "steps": [
@@ -345,7 +345,7 @@ deploy = extend_default(
 test = extend_default(
     {
         "name": "test",
-        "trigger": {"event": ["push"]},
+        "trigger": {"event": ["custom", "push"]},
         "depends_on": ["deploy"],
         "steps": [jobs["kelly integration tests"]],
     }
@@ -354,7 +354,10 @@ test = extend_default(
 destroy = extend_default(
     {
         "name": "destroy",
-        "trigger": {"event": ["push", "rollback"], "status": ["success", "failure"]},
+        "trigger": {
+            "event": ["custom", "push", "rollback"],
+            "status": ["success", "failure"],
+        },
         "depends_on": ["deploy", "test"],
         "clone": {"disable": True},
         "steps": [
