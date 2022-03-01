@@ -376,7 +376,10 @@ report = extend_default(
         "name": "report",
         "depends_on": ["validate", "build", "deploy", "destroy"],
         "clone": {"disable": True},
-        "trigger": {"status": ["success", "failure"]},
+        "trigger": {
+            "event": ["custom", "promote", "push", "rollback"],
+            "status": ["success", "failure"],
+        },
         "steps": [jobs["report pipeline outcome"]],
     }
 )
