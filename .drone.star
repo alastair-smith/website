@@ -7,15 +7,16 @@ def extend_default(pipeline):
 
 
 node_version = "14.18.1"
+node_image_sha256 = "240e1e6ef6dfba3bb70d6e88cca6cbb0b5a6f3a2b4496ed7edc5474e8ed594bd"
 
 images = {
-    "alpine": "alpine:latest",
-    "amazon linux": "amazonlinux:latest",
-    "aws cli": "amazon/aws-cli:latest",
-    "nodejs": "node:" + node_version + "-alpine",
-    "terraform": "hashicorp/terraform:0.14.9",
-    "python": "python:3.9",
-    "slack": "plugins/slack",
+    "alpine": "alpine:latest@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300",
+    "amazon linux": "amazonlinux:latest@sha256:f3a37f84f2644095e2c6f6fdf2bf4dbf68d5436c51afcfbfa747a5de391d5d62",
+    "aws cli": "amazon/aws-cli:latest@sha256:2635a0726dc3b9383718baecae23a8ab9e8959edb8b3a5cc91a410c236ac11f5",
+    "nodejs": "node:" + node_version + "-alpine@sha256:" + node_image_sha256,
+    "terraform": "hashicorp/terraform:0.14.9@sha256:0df06a2b1e0291aa391b3de8031fa281fcad64105d9108a59be53845b9e2f59c",
+    "python": "python:3.9@sha256:1fb89e1a6f8e739f2a274e745b80d11b1fdad72860489c1794ef13aa5fd69f94",
+    "slack": "plugins/slack@sha256:57fb90fd174908c0f5be58fd11b5bf1c420807c64a934c4a346a9b257b6495ba",
 }
 
 slack_webhook = {"from_secret": "SLACK_WEBHOOK"}
