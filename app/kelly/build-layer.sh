@@ -8,6 +8,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NO_COLOR='\033[0m'
 
+NVM_VERSION="v0.39.1"
+
 yellow_echo() {
   echo -e "${YELLOW}${@}${NO_COLOR}"
 }
@@ -57,7 +59,7 @@ yum install -y \
 yellow_echo "Installed yum packages"
 yellow_echo "Installing nodejs..."
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh" | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || echo "supressing failure"
 echo "Installed nvm, installing node: $(cat .nvmrc)"
