@@ -6,7 +6,7 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
 
 ## Running locally
 
-1. Install [nodejs](https://nodejs.org/) 14
+1. Install [nodejs](https://nodejs.org/) `14.x.x`
 2. Install the npm modules, build, and run the application
     ```sh
     cd app
@@ -31,4 +31,4 @@ The following secrets need to be set in drone:
 | `SLACK_WEBHOOK` | Slack app webhook for posting pipeline outcomes |
 | `STATE_BUCKET` | Name of a suitably configured S3 bucket for storing terraform state |
 
-[Terraform](https://www.terraform.io/) is used to manage the infrastructure as code.
+[Terraform](https://www.terraform.io/) `0.14.9` is used to manage the infrastructure as code.
