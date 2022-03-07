@@ -21,11 +21,12 @@ images = {
 
 slack_webhook = {"from_secret": "SLACK_WEBHOOK"}
 
+aws_default_region = "eu-west-1"
 aws_credentials = {
     "AWS_ACCESS_KEY_ID": {"from_secret": "AWS_ACCESS_KEY_ID"},
     "AWS_SECRET_ACCESS_KEY": {"from_secret": "AWS_SECRET_ACCESS_KEY"},
-    "AWS_DEFAULT_REGION": "eu-west-1",
-    "AWS_REGION": "eu-west-1",
+    "AWS_DEFAULT_REGION": aws_default_region,
+    "AWS_REGION": aws_default_region,
 }
 
 cloudflare_credentials = {
