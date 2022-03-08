@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "~> 2.0"
-    }
-  }
-}
-
 locals {
   dynamic_pages = fileset(var.dynamic_app_directory_path, "**")
 }

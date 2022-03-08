@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "~> 2.0"
-    }
-  }
-}
-
 resource "cloudflare_workers_kv_namespace" "static_content" {
   title = "${var.hostname}/static-content"
 }
