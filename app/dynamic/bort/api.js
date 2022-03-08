@@ -58,6 +58,7 @@ const handleRequest = async request => {
 
     return newResponse
   } catch (error) {
+    console.error(error)
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 })
   }
 }
