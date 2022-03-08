@@ -14,7 +14,7 @@ images = {
     "amazon linux": "amazonlinux:latest@sha256:f3a37f84f2644095e2c6f6fdf2bf4dbf68d5436c51afcfbfa747a5de391d5d62",
     "aws cli": "amazon/aws-cli:latest@sha256:2635a0726dc3b9383718baecae23a8ab9e8959edb8b3a5cc91a410c236ac11f5",
     "nodejs": "node:" + node_version + "-alpine@sha256:" + node_image_sha256,
-    "terraform": "hashicorp/terraform:0.14.9@sha256:0df06a2b1e0291aa391b3de8031fa281fcad64105d9108a59be53845b9e2f59c",
+    "terraform": "hashicorp/terraform:1.1.7@sha256:ef828667eca97a3ad9b8f26918b68170bcb3066cd9ba9540da73a608c6b4a2bb",
     "python": "python:3.9@sha256:1fb89e1a6f8e739f2a274e745b80d11b1fdad72860489c1794ef13aa5fd69f94",
     "slack": "plugins/slack@sha256:57fb90fd174908c0f5be58fd11b5bf1c420807c64a934c4a346a9b257b6495ba",
 }

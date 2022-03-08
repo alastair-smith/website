@@ -31,4 +31,4 @@ The following secrets need to be set in drone:
 | `SLACK_WEBHOOK` | Slack app webhook for posting pipeline outcomes |
 | `STATE_BUCKET` | Name of a suitably configured S3 bucket for storing terraform state |
 
-[Terraform](https://www.terraform.io/) `0.14.9` is used to manage the infrastructure as code.
+[Terraform](https://www.terraform.io/) `1.1.7` is used to manage the infrastructure as code.
