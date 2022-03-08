@@ -14,9 +14,7 @@ const hideBortForm = () => {
 
 const getBortCount = async () => {
   const response = await fetch(BORT_URL)
-
   const count = (await response.json()).count
-
   updateBortCounter(count)
 }
 
