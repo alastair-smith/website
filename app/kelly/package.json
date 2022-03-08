@@ -1,10 +1,9 @@
 {
-  "name": "excel-messenger",
+  "name": "kelly",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs /opt/build-layer.sh"
   },
   "keywords": [],
