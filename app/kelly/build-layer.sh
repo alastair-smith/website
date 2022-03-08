@@ -2,7 +2,7 @@
 
 # intended to be ran in docker image amazonlinux
 
-set -eu
+set -euo pipefail
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
