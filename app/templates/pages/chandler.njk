@@ -1,0 +1,38 @@
+{% extends "components/base-page.njk" %}
+
+{% set mainClasses="limit-width chandler-page-container" %}
+
+{% block headEnd %}
+  <script type='module' src="{{ '/assets/scripts/chandler-bing.js' | asset }}"></script>
+{% endblock %}
+
+{% block content %}
+  <form id="chandlerify">
+    <input id="user-input" type="text" name="raw" value="" autocomplete="off">
+    <button type="submit">Chandler!</button>
+  </form>
+
+  <chandler-bing id="message" inflection-color="#e87085">Could you be taking any longer entering a message?</chandler-bing>
+{% endblock %}
+
+{% block script %}
+  <script>
+    const processForm = event => {
+      if (event.preventDefault) event.preventDefault()
+
+      const newTextNode = document.createTextNode(event.target[0].value)
+      const bing = document.getElementById('message')
+      while (bing.firstChild) {
+        bing.removeChild(bing.firstChild)
+      }
+      bing.appendChild(newTextNode)
+
+      return false
+    }
+
+    const form = document.getElementById('chandlerify')
+    form.attachEvent
+      ? form.attachEvent("submit", processForm)
+      : form.addEventListener("submit", processForm)
+  </script>
+{% endblock %}

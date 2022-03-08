@@ -1,0 +1,61 @@
+.blog-post {
+  article {
+    background-color: $color-1;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 50px;
+    margin: 50px auto;
+    width: calc(95vw - 100px);
+    max-width: $max-content-width;
+    color: $color-2;
+    font-size: 18px;
+
+    h1, h2, h3, h4, h5 {
+      font-family: "Open Sans", sans;
+
+      .anchor-link {
+        margin-left: calc(-1em - 3px);
+        padding-right: 3px;
+
+        img {
+          width: 1em;
+          height: 1em;
+          visibility: hidden;
+        }
+      }
+
+      &:hover {
+        .anchor-link {
+          img {
+            visibility: visible;
+          }
+        }
+      }
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    h2 {
+      font-size: 1.8em;
+    }
+
+    h3 {
+      font-size: 1.6em;
+    }
+
+    h4 {
+      font-size: 1.4em;
+    }
+
+    h5 {
+      font-size: 1.2em;
+    }
+
+    .post-date {
+      font-size: 18px;
+      font-style: italic;
+    }
+  }
+}

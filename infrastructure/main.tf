@@ -1,8 +1,22 @@
 terraform {
   backend "s3" {
-    key    = "website"
+    key    = "website.json"
     region = "eu-west-1"
   }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 2.0"
+    }
+  }
+
+  required_version = "0.14.9"
 }
 
 provider "aws" {
@@ -11,98 +25,69 @@ provider "aws" {
 
 provider "cloudflare" {}
 
-provider "external" {}
-
 locals {
-  bucket_name {
-    feature = "${var.environment[terraform.workspace]}.${var.dns_name}"
-    master  = "${var.dns_name}"
-  }
-
-  content_types = {
-    html        = "text/html"
-    ico         = "image/x-icon"
-    jpg         = "image/jpeg"
-    js          = "application/javascript"
-    png         = "image/png"
-    svg         = "image/svg+xml"
-    webmanifest = "application/manifest+json"
-    webp        = "image/webp"
-    xml         = "text/xml"
-  }
-
-  tags {
-    "Created By"     = "Terraform"
-    "Git Branch"     = "${var.git_branch}"
-    "Git Repository" = "${var.git_repository}"
-    Environment      = "${var.environment[terraform.workspace]}"
-    Project          = "website"
-  }
-
-  bucket_whitelist = [
-    "${var.whitelist_cidr}",
-    "${data.cloudflare_ip_ranges.cloudflare.cidr_blocks}",
-  ]
-
-  website_files = "${sort(split(", ", var.cs_website_files))}"
+  hostname = "${
+    terraform.workspace == "prod"
+    ? ""
+    : "${terraform.workspace}."
+  }${var.root_domain}"
 }
 
-resource "aws_s3_bucket" "website_bucket" {
-  acl    = "public-read"
-  bucket = "${local.bucket_name[terraform.workspace]}"
-  tags   = "${merge(map("Name", "website"), local.tags)}"
+module "aws_tags" {
+  source = "./modules/aws_tags"
 
-  website {
-    index_document = "index.html"
-    error_document = "404.html"
+  environment = terraform.workspace
+  repository  = var.repository
+  service     = var.service
+}
+
+data "cloudflare_zones" "website" {
+  filter {
+    name = var.root_domain
   }
-}
-
-data "cloudflare_ip_ranges" "cloudflare" {}
-
-data "aws_iam_policy_document" "whitelist" {
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.website_bucket.id}/*"]
-
-    condition {
-      test     = "IpAddress"
-      variable = "aws:SourceIp"
-
-      values = [
-        "${local.bucket_whitelist}",
-      ]
-    }
-
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
-  }
-}
-
-resource "aws_s3_bucket_policy" "whitelist" {
-  bucket = "${aws_s3_bucket.website_bucket.id}"
-  policy = "${data.aws_iam_policy_document.whitelist.json}"
-}
-
-resource "aws_s3_bucket_object" "website_files" {
-  count = "${length(local.website_files)}"
-
-  bucket       = "${aws_s3_bucket.website_bucket.id}"
-  content_type = "${lookup(local.content_types, basename(replace(local.website_files[count.index], ".", "/")))}"
-  etag         = "${md5(file("../src/${element(local.website_files, count.index)}"))}"
-  key          = "${local.website_files[count.index]}"
-  source       = "../src/${element(local.website_files, count.index)}"
 }
 
 resource "cloudflare_record" "website" {
-  count = "${terraform.workspace == "master" ? 1 : 0}"
-
-  domain  = "${var.dns_name}"
-  name    = "${aws_s3_bucket.website_bucket.id}"
+  name    = local.hostname
   proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  value   = "${aws_s3_bucket.website_bucket.website_endpoint}"
+  type    = "AAAA"
+  value   = "100::" # ipv6 blackhole
+  zone_id = data.cloudflare_zones.website.zones[0].id
+}
+
+module "cloudflare_worker_static_pages" {
+  source = "./modules/cloudflare_worker_static_pages"
+
+  cloudflare_zone_id        = data.cloudflare_zones.website.zones[0].id
+  hostname                  = local.hostname
+  static_app_directory_path = var.static_app_directory_path
+  worker_path               = "${var.cloudflare_worker_scripts}/staticPages.js"
+}
+
+module "cloudflare_worker_dynamic_pages" {
+  source = "./modules/cloudflare_worker_dynamic_pages"
+
+  cloudflare_zone_id         = data.cloudflare_zones.website.zones[0].id
+  dynamic_app_directory_path = var.dynamic_app_directory_path
+  hostname                   = local.hostname
+
+  environment_variables = {
+    BORT_API_URL  = module.bort_endpoints.url
+    KELLY_API_URL = module.kelly_endpoint.url
+  }
+}
+
+module "kelly_endpoint" {
+  source = "./modules/kelly_endpoint"
+
+  kelly_function_key = var.kelly_function_key
+  kelly_layer_key    = var.kelly_layer_key
+  package_bucket     = var.package_bucket
+  tags               = module.aws_tags.value
+}
+
+module "bort_endpoints" {
+  source = "./modules/bort_endpoints"
+
+  tags = module.aws_tags.value
 }

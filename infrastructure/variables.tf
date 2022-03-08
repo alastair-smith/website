@@ -1,30 +1,35 @@
-variable "dns_name" {
-  description = "The root name of the dns for the website to use"
+variable "cloudflare_worker_scripts" {
+  description = "The absolute path to the worker scripts directory"
 }
 
-variable "environment" {
-  description = "The environment that has been deployed"
-  type        = "map"
+variable "dynamic_app_directory_path" {
+  description = "Path to the directory on the local machine to be uploaded and served as workers"
 }
 
-variable "git_branch" {
-  description = "The branch of git that has been deployed"
-  default     = ""
+variable "kelly_function_key" {
+  description = "The path within the build bucket to the kelly function zip"
 }
 
-variable "git_repository" {
-  description = "The repository that has been deployed"
-  default     = ""
+variable "kelly_layer_key" {
+  description = "The path within the build bucket to the kelly dependencies zip"
 }
 
-variable "cs_website_files" {
-  description = "The comma seperated website files to serve"
+variable "package_bucket" {
+  description = "Name of the S3 bucket storing the build artifacts"
 }
 
-variable "whitelist_cidr" {
-  description = "Single cidr to allow access to s3 bucket for debugging purposes"
+variable "repository" {
+  description = "The full repo URL"
 }
 
-variable "zone_id" {
-  description = "The cloudflare zone for DNS"
+variable "root_domain" {
+  description = "Root domain registered with cloudflare"
+}
+
+variable "service" {
+  description = "The name of the service"
+}
+
+variable "static_app_directory_path" {
+  description = "The absolute path to the built app"
 }
