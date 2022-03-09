@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /assets/
 Disallow: /version.json
+Disallow: /*/api
