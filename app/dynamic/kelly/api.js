@@ -16,6 +16,10 @@ const headersToAdd = [
   [
     'strict-transport-security',
     'max-age=31536000; includeSubDomains'
+  ],
+  [
+    'cache-control',
+    'public, max-age=31536000, immutable'
   ]
 ]
 
