@@ -212,7 +212,7 @@ raw_jobs = {
         "depends_on": ["extract deployment package"],
         "commands": [
             "apk add --no-cache gettext",
-            "export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-')",
+            "export branch_slug=$(echo $DRONE_BRANCH | tr '[:upper:]' '[:lower:]' | tr '/' '-' | tr '_' '-' | tr '.' '-')",
             set_workspace_variable,
             'echo "$WORKSPACE" > workspace.tmp',
             "cd package/infrastructure",
