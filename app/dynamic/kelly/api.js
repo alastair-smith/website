@@ -1,5 +1,5 @@
 addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
+  event.respondWith(handleRequest(event))
 })
 
 const INCORRECT_METHOD_MESSAGE = 'Method not allowed'
@@ -16,6 +16,10 @@ const headersToAdd = [
   [
     'strict-transport-security',
     'max-age=31536000; includeSubDomains'
+  ],
+  [
+    'cache-control',
+    'public, max-age=31536000, immutable'
   ]
 ]
 
@@ -42,7 +46,26 @@ const validateRequest = request => {
   if (request.method !== 'GET') return new Response(JSON.stringify({ error: INCORRECT_METHOD_MESSAGE }), { status: 405 })
 }
 
-const handleRequest = async request => {
+const withCache = handler => async event => {
+  const request = event.request
+  const cache = caches.default
+  const cacheUrl = new URL(request.url)
+  const cacheKey = new Request(cacheUrl.toString(), request)
+
+  let response = await cache.match(request)
+
+  if (!response) {
+    console.log(`Response for request url: ${request.url} not present in cache. Fetching and caching request.`)
+    response = await handler(request)
+    event.waitUntil(cache.put(cacheKey, response.clone()))
+  } else {
+    console.log(`Cache hit for: ${request.url}.`)
+  }
+
+  return response
+}
+
+const handler = async request => {
   try {
     const validationError = validateRequest(request)
     if (validationError) return validationError
@@ -59,3 +82,5 @@ const handleRequest = async request => {
     return new Response('Internal Server Error', { status: 500 })
   }
 }
+
+const handleRequest = withCache(handler)
