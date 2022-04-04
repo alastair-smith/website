@@ -15,6 +15,7 @@ images = {
     "aws cli": "amazon/aws-cli:latest@sha256:2635a0726dc3b9383718baecae23a8ab9e8959edb8b3a5cc91a410c236ac11f5",
     "nodejs": "node:" + node_version + "-alpine@sha256:" + node_image_sha256,
     "terraform": "hashicorp/terraform:1.1.7@sha256:ef828667eca97a3ad9b8f26918b68170bcb3066cd9ba9540da73a608c6b4a2bb",
+    "terraform compliance": "eerkunt/terraform-compliance:1.3.32@sha256:5d284c24f22cb84b0c2affe94cbab104e4fe86097ec07445879194c2ee919b04",
     "python": "python:3.9@sha256:1fb89e1a6f8e739f2a274e745b80d11b1fdad72860489c1794ef13aa5fd69f94",
     "slack": "plugins/slack@sha256:57fb90fd174908c0f5be58fd11b5bf1c420807c64a934c4a346a9b257b6495ba",
 }
@@ -245,10 +246,19 @@ raw_jobs = {
             "terraform plan -input=false -out=tfplan",
         ],
     },
+    "terraform compliance": {
+        "image": images["terraform compliance"],
+        "environment": deploy_variables,
+        "depends_on": ["terraform plan"],
+        "commands": [
+            "cd package/infrastructure",
+            "terraform-compliance --features ./test/compliance --planfile tfplan",
+        ],
+    },
     "terraform apply": {
         "image": images["terraform"],
         "environment": deploy_variables,
-        "depends_on": ["terraform plan"],
+        "depends_on": ["terraform compliance"],
         "commands": [
             "apk add --no-cache curl",
             "cd package/infrastructure",
@@ -339,6 +349,7 @@ deploy = extend_default(
             jobs["construct deployment variables"],
             jobs["terraform init"],
             jobs["terraform plan"],
+            jobs["terraform compliance"],
             jobs["terraform apply"],
         ],
     }
