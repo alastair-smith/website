@@ -127,7 +127,7 @@ resource "aws_apigatewayv2_route" "kelly" {
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway" {
-  name = "/aws/api_gw/${aws_apigatewayv2_api.lambda.name}"
+  name = "/api-gateway/${aws_apigatewayv2_api.lambda.name}"
 }
 
 resource "aws_lambda_permission" "api_gateway" {

@@ -5,11 +5,11 @@ Feature: Resource Names
   Scenario: Standard resources have names following kebab-case
     Given I have any resource defined
     When it has name
-    And its type is not null_resource
-    And its type is not aws_dynamodb_table_item
-    And its type is not cloudflare_record
-    And its type is not cloudflare_worker_script
-    And its type is not aws_cloudwatch_log_group
+    And its type metadata is not null_resource
+    And its type metadata is not aws_dynamodb_table_item
+    And its type metadata is not cloudflare_record 
+    And its type metadata is not cloudflare_worker_script
+    And its type metadata is not aws_cloudwatch_log_group
     Then it must have name
     And its value must match the "^[a-z0-9]+(-[a-z0-9]+)*$" regex
 
