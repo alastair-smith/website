@@ -3,7 +3,9 @@ Feature: Resource Names
   all resources shall follow a consistent naming scheme
 
   Scenario: Standard resources
-    Given I have resource that supports name defined
-    When its type is not null_resource
+    Given I have any resource defined
+    When it has name
+    And its type is not null_resource
+    And its type is not aws_dynamodb_table_item
     Then it must have name
     And its value must match the ".*" regex
