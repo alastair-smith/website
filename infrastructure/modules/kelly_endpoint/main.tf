@@ -84,6 +84,7 @@ resource "aws_lambda_layer_version" "kelly_dependencies" {
 resource "aws_apigatewayv2_api" "lambda" {
   name          = local.name_prefix
   protocol_type = "HTTP"
+  tags          = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
@@ -91,6 +92,7 @@ resource "aws_apigatewayv2_stage" "lambda" {
 
   name        = "kelly-lambda-stage"
   auto_deploy = true
+  tags        = local.tags
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway.arn
@@ -128,6 +130,7 @@ resource "aws_apigatewayv2_route" "kelly" {
 
 resource "aws_cloudwatch_log_group" "api_gateway" {
   name = "/api-gateway/${aws_apigatewayv2_api.lambda.name}"
+  tags = local.tags
 }
 
 resource "aws_lambda_permission" "api_gateway" {

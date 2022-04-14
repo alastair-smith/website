@@ -82,6 +82,7 @@ resource "aws_iam_role_policy_attachment" "gateway_permissions" {
 
 resource "aws_api_gateway_rest_api" "gateway" {
   name = local.name_prefix
+  tags = local.tags
   body = jsonencode({
     openapi = "3.0.1"
     info = {
@@ -209,4 +210,5 @@ resource "aws_api_gateway_stage" "stage" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.gateway.id
   stage_name    = "stage"
+  tags          = local.tags
 }
