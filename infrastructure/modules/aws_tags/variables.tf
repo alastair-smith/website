@@ -1,5 +1,6 @@
 variable "environment" {
   description = "The tier of the environment, either prod for the default branch, or the branch slug otherwise."
+  type        = string
 
   validation {
     condition = (
@@ -12,6 +13,7 @@ variable "environment" {
 
 variable "repository" {
   description = "The full repo URL"
+  type        = string
 
   validation {
     condition = (
@@ -24,6 +26,7 @@ variable "repository" {
 
 variable "service" {
   description = "The name of the service"
+  type        = string
 
   validation {
     condition     = length(var.service) > 0
