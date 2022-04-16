@@ -3,7 +3,7 @@ Feature: AWS Region
   all non-global AWS resources shall be created in the same region
 
   Scenario: Ensure all non-global AWS resources are in the same region
-    Given I have a provider configured
+    Given I have any provider defined
     When its provider_name is aws
     Then it must contain region
     And its value must be eu-west-1
