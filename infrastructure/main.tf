@@ -6,14 +6,6 @@ locals {
   }${var.root_domain}"
 }
 
-module "aws_tags" {
-  source = "./modules/aws_tags"
-
-  environment = terraform.workspace
-  repository  = var.repository
-  service     = var.service
-}
-
 data "cloudflare_zones" "website" {
   filter {
     name = var.root_domain
@@ -56,11 +48,8 @@ module "kelly_endpoint" {
   kelly_function_key = var.kelly_function_key
   kelly_layer_key    = var.kelly_layer_key
   package_bucket     = var.package_bucket
-  tags               = module.aws_tags.value
 }
 
 module "bort_endpoints" {
   source = "./modules/bort_endpoints"
-
-  tags = module.aws_tags.value
 }

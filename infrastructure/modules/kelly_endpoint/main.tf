@@ -1,5 +1,5 @@
 locals {
-  name_prefix          = "${var.tags.Environment}-kelly"
+  name_prefix          = "${terraform.workspace}-kelly"
   kelly_lambda_runtime = "nodejs14.x"
   tags                 = merge(var.tags, { Name = local.name_prefix })
 }

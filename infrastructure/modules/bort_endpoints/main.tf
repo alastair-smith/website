@@ -1,5 +1,5 @@
 locals {
-  name_prefix = "${var.tags.Environment}-bort"
+  name_prefix = "${terraform.workspace}-bort"
   tags        = merge(var.tags, { Name = local.name_prefix })
   counter_id  = "bort-count"
 }
