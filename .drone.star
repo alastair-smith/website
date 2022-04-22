@@ -299,14 +299,6 @@ raw_jobs = {
             "npm test",
         ],
     },
-    "store artifact": {
-        "image": images["aws cli"],
-        "depends_on": ["terraform plan"],
-        "environment": deploy_variables,
-        "commands": [
-            "aws s3 cp package/infrastructure/tfplan s3://$PACKAGE_BUCKET/tfplan"
-        ],
-    },
 }
 
 jobs = {
@@ -363,7 +355,6 @@ deploy = extend_default(
             jobs["construct deployment variables"],
             jobs["terraform init"],
             jobs["terraform plan"],
-            jobs["store artifact"],
             jobs["terraform compliance"],
             jobs["terraform apply"],
         ],
