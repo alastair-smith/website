@@ -11,7 +11,7 @@ Feature: Resource Tags
   Scenario Outline: Ensure that tags meet the expected values
     Given I have resource that supports tags_all defined
     Then it must contain tags_all
-    Then it must contain "<tags>"
+    And it must contain "<tags>"
     And its value must match the "<value>" regex
 
     # Name regex is combination of all the allowed values from name.feature
