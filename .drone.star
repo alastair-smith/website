@@ -116,6 +116,14 @@ raw_jobs = {
         "image": images["tflint"],
         "commands": ["cd infrastructure", "tflint --init", "tflint"],
     },
+    "lint terraform compliance features": {
+        "image": images["nodejs"],
+        "commands": [
+            "cd infrastructure/test/compliance",
+            "npm i -g gherkin-lint",
+            "gherkin-lint",
+        ],
+    },
     "check drone config formatting": {
         "image": images["python"],
         "commands": ["pip install black", "black --check .drone.star"],
@@ -321,6 +329,7 @@ validate = extend_default(
             jobs["validate terraform"],
             jobs["check terraform formatting"],
             jobs["lint terraform"],
+            jobs["lint terraform compliance features"],
         ],
     }
 )
