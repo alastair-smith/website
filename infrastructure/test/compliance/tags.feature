@@ -8,7 +8,7 @@ Scenario: AWS tags configured at provider
   And it must contain tags
 
 # also includes when tags are set at the provider-level
-Scenario Outline: Ensure that tags meet the expected values
+Scenario Outline: Tags meet the expected values
   Given I have resource that supports tags_all defined
   Then it must contain tags_all
   And it must contain "<tags>"
