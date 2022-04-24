@@ -4,12 +4,17 @@ locals {
     ? ""
     : "${terraform.workspace}."
   }${var.root_domain}"
+  permissions_boundary = data.aws_iam_policy.permissions_boundary.arn
 }
 
 data "cloudflare_zones" "website" {
   filter {
     name = var.root_domain
   }
+}
+
+data "aws_iam_policy" "permissions_boundary" {
+  name = var.permissions_boundary_policy_name
 }
 
 resource "cloudflare_record" "website" {
@@ -49,8 +54,11 @@ module "kelly_endpoint" {
   kelly_layer_key       = var.kelly_layer_key
   log_retention_in_days = var.log_retention_in_days
   package_bucket        = var.package_bucket
+  permissions_boundary  = local.permissions_boundary
 }
 
 module "bort_endpoints" {
   source = "./modules/bort_endpoints"
+
+  permissions_boundary = local.permissions_boundary
 }

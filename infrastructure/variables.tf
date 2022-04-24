@@ -28,6 +28,11 @@ variable "package_bucket" {
   type        = string
 }
 
+variable "permissions_boundary_policy_name" {
+  description = "Name of AWS IAM policy to restrict all created roles"
+  type        = string
+}
+
 variable "repository" {
   description = "The full repo URL"
   type        = string

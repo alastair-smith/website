@@ -52,9 +52,10 @@ data "aws_iam_policy_document" "trust_policy" {
 }
 
 resource "aws_iam_role" "gateway_role" {
-  assume_role_policy = data.aws_iam_policy_document.trust_policy.json
-  name               = local.name_prefix
-  tags               = local.tags
+  assume_role_policy   = data.aws_iam_policy_document.trust_policy.json
+  name                 = local.name_prefix
+  permissions_boundary = var.permissions_boundary
+  tags                 = local.tags
 }
 
 data "aws_iam_policy_document" "gateway_permissions" {

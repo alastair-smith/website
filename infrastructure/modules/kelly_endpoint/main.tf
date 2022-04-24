@@ -34,9 +34,10 @@ data "aws_iam_policy_document" "permissions_policy" {
 }
 
 resource "aws_iam_role" "role" {
-  assume_role_policy = data.aws_iam_policy_document.trust_policy.json
-  name               = local.name_prefix
-  tags               = local.tags
+  assume_role_policy   = data.aws_iam_policy_document.trust_policy.json
+  name                 = local.name_prefix
+  permissions_boundary = var.permissions_boundary
+  tags                 = local.tags
 }
 
 resource "aws_iam_policy" "permissions" {

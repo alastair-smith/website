@@ -10,6 +10,8 @@ log_retention_in_days = 90
 
 package_bucket = "${PACKAGE_BUCKET}"
 
+permissions_boundary_policy_name = "website-permissions-boundary"
+
 repository = "${DRONE_REPO_LINK}"
 
 root_domain = "alsmith.dev"
