@@ -56,6 +56,8 @@ resource "aws_iam_role" "gateway_role" {
   name                 = local.name_prefix
   permissions_boundary = var.permissions_boundary
   tags                 = local.tags
+
+  inline_policy {}
 }
 
 data "aws_iam_policy_document" "gateway_permissions" {
