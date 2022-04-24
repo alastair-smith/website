@@ -38,6 +38,8 @@ resource "aws_iam_role" "role" {
   name                 = local.name_prefix
   permissions_boundary = var.permissions_boundary
   tags                 = local.tags
+
+  inline_policy {}
 }
 
 resource "aws_iam_policy" "permissions" {
