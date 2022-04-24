@@ -5,8 +5,9 @@ locals {
 }
 
 resource "aws_cloudwatch_log_group" "function_logs" {
-  name = "/aws/lambda/${local.name_prefix}"
-  tags = local.tags
+  name              = "/aws/lambda/${local.name_prefix}"
+  retention_in_days = var.log_retention_in_days
+  tags              = local.tags
 }
 
 data "aws_iam_policy_document" "trust_policy" {
@@ -129,8 +130,9 @@ resource "aws_apigatewayv2_route" "kelly" {
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway" {
-  name = "/api-gateway/${aws_apigatewayv2_api.lambda.name}"
-  tags = local.tags
+  name              = "/api-gateway/${aws_apigatewayv2_api.lambda.name}"
+  retention_in_days = var.log_retention_in_days
+  tags              = local.tags
 }
 
 resource "aws_lambda_permission" "api_gateway" {

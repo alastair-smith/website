@@ -45,9 +45,10 @@ module "cloudflare_worker_dynamic_pages" {
 module "kelly_endpoint" {
   source = "./modules/kelly_endpoint"
 
-  kelly_function_key = var.kelly_function_key
-  kelly_layer_key    = var.kelly_layer_key
-  package_bucket     = var.package_bucket
+  kelly_function_key    = var.kelly_function_key
+  kelly_layer_key       = var.kelly_layer_key
+  log_retention_in_days = var.log_retention_in_days
+  package_bucket        = var.package_bucket
 }
 
 module "bort_endpoints" {
