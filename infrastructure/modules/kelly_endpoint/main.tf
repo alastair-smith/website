@@ -1,12 +1,13 @@
 locals {
-  name_prefix          = "${var.tags.Environment}-kelly"
+  name_prefix          = "${terraform.workspace}-kelly"
   kelly_lambda_runtime = "nodejs14.x"
   tags                 = merge(var.tags, { Name = local.name_prefix })
 }
 
 resource "aws_cloudwatch_log_group" "function_logs" {
-  name = "/aws/lambda/${local.name_prefix}"
-  tags = local.tags
+  name              = "/aws/lambda/${local.name_prefix}"
+  retention_in_days = var.log_retention_in_days
+  tags              = local.tags
 }
 
 data "aws_iam_policy_document" "trust_policy" {
@@ -33,9 +34,10 @@ data "aws_iam_policy_document" "permissions_policy" {
 }
 
 resource "aws_iam_role" "role" {
-  assume_role_policy = data.aws_iam_policy_document.trust_policy.json
-  name               = local.name_prefix
-  tags               = local.tags
+  assume_role_policy   = data.aws_iam_policy_document.trust_policy.json
+  name                 = local.name_prefix
+  permissions_boundary = var.permissions_boundary
+  tags                 = local.tags
 }
 
 resource "aws_iam_policy" "permissions" {
@@ -84,6 +86,7 @@ resource "aws_lambda_layer_version" "kelly_dependencies" {
 resource "aws_apigatewayv2_api" "lambda" {
   name          = local.name_prefix
   protocol_type = "HTTP"
+  tags          = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
@@ -91,6 +94,7 @@ resource "aws_apigatewayv2_stage" "lambda" {
 
   name        = "kelly-lambda-stage"
   auto_deploy = true
+  tags        = local.tags
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway.arn
@@ -127,7 +131,9 @@ resource "aws_apigatewayv2_route" "kelly" {
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway" {
-  name = "/aws/api_gw/${aws_apigatewayv2_api.lambda.name}"
+  name              = "/api-gateway/${aws_apigatewayv2_api.lambda.name}"
+  retention_in_days = var.log_retention_in_days
+  tags              = local.tags
 }
 
 resource "aws_lambda_permission" "api_gateway" {

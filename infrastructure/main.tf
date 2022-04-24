@@ -4,20 +4,17 @@ locals {
     ? ""
     : "${terraform.workspace}."
   }${var.root_domain}"
-}
-
-module "aws_tags" {
-  source = "./modules/aws_tags"
-
-  environment = terraform.workspace
-  repository  = var.repository
-  service     = var.service
+  permissions_boundary = data.aws_iam_policy.permissions_boundary.arn
 }
 
 data "cloudflare_zones" "website" {
   filter {
     name = var.root_domain
   }
+}
+
+data "aws_iam_policy" "permissions_boundary" {
+  name = var.permissions_boundary_policy_name
 }
 
 resource "cloudflare_record" "website" {
@@ -53,14 +50,15 @@ module "cloudflare_worker_dynamic_pages" {
 module "kelly_endpoint" {
   source = "./modules/kelly_endpoint"
 
-  kelly_function_key = var.kelly_function_key
-  kelly_layer_key    = var.kelly_layer_key
-  package_bucket     = var.package_bucket
-  tags               = module.aws_tags.value
+  kelly_function_key    = var.kelly_function_key
+  kelly_layer_key       = var.kelly_layer_key
+  log_retention_in_days = var.log_retention_in_days
+  package_bucket        = var.package_bucket
+  permissions_boundary  = local.permissions_boundary
 }
 
 module "bort_endpoints" {
   source = "./modules/bort_endpoints"
 
-  tags = module.aws_tags.value
+  permissions_boundary = local.permissions_boundary
 }

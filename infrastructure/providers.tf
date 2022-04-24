@@ -26,6 +26,14 @@ terraform {
 
 provider "aws" {
   region = "eu-west-1"
+
+  default_tags {
+    tags = {
+      Environment = terraform.workspace
+      Repository  = var.repository
+      Service     = var.service
+    }
+  }
 }
 
 provider "cloudflare" {}

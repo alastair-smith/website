@@ -1,5 +1,5 @@
 locals {
-  name_prefix = "${var.tags.Environment}-bort"
+  name_prefix = "${terraform.workspace}-bort"
   tags        = merge(var.tags, { Name = local.name_prefix })
   counter_id  = "bort-count"
 }
@@ -52,9 +52,10 @@ data "aws_iam_policy_document" "trust_policy" {
 }
 
 resource "aws_iam_role" "gateway_role" {
-  assume_role_policy = data.aws_iam_policy_document.trust_policy.json
-  name               = local.name_prefix
-  tags               = local.tags
+  assume_role_policy   = data.aws_iam_policy_document.trust_policy.json
+  name                 = local.name_prefix
+  permissions_boundary = var.permissions_boundary
+  tags                 = local.tags
 }
 
 data "aws_iam_policy_document" "gateway_permissions" {
@@ -82,6 +83,7 @@ resource "aws_iam_role_policy_attachment" "gateway_permissions" {
 
 resource "aws_api_gateway_rest_api" "gateway" {
   name = local.name_prefix
+  tags = local.tags
   body = jsonencode({
     openapi = "3.0.1"
     info = {
@@ -209,4 +211,5 @@ resource "aws_api_gateway_stage" "stage" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.gateway.id
   stage_name    = "stage"
+  tags          = local.tags
 }
