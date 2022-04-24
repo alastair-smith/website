@@ -1,7 +1,7 @@
 .blog-post {
   article {
     background-color: $color-1;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 50px;
     margin: 50px auto;
@@ -10,7 +10,11 @@
     color: $color-2;
     font-size: 18px;
 
-    h1, h2, h3, h4, h5 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       font-family: "Open Sans", sans;
 
       .anchor-link {
@@ -51,6 +55,49 @@
 
     h5 {
       font-size: 1.2em;
+    }
+
+    pre {
+      background-color: $color-2;
+      border-radius: 4px;
+      padding: 1.5em;
+
+      code {
+        background-color: rgba(0, 0, 0, 0);
+        color: $color-1;
+        padding: 0px;
+
+        .hljs-keyword {
+          color: #FFCC95;
+        }
+
+        .hljs-string {
+          color: #19f9d8;
+        }
+
+        .hljs-title {
+          color: #6fc1ff;
+        }
+
+        .hljs-params {
+          color: #BCAAFE;
+        }
+
+        .hljs-number {
+          color: #FFB86C;
+        }
+
+        .hljs-comment {
+          color: #bbbbbb;
+        }
+      }
+    }
+
+    code {
+      font-size: 85%;
+      border-radius: 4px;
+      background-color: $color-3;
+      padding: 0.2em 0.4em;
     }
 
     .post-date {
