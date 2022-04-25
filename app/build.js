@@ -10,6 +10,7 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeRewrite from 'rehype-rewrite'
 import { definer as hightlightTerraform } from 'highlightjs-terraform'
 import copydir from 'copy-dir'
 import { promises as fsPromises } from 'fs'
@@ -123,6 +124,19 @@ const buildHTML = async assetsVersion => {
     }
   }))
 
+  const addCodeBlockCopyButton = node => {
+    if (node.type === 'element' && node.tagName === 'pre') {
+      node.children = [{
+        type: 'element',
+        tagName: 'button',
+        properties: {
+          className: 'copy-button'
+        },
+        children: [{ type: 'text', value: 'Copy 📋' }]
+      }, ...node.children]
+    }
+  }
+
   // render blogs
   await Promise.all(
     allPostsInfo
@@ -132,6 +146,7 @@ const buildHTML = async assetsVersion => {
           .use(remarkParse)
           .use(remarkRehype)
           .use(rehypeHighlight, { languages: { terraform: hightlightTerraform } })
+          .use(rehypeRewrite, { rewrite: addCodeBlockCopyButton })
           .use(rehypeExternalLinks, { target: '_blank', rel: ['noreferrer'] })
           .use(rehypeSlug)
           .use(rehypeAutolinkHeadings, {

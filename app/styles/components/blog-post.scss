@@ -60,8 +60,9 @@
     pre {
       background-color: $color-2;
       border-radius: 4px;
-      padding: 1.5em;
       overflow: auto;
+      padding: 1.5em;
+      position: relative;
 
       code {
         background-color: rgba(0, 0, 0, 0);
@@ -91,6 +92,12 @@
         .hljs-comment {
           color: #bbbbbb;
         }
+      }
+
+      .copy-button {
+        position: absolute;
+        top: 0;
+        right: 0;
       }
     }
 
