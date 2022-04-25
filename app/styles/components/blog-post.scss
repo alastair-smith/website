@@ -62,7 +62,6 @@
       border-radius: 4px;
       overflow: auto;
       padding: 1.5em;
-      position: relative;
 
       code {
         background-color: rgba(0, 0, 0, 0);
@@ -93,24 +92,48 @@
           color: #bbbbbb;
         }
       }
+    }
+  }
 
-      .copy-button {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
+  code {
+    font-size: 85%;
+    border-radius: 4px;
+    background-color: $color-3;
+    padding: 0.2em 0.4em;
+  }
+
+  .post-date {
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  .code-block-wrapper {
+    position: relative;
+  }
+
+  .copy-button {
+    position: absolute;
+    top: 0.4em;
+    right: 0.4em;
+    background-color: $color-4;
+    border: 1px solid $color-3;
+    padding: 0.4em 0.75em;
+    font: inherit;
+    outline: inherit;
+    color: $color-1;
+    border-radius: 3px;
+    opacity: 0.6;
+    cursor: copy;
+
+    &:active {
+      transform: scale(0.9, 0.9);
+      outline: none;
     }
 
-    code {
-      font-size: 85%;
-      border-radius: 4px;
-      background-color: $color-3;
-      padding: 0.2em 0.4em;
-    }
-
-    .post-date {
-      font-size: 18px;
-      font-style: italic;
+    &:hover,
+    &:focus {
+      opacity: 1;
+      outline: none;
     }
   }
 }
