@@ -9,6 +9,10 @@ import rehypeExternalLinks from 'rehype-external-links'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeStringify from 'rehype-stringify'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeRewrite from 'rehype-rewrite'
+import { definer as hightlightTerraform } from 'highlightjs-terraform'
+import highLightGherkin from 'highlight.js/lib/languages/gherkin'
 import copydir from 'copy-dir'
 import { promises as fsPromises } from 'fs'
 
@@ -121,6 +125,35 @@ const buildHTML = async assetsVersion => {
     }
   }))
 
+  const addCodeBlockCopyButton = (node) => {
+    if (node.type === 'element' && node.tagName === 'pre' && !node.properties.className) {
+      const nodeCopy = {
+        ...node,
+        properties: {
+          className: 'code-block'
+        }
+      }
+      const copyButton = {
+        type: 'element',
+        tagName: 'button',
+        properties: {
+          className: 'copy-button'
+        },
+        children: [{ type: 'text', value: 'Copy 📋' }]
+      }
+      const wrapper = {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+          className: 'code-block-wrapper'
+        },
+        children: [copyButton, nodeCopy]
+      }
+      Object.keys(node).forEach(property => delete node[property])
+      Object.assign(node, wrapper)
+    }
+  }
+
   // render blogs
   await Promise.all(
     allPostsInfo
@@ -129,6 +162,8 @@ const buildHTML = async assetsVersion => {
         const content = String(await unified()
           .use(remarkParse)
           .use(remarkRehype)
+          .use(rehypeHighlight, { languages: { terraform: hightlightTerraform, gherkin: highLightGherkin } })
+          .use(rehypeRewrite, { rewrite: addCodeBlockCopyButton })
           .use(rehypeExternalLinks, { target: '_blank', rel: ['noreferrer'] })
           .use(rehypeSlug)
           .use(rehypeAutolinkHeadings, {

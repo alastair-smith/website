@@ -90,7 +90,7 @@ raw_jobs = {
     },
     "install app node modules": {
         "image": images["nodejs"],
-        "commands": ["cd app", "npm ci"],
+        "commands": ["apk add --no-cache git", "cd app", "npm ci"],
     },
     "lint javascript": {
         "image": images["nodejs"],

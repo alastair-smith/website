@@ -6,7 +6,14 @@
   <time class="post-date" datetime="{{ postDate }}">{{ postDate | date }}</time>
 {% endmacro %}
 
+{% block headEnd %}
+  <script type='module' src="{{ '/assets/scripts/blog.js' | asset }}"></script>
+{% endblock %}
+
 {% block content %}
+<noscript>
+  <style>.copy-button { display:none; }</style>
+</noscript>
 <article>
   {{ content | injectDate(dateString()) | safe }}
 </article>
