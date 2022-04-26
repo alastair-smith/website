@@ -6,6 +6,10 @@
   <time class="post-date" datetime="{{ postDate }}">{{ postDate | date }}</time>
 {% endmacro %}
 
+{% block headEnd %}
+  <script type='module' src="{{ '/assets/scripts/blog.js' | asset }}"></script>
+{% endblock %}
+
 {% block content %}
 <noscript>
   <style>.copy-button { display:none; }</style>
@@ -13,18 +17,4 @@
 <article>
   {{ content | injectDate(dateString()) | safe }}
 </article>
-<script>
-  const activateCopyButtons = () => {
-    const buttons = document.getElementsByClassName('copy-button')
-    const copyCode = async event => {
-      const codeElement = event.target.parentElement.children[1]
-      await navigator.clipboard.writeText(codeElement.textContent)
-    }
-    for (const button of buttons) {
-      button.addEventListener('click', copyCode)
-    }
-  }
-
-  activateCopyButtons()
-</script>
 {% endblock %}
