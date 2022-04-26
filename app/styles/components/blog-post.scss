@@ -1,14 +1,14 @@
 .blog-post {
   article {
     background-color: $color-1;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    padding: 50px;
-    margin: 50px auto;
-    width: calc(95vw - 100px);
-    max-width: $max-content-width;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: $color-2;
     font-size: 18px;
+    margin: 50px auto;
+    max-width: $max-content-width;
+    padding: 50px;
+    width: calc(95vw - 100px);
 
     h1,
     h2,
@@ -96,9 +96,9 @@
   }
 
   code {
-    font-size: 85%;
-    border-radius: 4px;
     background-color: $color-3;
+    border-radius: 4px;
+    font-size: 85%;
     padding: 0.2em 0.4em;
   }
 
@@ -112,22 +112,22 @@
   }
 
   .copy-button {
-    position: absolute;
-    top: 0.4em;
-    right: 0.4em;
     background-color: $color-4;
-    border: 1px solid $color-3;
-    padding: 0.4em 0.75em;
-    font: inherit;
-    outline: inherit;
-    color: $color-1;
     border-radius: 3px;
-    opacity: 0.6;
+    border: 1px solid $color-3;
+    color: $color-1;
     cursor: copy;
+    font: inherit;
+    opacity: 0.6;
+    outline: inherit;
+    padding: 0.4em 0.75em;
+    position: absolute;
+    right: 0.4em;
+    top: 0.4em;
 
     &:active {
-      transform: scale(0.9, 0.9);
       outline: none;
+      transform: scale(0.9, 0.9);
     }
 
     &:hover,
