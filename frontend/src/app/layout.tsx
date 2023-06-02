@@ -33,18 +33,28 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) { // todo update skip link styling
+}) {
+  // todo update skip link styling
   return (
     <html lang="en">
       <body>
-        <a href="#main-content" className="absolute px-3 py-2 transition-all -translate-y-full focus:translate-y-0 bg-indigo-800 text-gray-100 text-base font-medium rounded-b-lg mx-4 focus:outline-none focus:ring-4 focus:ring-indigo-500  hover:no-underline hover:bg-indigo-900 hover:text-white z-10">Skip to main content</a>
+        <a
+          href="#main-content"
+          className="absolute px-3 py-2 transition-all -translate-y-full focus:translate-y-0 bg-indigo-800 text-gray-100 text-base font-medium rounded-b-lg mx-4 focus:outline-none focus:ring-4 focus:ring-indigo-500  hover:no-underline hover:bg-indigo-900 hover:text-white z-10"
+        >
+          Skip to main content
+        </a>
 
-        <div className={`${inter.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}>
+        <div
+          className={`${inter.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
+        >
           <header className="bg-gray-200 py-4 row-start-1 row-end-2">
             <Link href="/">alsmith.dev</Link>
           </header>
 
-          <main className="bg-gray-100 row-start-2 row-end-3" id="main-content">{children}</main>
+          <main className="bg-gray-100 row-start-2 row-end-3" id="main-content">
+            {children}
+          </main>
 
           <footer className="bg-gray-200 py-4 row-start-3 row-end-4">
             <div>
@@ -70,6 +80,6 @@ export default function RootLayout({
           </footer>
         </div>
       </body>
-    </html >
+    </html>
   );
 }

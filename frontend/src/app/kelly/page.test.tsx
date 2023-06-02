@@ -44,9 +44,12 @@ describe('kelly page', () => {
 
     await user.click(submitButton);
 
-    const image = screen.getByTestId('image')
+    const image = screen.getByTestId('image');
 
-    expect(image).toBeInTheDocument()
-    expect(image).toHaveAttribute('src', 'https://alsmith.dev/kelly/api?text=hello+world"&gif=1')
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute(
+      'src',
+      'https://alsmith.dev/kelly/api?text=hello+world"&gif=1'
+    );
   });
 });

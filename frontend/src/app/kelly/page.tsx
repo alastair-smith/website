@@ -1,10 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
-import Image from 'next/image';
 
 const Gif = ({ text }: { text: string }) => {
   const url = `https://alsmith.dev/kelly/api?text=${text}&gif=1`;
@@ -13,15 +13,15 @@ const Gif = ({ text }: { text: string }) => {
 
   return (
     <div>
-      <img src={url} alt='kelly' />
+      <img src={url} alt="kelly" />
       <button onClick={copyUrl}>Copy URL</button>
     </div>
-  )
-}
+  );
+};
 
 export default function Page() {
   const [inputValue, setInputValue] = useState('');
-  const [submittedValue, setSubmittedValue] = useState('')
+  const [submittedValue, setSubmittedValue] = useState('');
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -43,9 +43,7 @@ export default function Page() {
         <Button>Submit</Button>
       </form>
 
-      {
-        submittedValue && <Gif text={submittedValue} />
-      }
+      {submittedValue && <Gif text={submittedValue} />}
 
       <h2>Umm, what is this?</h2>
       <p>
