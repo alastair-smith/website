@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <div className="max-w-reading mx-medium justify-center">
-      <h1 className="font-bold text-4xl mb-huge mt-huge">Kelly</h1>
+      <h1 className="uppercase font-bold text-4xl mb-huge mt-huge">Kelly</h1>
       <form
         className="max-w-form mb-huge flex flex-col"
         onSubmit={handleSubmit}

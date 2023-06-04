@@ -22,7 +22,7 @@ const SocialLink = ({
   url: string;
   image: string;
 }) => (
-  <a href={url} rel="noopener" target="_blank">
+  <a href={url} rel="noopener" target="_blank" className="flex flex-col">
     <Image src={image} alt={title} />
     <span>{title}</span>
     <span>{user}</span>
@@ -62,7 +62,7 @@ export default function RootLayout({
           </main>
 
           <footer className="bg-gray-200 py-4 row-start-3 row-end-4">
-            <div>
+            <div className="flex flex-wrap justify-center">
               <SocialLink
                 title="github"
                 user="alastair-smith"

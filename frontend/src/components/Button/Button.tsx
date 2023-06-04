@@ -6,7 +6,7 @@ const Button = ({
   ...args
 }: ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className={`active:scale-90 border-2 border-black px-medium py-small rounded ${className}`}
+    className={`hover:bg-gray-200 focus:bg-gray-200 active:scale-90 border-2 border-black px-medium py-small rounded ${className}`}
     {...args}
   >
     {children}
