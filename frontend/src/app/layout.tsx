@@ -49,10 +49,15 @@ export default function RootLayout({
           className={`${inter.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
         >
           <header className="bg-gray-200 py-4 row-start-1 row-end-2">
-            <Link href="/">alsmith.dev</Link>
+            <Link className="mx-medium text-xl my-small" href="/">
+              alsmith.dev
+            </Link>
           </header>
 
-          <main className="bg-gray-100 row-start-2 row-end-3" id="main-content">
+          <main
+            className="bg-gray-100 row-start-2 row-end-3 flex justify-center"
+            id="main-content"
+          >
             {children}
           </main>
 

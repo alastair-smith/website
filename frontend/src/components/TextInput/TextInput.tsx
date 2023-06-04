@@ -3,9 +3,17 @@ import { ChangeEventHandler } from 'react';
 const TextInput = ({
   value,
   onChange,
+  className,
 }: {
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
-}) => <input value={value} onChange={onChange} />;
+  className: string;
+}) => (
+  <input
+    className={`w-full border-2 border-black px-medium py-small rounded ${className}`}
+    value={value}
+    onChange={onChange}
+  />
+);
 
 export default TextInput;

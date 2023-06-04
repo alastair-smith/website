@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 
 import Button from '@/components/Button/Button';
@@ -14,7 +13,7 @@ const Gif = ({ text }: { text: string }) => {
   return (
     <div>
       <img src={url} alt="kelly" />
-      <button onClick={copyUrl}>Copy URL</button>
+      <Button onClick={copyUrl}>Copy URL</Button>
     </div>
   );
 };
@@ -36,11 +35,18 @@ export default function Page() {
   };
 
   return (
-    <>
-      <h1>Kelly</h1>
-      <form onSubmit={handleSubmit}>
-        <TextInput value={inputValue} onChange={handleChange} />
-        <Button>Submit</Button>
+    <div className="max-w-reading mx-medium justify-center">
+      <h1 className="font-bold text-4xl mb-huge mt-huge">Kelly</h1>
+      <form
+        className="max-w-form mb-huge flex flex-col"
+        onSubmit={handleSubmit}
+      >
+        <TextInput
+          className="mb-small"
+          value={inputValue}
+          onChange={handleChange}
+        />
+        <Button className="self-end">Submit</Button>
       </form>
 
       {submittedValue && <Gif text={submittedValue} />}
@@ -55,6 +61,6 @@ export default function Page() {
         spreadsheet and then things just snowballed and I added gif
         functionality.
       </p>
-    </>
+    </div>
   );
 }
