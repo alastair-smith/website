@@ -55,7 +55,7 @@ export default function RootLayout({
           </header>
 
           <main
-            className="bg-gray-100 row-start-2 row-end-3 flex justify-center"
+            className="bg-gray-100 row-start-2 row-end-3 flex flex-col items-center"
             id="main-content"
           >
             {children}
