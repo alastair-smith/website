@@ -21,6 +21,7 @@ module.exports = {
         gigantic: '6rem',
       },
       maxWidth: {
+        thin: '16rem',
         form: '80ch',
         reading: '120ch',
       },

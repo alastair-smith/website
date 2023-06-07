@@ -80,7 +80,7 @@ export default function Page() {
   };
 
   return (
-    <div className="max-w-reading mx-medium w-full">
+    <div className="max-w-reading mx-medium w-full flex-col flex">
       <h1 className="uppercase font-bold text-4xl mb-huge mt-huge">Kelly</h1>
       <form
         className="max-w-form mb-huge flex flex-col"
@@ -99,7 +99,9 @@ export default function Page() {
       {showMoreInfo ? (
         <MoreInfo />
       ) : (
-        <Button onClick={() => setShowMoreInfo(true)}>Umm what is this?</Button>
+        <Button className="self-start" onClick={() => setShowMoreInfo(true)}>
+          Umm what is this?
+        </Button>
       )}
     </div>
   );
