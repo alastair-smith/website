@@ -13,6 +13,7 @@ export const metadata = {
 
 const GithubIcon = () => (
   <svg
+    aria-hidden="true"
     className="col-span-1"
     xmlns="http://www.w3.org/2000/svg"
     height="1em"
@@ -24,6 +25,7 @@ const GithubIcon = () => (
 
 const LinkedInIcon = () => (
   <svg
+    aria-hidden="true"
     className="col-span-1"
     xmlns="http://www.w3.org/2000/svg"
     height="1em"
@@ -35,6 +37,7 @@ const LinkedInIcon = () => (
 
 const EmailIcon = () => (
   <svg
+    aria-hidden="true"
     className="col-span-1"
     xmlns="http://www.w3.org/2000/svg"
     height="1em"
@@ -101,7 +104,7 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="bg-gray-200 pt-huge pb-gigantic row-start-3 row-end-4 flex justify-center">
+          <footer className="bg-gray-200 pt-huge pb-huge row-start-3 row-end-4 flex justify-center">
             <div className="grid gap-4 grid-cols-1 max-w-reading mx-medium">
               <SocialLink
                 title="github"
