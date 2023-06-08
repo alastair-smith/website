@@ -5,18 +5,8 @@ import { FormEvent, useState } from 'react';
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 
-const Gif = ({ text }: { text: string }) => {
-  const url = `https://alsmith.dev/kelly/api?text=${text}&gif=1`;
-
-  const copyUrl = () => navigator.clipboard.writeText(url);
-
-  return (
-    <div className="flex flex-col items-center">
-      <img src={url} className="max-w-[480px]" alt="kelly" />
-      <Button onClick={copyUrl}>Copy URL</Button>
-    </div>
-  );
-};
+const getUrl = (text: string) =>
+  text ? `https://alsmith.dev/kelly/api?text=${text}&gif=1` : '';
 
 const MoreInfo = () => (
   <section className="mb-gigantic ease-in duration-300">
@@ -67,14 +57,6 @@ export default function Page() {
   const [submittedValue, setSubmittedValue] = useState('');
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    // Add your logic for form submission here
-    // For example, you can send the input value to an API or perform some other action
-    console.log('Form submitted with value:', inputValue);
-    setSubmittedValue(inputValue);
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -84,17 +66,35 @@ export default function Page() {
       <h1 className="uppercase font-bold text-4xl mb-huge mt-huge">Kelly</h1>
       <form
         className="max-w-form mb-huge flex flex-col"
-        onSubmit={handleSubmit}
+        onSubmit={(event) => event.preventDefault()}
       >
         <TextInput
           className="mb-small"
           value={inputValue}
           onChange={handleChange}
         />
-        <Button className="self-end">Create Gif</Button>
+        <div className="self-end">
+          <Button
+            className="mr-small"
+            onClick={() => navigator.clipboard.writeText(getUrl(inputValue))}
+          >
+            Copy URL
+          </Button>
+          <Button onClick={() => setSubmittedValue(inputValue)}>
+            Show Gif
+          </Button>
+        </div>
       </form>
 
-      {submittedValue && <Gif text={submittedValue} />}
+      <div className="flex flex-col items-center">
+        <div className="max-w-[480px] w-full aspect-[4/3] bg-[url('/kelly-placeholder.jpg')] bg-contain">
+          <img
+            src={getUrl(submittedValue)}
+            className="max-w-[480px] w-full"
+            alt="kelly"
+          />
+        </div>
+      </div>
 
       {showMoreInfo ? (
         <MoreInfo />
