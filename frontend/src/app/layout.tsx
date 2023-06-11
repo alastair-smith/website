@@ -64,7 +64,7 @@ const SocialLink = ({
     href={url}
     rel="noopener"
     target="_blank"
-    className={`group grid grid-cols-10 items-center max-w-thin ${className} hover:font-bold hover:stroke-2`}
+    className={`ease-linear duration-100 group grid grid-cols-10 items-center max-w-thin ${className} hover:font-bold hover:stroke-2`}
   >
     {icon}
     <span className="col-span-3">{title}</span>

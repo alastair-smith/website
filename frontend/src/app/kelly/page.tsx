@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
 import Button from '@/components/Button/Button';
@@ -7,50 +8,6 @@ import TextInput from '@/components/TextInput/TextInput';
 
 const getUrl = (text: string) =>
   text ? `https://alsmith.dev/kelly/api?text=${text}&gif=1` : '';
-
-const MoreInfo = () => (
-  <section className="mb-huge ease-in duration-300">
-    <h2 className="font-bold text-2xl">Umm, what is this?</h2>
-    <p className="my-medium">
-      Right so there&apos;s this song by Nelly and Kelly Rowland called Dilemma
-      which is an absolute banger. But in the music video there&apos;s a weird
-      scene where she checks her phone but it is displaying an excel spreadsheet
-      with a message for Nelly on it. So I thought it would be fun to make a
-      meme generator where you could change the text in her spreadsheet and then
-      I got carried away and added gif functionality.
-    </p>
-
-    <p className="my-medium">
-      Here is an interview where Mrs Rowland goes into more detail about the
-      origins of the scene and why she&apos;s using microsoft excel on a phone
-      to communicate with Nelly.
-    </p>
-
-    <div className="flex flex-col items-center my-large">
-      <iframe
-        src="https://www.youtube.com/embed/1MNvkFD5dyo?start=175&end=201"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-        className="w-full aspect-video focus-visible:outline-none"
-      />
-    </div>
-
-    <h2 className="font-bold text-2xl">How does it work?</h2>
-
-    <p>I&apos;m going to go into a bit of technical detail here.</p>
-
-    <div className="flex flex-col items-center mt-huge">
-      <iframe
-        className="w-[20rem] h-[5rem] focus-visible:outline-none"
-        src="https://open.spotify.com/embed/track/0ARK753YaiJbpLUk7z5yIM?utm_source=generator&theme=0"
-        allowFullScreen
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></iframe>
-    </div>
-  </section>
-);
 
 const Cog = ({ className }: { className: string }) => (
   <svg
@@ -133,13 +90,12 @@ export default function Page() {
         </div>
       </div>
 
-      {showMoreInfo ? (
-        <MoreInfo />
-      ) : (
-        <Button className="self-start" onClick={() => setShowMoreInfo(true)}>
-          Umm what is this?
-        </Button>
-      )}
+      <Link
+        href="/kelly/about"
+        className="self-start text-lg underline underline-offset-[6px] hover:underline-offset-2 ease-linear duration-100 hover:font-bold hover:decoration-2"
+      >
+        Umm what is this?
+      </Link>
     </div>
   );
 }
