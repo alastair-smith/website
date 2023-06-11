@@ -58,13 +58,13 @@ const SocialLink = ({
   user: string;
   url: string;
   icon: ReactNode;
-  className: string;
+  className?: string;
 }) => (
   <a
     href={url}
     rel="noopener"
     target="_blank"
-    className={`group grid grid-cols-10 items-center max-w-thin ${className}`}
+    className={`group grid grid-cols-10 items-center max-w-thin ${className} hover:font-bold hover:stroke-2`}
   >
     {icon}
     <span className="col-span-3">{title}</span>
@@ -92,7 +92,10 @@ export default function RootLayout({
           className={`${inter.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
         >
           <header className="bg-gray-200 py-4 row-start-1 row-end-2">
-            <Link className="mx-medium text-xl my-small" href="/">
+            <Link
+              className="mx-medium text-xl my-small hover:font-bold"
+              href="/"
+            >
               alsmith.dev
             </Link>
           </header>
