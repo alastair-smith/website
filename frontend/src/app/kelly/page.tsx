@@ -9,7 +9,7 @@ const getUrl = (text: string) =>
   text ? `https://alsmith.dev/kelly/api?text=${text}&gif=1` : '';
 
 const MoreInfo = () => (
-  <section className="mb-gigantic ease-in duration-300">
+  <section className="mb-huge ease-in duration-300">
     <h2 className="font-bold text-2xl">Umm, what is this?</h2>
     <p className="my-medium">
       Right so there&apos;s this song by Nelly and Kelly Rowland called Dilemma
@@ -40,9 +40,9 @@ const MoreInfo = () => (
 
     <p>I&apos;m going to go into a bit of technical detail here.</p>
 
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-huge">
       <iframe
-        className="w-full focus-visible:outline-none max-w-form"
+        className="w-[20rem] h-[5rem] focus-visible:outline-none"
         src="https://open.spotify.com/embed/track/0ARK753YaiJbpLUk7z5yIM?utm_source=generator&theme=0"
         allowFullScreen
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -90,8 +90,8 @@ export default function Page() {
   };
 
   return (
-    <div className="max-w-reading mx-medium w-full flex-col flex">
-      <h1 className="uppercase font-bold text-4xl mb-huge mt-huge">Kelly</h1>
+    <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
+      <h1 className="uppercase font-bold text-4xl mb-huge">Kelly</h1>
       <form
         className="max-w-form mb-huge flex flex-col"
         onSubmit={handleSubmit}
@@ -114,7 +114,7 @@ export default function Page() {
         </div>
       </form>
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mb-huge">
         <div className="max-w-[480px] w-full aspect-[4/3] bg-[url('/kelly-placeholder.jpg')] bg-contain flex justify-center items-center">
           {submittedValue && (
             <img
