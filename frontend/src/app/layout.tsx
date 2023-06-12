@@ -1,10 +1,11 @@
-import { Inter } from 'next/font/google';
+import { Mulish } from 'next/font/google';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
 import '@/app/globals.css';
+import { defaultButtonClasses } from '@/components/Button/Button';
 
-const inter = Inter({ subsets: ['latin'] });
+const mulish = Mulish({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Create Next App',
@@ -80,18 +81,18 @@ export default function RootLayout({
   // todo update skip link styling
   return (
     <html lang="en">
-      <body>
+      <body className="bg-day text-night">
         <a
           href="#main-content"
-          className="absolute px-3 py-2 transition-all -translate-y-full focus:translate-y-0 bg-indigo-800 text-gray-100 text-base font-medium rounded-b-lg mx-4 focus:outline-none focus:ring-4 focus:ring-indigo-500  hover:no-underline hover:bg-indigo-900 hover:text-white z-10"
+          className={`mx-small focus:my-small focus:outline-none absolute -translate-y-full focus:translate-y-0 z-10 ${defaultButtonClasses}`}
         >
           Skip to main content
         </a>
 
         <div
-          className={`${inter.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
+          className={`${mulish.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
         >
-          <header className="bg-gray-200 py-4 row-start-1 row-end-2">
+          <header className="py-4 row-start-1 row-end-2">
             <Link
               className="mx-medium text-xl my-small hover:font-bold"
               href="/"
@@ -101,13 +102,13 @@ export default function RootLayout({
           </header>
 
           <main
-            className="bg-gray-100 row-start-2 row-end-3 flex justify-center"
+            className="row-start-2 row-end-3 flex justify-center"
             id="main-content"
           >
             {children}
           </main>
 
-          <footer className="bg-gray-200 pt-huge pb-huge row-start-3 row-end-4 flex justify-center">
+          <footer className="bg-jet text-day fill-day pt-huge pb-huge row-start-3 row-end-4 flex justify-center">
             <div className="grid gap-4 grid-cols-1 max-w-reading mx-medium">
               <SocialLink
                 title="github"

@@ -71,7 +71,8 @@ export default function Page() {
             className="w-full aspect-video focus-visible:outline-none"
           />
         </div>
-
+      </section>
+      <section>
         <h2 className="font-bold text-2xl">How does it work?</h2>
 
         <p>I&apos;m going to go into a bit of technical detail here.</p>
