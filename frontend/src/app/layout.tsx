@@ -81,7 +81,7 @@ export default function RootLayout({
   // todo update skip link styling
   return (
     <html lang="en">
-      <body className="bg-day text-night">
+      <body className="bg-day text-jet">
         <a
           href="#main-content"
           className={`mx-small focus:my-small focus:outline-none absolute -translate-y-full focus:translate-y-0 z-10 ${defaultButtonClasses}`}

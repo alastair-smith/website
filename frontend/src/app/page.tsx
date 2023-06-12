@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="w-full flex flex-col">
       <div className="flex flex-col px-medium py-huge items-center">
-        <h1 className="font-black text-6xl uppercase self-center mb-large">
+        <h1 className="font-black text-[calc(2.25rem+8vw)] leading-none uppercase self-center mb-large">
           Alastair
           <br />
           Smith
