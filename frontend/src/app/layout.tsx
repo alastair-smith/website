@@ -54,22 +54,27 @@ const SocialLink = ({
   url,
   icon,
   className,
+  color,
 }: {
   title: string;
   user: string;
   url: string;
   icon: ReactNode;
   className?: string;
+  color: string;
 }) => (
   <a
     href={url}
     rel="noopener"
     target="_blank"
-    className={`ease-linear duration-100 group grid grid-cols-10 items-center max-w-thin ${className} hover:font-bold hover:stroke-2`}
+    className={`relative inline-block focus:outline-none focus:ring-4 ring-violet-500 rounded px-medium py-tiny ease-linear duration-100 group ${className}`}
   >
-    {icon}
-    <span className="col-span-3">{title}</span>
-    <span className="col-span-6">{user}</span>
+    <span className="bg-transparent transition-all absolute inset-y-0 left-0 bg-orange w-0 duration-500 group-hover:w-full rounded"></span>
+    <div className="relative z-10 grid grid-cols-10 items-center">
+      {icon}
+      <span className="col-span-3">{title}</span>
+      <span className="col-span-6">{user}</span>
+    </div>
   </a>
 );
 
@@ -94,7 +99,7 @@ export default function RootLayout({
         >
           <header className="py-4 row-start-1 row-end-2">
             <Link
-              className="mx-medium text-xl my-small hover:font-bold"
+              className="focus:outline-none focus:ring-4 ring-violet-500 rounded px-small mx-small py-tiny my-tiny text-xl"
               href="/"
             >
               alsmith.dev

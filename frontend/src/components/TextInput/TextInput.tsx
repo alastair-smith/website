@@ -10,7 +10,7 @@ const TextInput = ({
   className: string;
 }) => (
   <input
-    className={`w-full border-2 border-black px-medium py-small rounded ${className}`}
+    className={`focus:outline-none focus:ring-4 ring-violet-500 w-full border-2 border-black px-medium py-small rounded ${className}`}
     value={value}
     onChange={onChange}
   />
