@@ -39,10 +39,18 @@ export default function Home() {
         </div>
       </div>
 
-      <Link href="/kelly" className="bg-jet text-day">
+      <Link href="/kelly" className="bg-orange text-day">
         <div className="max-w-reading mx-medium py-medium flex flex-col">
           <h2>Kelly</h2>
           <span>Meme Generator -more text and change colour</span>
+          <span>Stylized image here</span>
+        </div>
+      </Link>
+
+      <Link href="/bort" className="bg-royal-blue text-day">
+        <div className="max-w-reading mx-medium py-medium flex flex-col">
+          <h2>Bort</h2>
+          <span>Track number of Borts -more text and change colour</span>
           <span>Stylized image here</span>
         </div>
       </Link>

@@ -13,6 +13,7 @@ module.exports = {
         jet: '#2D2E2E',
         'royal-blue': '#243C5A',
         orange: '#E98C3F',
+        red: '#FF1C1C',
       },
       spacing: {
         tiny: '0.125rem',

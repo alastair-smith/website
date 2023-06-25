@@ -1,6 +1,6 @@
 import { Mulish } from 'next/font/google';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import '@/app/globals.css';
 import { defaultButtonClasses } from '@/components/Button/Button';
@@ -54,14 +54,12 @@ const SocialLink = ({
   url,
   icon,
   className,
-  color,
 }: {
   title: string;
   user: string;
   url: string;
   icon: ReactNode;
   className?: string;
-  color: string;
 }) => (
   <a
     href={url}
@@ -69,7 +67,7 @@ const SocialLink = ({
     target="_blank"
     className={`relative inline-block focus:outline-none focus:ring-4 ring-violet-500 rounded px-medium py-tiny ease-linear duration-100 group ${className}`}
   >
-    <span className="bg-transparent transition-all absolute inset-y-0 left-0 bg-orange w-0 duration-500 group-hover:w-full rounded"></span>
+    <span className="transition-all absolute inset-y-0 left-0 bg-orange w-0 duration-500 group-hover:w-full rounded"></span>
     <div className="relative z-10 grid grid-cols-10 items-center">
       {icon}
       <span className="col-span-3">{title}</span>
@@ -83,7 +81,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // todo update skip link styling
   return (
     <html lang="en">
       <body className="bg-day text-jet">
