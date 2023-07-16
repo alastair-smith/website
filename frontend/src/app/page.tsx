@@ -40,21 +40,43 @@ export default function Home() {
         </div>
       </div>
 
-      <Link href="/kelly" className="bg-orange text-day">
-        <div className="max-w-reading mx-medium py-medium flex flex-col">
-          <h2>Kelly</h2>
+      <div className="bg-orange text-day">
+        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
+          <h2 className="text-3xl">Kelly</h2>
           <span>Meme Generator -more text and change colour</span>
-          <Image src="/excel.png" alt="excel" width="512" height="512" />
+          <Image
+            src="/excel.png"
+            alt="excel"
+            width="512"
+            height="512"
+            className="border-8 border-night rounded"
+          />
+          <div className="flex space-x-4">
+            <Link href="/kelly">Go to app</Link>
+            <span>|</span>
+            <Link href="/kelly/about">Read about</Link>
+          </div>
         </div>
-      </Link>
+      </div>
 
-      <Link href="/bort" className="bg-royal-blue text-day">
-        <div className="max-w-reading mx-medium py-medium flex flex-col">
-          <h2>Bort</h2>
+      <div className="bg-royal-blue text-day">
+        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
+          <h2 className="text-3xl">Bort</h2>
           <span>Track number of Borts -more text and change colour</span>
-          <Image src="/bort-licence.png" alt="bort" width="512" height="512" />
+          <Image
+            src="/bort-licence.png"
+            alt="bort"
+            width="512"
+            height="512"
+            className="border-8 border-night rounded"
+          />
+          <div className="flex space-x-4">
+            <Link href="/bort">Go to app</Link>
+            <span>|</span>
+            <Link href="/bort/about">Read about</Link>
+          </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }
