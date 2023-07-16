@@ -67,7 +67,7 @@ const SocialLink = ({
     target="_blank"
     className={`relative inline-block focus:outline-none focus:ring-4 ring-violet-500 rounded px-medium py-tiny ease-linear duration-100 group ${className}`}
   >
-    <span className="transition-all absolute inset-y-0 left-0 bg-orange w-0 duration-500 group-hover:w-full rounded"></span>
+    <span className="transition-all absolute inset-y-0  left-[50%] bg-orange w-0 duration-500 group-hover:w-full rounded group-hover:left-0"></span>
     <div className="relative z-10 grid grid-cols-10 items-center">
       {icon}
       <span className="col-span-3">{title}</span>

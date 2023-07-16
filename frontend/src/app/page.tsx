@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
@@ -43,7 +44,7 @@ export default function Home() {
         <div className="max-w-reading mx-medium py-medium flex flex-col">
           <h2>Kelly</h2>
           <span>Meme Generator -more text and change colour</span>
-          <span>Stylized image here</span>
+          <Image src="/excel.png" alt="excel" width="512" height="512" />
         </div>
       </Link>
 
@@ -51,7 +52,7 @@ export default function Home() {
         <div className="max-w-reading mx-medium py-medium flex flex-col">
           <h2>Bort</h2>
           <span>Track number of Borts -more text and change colour</span>
-          <span>Stylized image here</span>
+          <Image src="/bort-licence.png" alt="bort" width="512" height="512" />
         </div>
       </Link>
     </div>
