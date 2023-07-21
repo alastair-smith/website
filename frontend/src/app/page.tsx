@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+
 export default function Home() {
   return (
     <div className="w-full flex flex-col">
@@ -52,9 +54,9 @@ export default function Home() {
             className="border-8 border-night rounded"
           />
           <div className="flex space-x-4">
-            <Link href="/kelly">Go to app</Link>
+            <UnderlinedLink href="/kelly">Go to app</UnderlinedLink>
             <span>|</span>
-            <Link href="/kelly/about">Read about</Link>
+            <UnderlinedLink href="/kelly/about">Read about</UnderlinedLink>
           </div>
         </div>
       </div>
@@ -71,9 +73,9 @@ export default function Home() {
             className="border-8 border-night rounded"
           />
           <div className="flex space-x-4">
-            <Link href="/bort">Go to app</Link>
+            <UnderlinedLink href="/bort">Go to app</UnderlinedLink>
             <span>|</span>
-            <Link href="/bort/about">Read about</Link>
+            <UnderlinedLink href="/bort/about">Read about</UnderlinedLink>
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { z } from 'zod';
 
 import { addBort } from '@/app/actions';
 import Button from '@/components/Button/Button';
+import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 
 export default function Page() {
   const [bortCount, setBortCount] = useState(0);
@@ -82,12 +82,12 @@ export default function Page() {
         </div>
       )}
 
-      <Link
+      <UnderlinedLink
         href="/bort/about"
         className="focus:outline-none focus:ring-4 ring-violet-500 rounded px-small py-tiny self-start text-lg underline underline-offset-[6px] hover:underline-offset-2 ease-linear duration-100 hover:decoration-2"
       >
         Umm what is this?
-      </Link>
+      </UnderlinedLink>
     </div>
   );
 }

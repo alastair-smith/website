@@ -5,6 +5,7 @@ import { FormEvent, useState } from 'react';
 
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
+import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 
 const getUrl = (text: string) =>
   text ? `https://alsmith.dev/kelly/api?text=${text}&gif=1` : '';
@@ -90,12 +91,7 @@ export default function Page() {
         </div>
       </div>
 
-      <Link
-        href="/kelly/about"
-        className="focus:outline-none focus:ring-4 ring-violet-500 rounded px-small py-tiny self-start text-lg underline underline-offset-[6px] hover:underline-offset-2 ease-linear duration-100 hover:decoration-2"
-      >
-        Umm what is this?
-      </Link>
+      <UnderlinedLink href="/kelly/about">Umm what is this?</UnderlinedLink>
     </div>
   );
 }
