@@ -110,9 +110,8 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="fill-jet pt-huge pb-huge row-start-3 row-end-4 flex flex-col items-center">
-            <hr className="w-full max-w-reading h-1 mx-small my-4 border-jet md:my-10" />
-
+          <footer className="fill-jet py-huge row-start-3 row-end-4 flex flex-col items-center">
+            <hr className="h-1 w-[calc(100%-2rem)] max-w-reading my-10 border-jet" />
             <div className="flex justify-center">
               <div className="grid gap-4 grid-cols-1 max-w-reading mx-medium">
                 <SocialLink
