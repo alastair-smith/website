@@ -94,13 +94,15 @@ export default function RootLayout({
         <div
           className={`${mulish.className} grid grid-rows-[auto,1fr,auto] min-h-screen`}
         >
-          <header className="py-4 row-start-1 row-end-2">
-            <Link
-              className="focus:outline-none focus:ring-4 ring-violet-500 rounded px-small mx-small py-tiny my-tiny text-xl"
-              href="/"
-            >
-              alsmith.dev
-            </Link>
+          <header className="py-4 row-start-1 row-end-2 flex justify-center">
+            <div className="w-[calc(100%-2rem)] max-w-reading">
+              <Link
+                className="focus:outline-none focus:ring-4 ring-violet-500 rounded py-tiny my-tiny text-xl"
+                href="/"
+              >
+                alsmith.dev
+              </Link>
+            </div>
           </header>
 
           <main
