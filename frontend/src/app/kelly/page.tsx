@@ -27,7 +27,6 @@ const Cog = ({ className }: { className: string }) => (
 export default function Page() {
   const [inputValue, setInputValue] = useState('');
   const [submittedValue, setSubmittedValue] = useState('');
-  const [showMoreInfo, setShowMoreInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
