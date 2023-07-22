@@ -67,7 +67,7 @@ const SocialLink = ({
     target="_blank"
     className={`relative inline-block focus:outline-none focus:ring-4 ring-violet-500 rounded px-medium py-tiny ease-linear duration-100 group ${className}`}
   >
-    <span className="transition-all absolute inset-y-0  left-[50%] bg-orange w-0 duration-500 group-hover:w-full rounded group-hover:left-0"></span>
+    <span className="transition-all absolute inset-y-0 left-[50%] bg-grey w-0 duration-500 group-hover:w-full rounded group-hover:left-0"></span>
     <div className="relative z-10 grid grid-cols-10 items-center">
       {icon}
       <span className="col-span-3">{title}</span>
@@ -110,26 +110,30 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="bg-jet text-day fill-day pt-huge pb-huge row-start-3 row-end-4 flex justify-center">
-            <div className="grid gap-4 grid-cols-1 max-w-reading mx-medium">
-              <SocialLink
-                title="github"
-                user="alastair-smith"
-                url="https://github.com/alastair-smith"
-                icon={<GithubIcon />}
-              />
-              <SocialLink
-                title="linkedin"
-                user="alastair-smith-uk"
-                url="https://www.linkedin.com/in/alastair-smith-uk/"
-                icon={<LinkedInIcon />}
-              />
-              <SocialLink
-                title="email"
-                user="contact@alsmith.dev"
-                url="mailto:contact@alsmith.dev"
-                icon={<EmailIcon />}
-              />
+          <footer className="fill-jet pt-huge pb-huge row-start-3 row-end-4 flex flex-col items-center">
+            <hr className="w-full max-w-reading h-1 mx-small my-4 border-jet md:my-10" />
+
+            <div className="flex justify-center">
+              <div className="grid gap-4 grid-cols-1 max-w-reading mx-medium">
+                <SocialLink
+                  title="github"
+                  user="alastair-smith"
+                  url="https://github.com/alastair-smith"
+                  icon={<GithubIcon />}
+                />
+                <SocialLink
+                  title="linkedin"
+                  user="alastair-smith-uk"
+                  url="https://www.linkedin.com/in/alastair-smith-uk/"
+                  icon={<LinkedInIcon />}
+                />
+                <SocialLink
+                  title="email"
+                  user="contact@alsmith.dev"
+                  url="mailto:contact@alsmith.dev"
+                  icon={<EmailIcon />}
+                />
+              </div>
             </div>
           </footer>
         </div>

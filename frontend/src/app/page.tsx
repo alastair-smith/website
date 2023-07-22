@@ -42,7 +42,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-orange text-day">
+      <div className="flex flex-col items-center">
         <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
           <h2 className="text-3xl">Kelly</h2>
           <span>Meme Generator -more text and change colour</span>
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-royal-blue text-day">
+      <div className="flex flex-col items-center">
         <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
           <h2 className="text-3xl">Bort</h2>
           <span>Track number of Borts -more text and change colour</span>
