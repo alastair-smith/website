@@ -7,6 +7,8 @@ import { addBort } from '@/app/actions';
 import Button from '@/components/Button/Button';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 
+export const runtime = 'edge';
+
 export default function Page() {
   const [bortCount, setBortCount] = useState(0);
   const [error, setError] = useState('');

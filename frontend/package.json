@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "./node_modules/@cloudflare/next-on-pages/bin/index.js",
+    "build:watch": "npm run build:cloudflare -- --watch",
     "lint": "next lint",
-    "test": "jest --watch",
     "prettier": "prettier --write .",
-    "prettier:check": "prettier --check ."
+    "prettier:check": "prettier --check .",
+    "start": "wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@types/node": "20.2.3",
@@ -36,6 +36,7 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "prettier": "^2.8.8",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "wrangler": "^3.6.0"
   }
 }
