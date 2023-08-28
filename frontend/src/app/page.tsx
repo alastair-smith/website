@@ -45,7 +45,7 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
           <h2 className="text-3xl">Kelly</h2>
-          <span>Meme Generator -more text and change colour</span>
+          <span>Meme Generator</span>
           <Image
             src="/excel.png"
             alt="excel"
@@ -64,7 +64,7 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
           <h2 className="text-3xl">Bort</h2>
-          <span>Track number of Borts -more text and change colour</span>
+          <span>Track number of Borts</span>
           <Image
             src="/bort-licence.png"
             alt="bort"

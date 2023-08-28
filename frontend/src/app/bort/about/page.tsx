@@ -46,8 +46,6 @@ export default function Page() {
 
       <section className="mb-huge ease-in duration-300">
         <h1 className="uppercase font-bold text-4xl mb-huge">Kelly</h1>
-        <p className="my-medium">Lorem ipsum</p>
-
         <div className="flex flex-col items-center my-large">
           <iframe
             src="https://www.youtube.com/embed/Au1He0_eCkw"
@@ -58,11 +56,11 @@ export default function Page() {
           />
         </div>
       </section>
-      <section>
+      {/* <section>
         <h2 className="font-bold text-2xl">How does it work?</h2>
 
         <p>I&apos;m going to go into a bit of technical detail here.</p>
-      </section>
+      </section> */}
     </div>
   );
 }

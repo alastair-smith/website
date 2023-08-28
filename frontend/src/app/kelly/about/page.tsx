@@ -73,9 +73,9 @@ export default function Page() {
         </div>
       </section>
       <section>
-        <h2 className="font-bold text-2xl">How does it work?</h2>
+        {/* <h2 className="font-bold text-2xl">How does it work?</h2>
 
-        <p>I&apos;m going to go into a bit of technical detail here.</p>
+        <p>I&apos;m going to go into a bit of technical detail here.</p> */}
 
         <div className="flex flex-col items-center mt-huge">
           <iframe
