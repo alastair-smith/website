@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "./node_modules/@cloudflare/next-on-pages/bin/index.js",
+    "build": "next build",
+    "build:cloudflare": "./node_modules/@cloudflare/next-on-pages/bin/index.js",
     "build:watch": "npm run build:cloudflare -- --watch",
     "lint": "next lint",
     "prettier": "prettier --write .",
