@@ -16,15 +16,16 @@ export default function Icon() {
       <div
         style={{
           fontSize: 24,
-          background: 'rgb(191 191 191)',
+          background: 'rgb(248, 244, 239)', // day
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontWeight: 900,
-          color: '#2D2E2E',
-          fontFamily: mulish.className,
+          color: 'rgb(45, 46, 46)', // jet
+          fontFamily: mulish.className, // TODO fix font
+          borderRadius: '2px',
         }}
       >
         AL
