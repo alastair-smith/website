@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
     "build:cloudflare": "./node_modules/@cloudflare/next-on-pages/bin/index.js",
     "build:watch": "npm run build:cloudflare -- --watch",
