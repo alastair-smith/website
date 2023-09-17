@@ -1,0 +1,57 @@
+name: Validate
+run-name: ${{ github.actor }} is validating infrastructure code on branch ${{ github.ref_name }} 🚀
+on: [push]
+jobs:
+  terraform-validate:
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/terraform:1.5.7
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Change directory
+        run: cd infrastructure
+      - name: Initialise Terraform
+        run: terraform init -backend=false
+      - name: Check formatting
+        run: terraform fmt -check -recursive
+      - name: Validate
+        run: terraform validate
+
+  terraform-lint:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/terraform-linters/tflint-bundle:v0.48.0.0
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Change directory
+        run: cd infrastructure
+      - name: tflint init
+        run: tflint --init
+      - name: tflint
+        run: tflint
+
+  terraform-security-check:
+    runs-on: ubuntu-latest
+    container:
+      image: aquasec/tfsec:v1.28
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Change directory
+        run: cd infrastructure
+      - name: tfsec
+        run: tfsec
+
+  terraform-compliance:
+    runs-on: ubuntu-latest
+    container:
+      image: eerkunt/terraform-compliance:1.3.44
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Change directory
+        run: cd infrastructure
+      - name: Terraform compliance
+        run:  terraform-compliance

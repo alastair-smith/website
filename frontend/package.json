@@ -11,7 +11,10 @@
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "start": "wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
-    "test": "jest --watch"
+    "test": "npm run test:unit -- --watch",
+    "test:unit": "echo todo",
+    "test:integration": "echo todo",
+    "test:e2e": "echo todo"
   },
   "dependencies": {
     "@types/node": "20.2.3",
