@@ -29,7 +29,7 @@ jobs:
       - name: tflint init
         run: tflint --init
       - name: tflint
-        run: tflint -v
+        run: tflint --recursive
 
   # terraform-security-check:
   #   runs-on: ubuntu-latest
