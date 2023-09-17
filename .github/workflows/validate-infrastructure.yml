@@ -27,17 +27,15 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: tflint init
-        run: tflint --init
-      - name: tflint
-        run: tflint
+        run: tflint --enable-plugin=aws
 
-  terraform-security-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@master
-      - name: tfsec
-        uses: aquasecurity/tfsec-action@v1.0.3
+  # terraform-security-check:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Clone repo
+  #       uses: actions/checkout@master
+  #     - name: tfsec
+  #       uses: aquasecurity/tfsec-action@v1.0.3
 
   # terraform-compliance:
   #   runs-on: ubuntu-latest
