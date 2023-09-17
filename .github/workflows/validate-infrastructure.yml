@@ -1,4 +1,4 @@
-name: Validate
+name: Validate Infrastructure
 run-name: ${{ github.actor }} is validating infrastructure code on branch ${{ github.ref_name }} 🚀
 on: [push]
 jobs:

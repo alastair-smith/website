@@ -1,4 +1,4 @@
-name: Validate
+name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.ref_name }} 🚀
 on: [push]
 jobs:
