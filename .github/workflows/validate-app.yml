@@ -1,6 +1,9 @@
 name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.ref_name }} 🚀
 on: [push]
+defaults:
+  run:
+    working-directory: ./frontend
 jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
@@ -9,9 +12,7 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
-      - name: Install packages
+      - name: Audit packages
         run: npm audit
 
   lint-js:
@@ -21,8 +22,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
       - name: Install packages
         run: npm ci
       - name: Lint
@@ -35,8 +34,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
       - name: Install packages
         run: npm ci
       - name: Check Prettier
@@ -49,8 +46,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
       - name: Install packages
         run: npm ci
       - name: Check Prettier
@@ -63,8 +58,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
       - name: Install packages
         run: npm ci
       - name: Check Prettier
@@ -77,8 +70,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd frontend
       - name: Install packages
         run: npm ci
       - name: Check Prettier

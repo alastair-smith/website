@@ -1,6 +1,9 @@
 name: Validate Infrastructure
 run-name: ${{ github.actor }} is validating infrastructure code on branch ${{ github.ref_name }} 🚀
 on: [push]
+defaults:
+  run:
+    working-directory: ./infrastructure
 jobs:
   terraform-validate:
     runs-on: ubuntu-latest
@@ -9,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd infrastructure
       - name: Initialise Terraform
         run: terraform init -backend=false
       - name: Check formatting
@@ -25,8 +26,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd infrastructure
       - name: tflint init
         run: tflint --init
       - name: tflint
@@ -39,8 +38,6 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd infrastructure
       - name: tfsec
         run: tfsec
 
@@ -51,7 +48,5 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: Change directory
-        run: cd infrastructure
       - name: Terraform compliance
-        run:  terraform-compliance
+        run:  terraform-compliance -f ./test/compliance
