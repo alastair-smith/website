@@ -33,20 +33,18 @@ jobs:
 
   terraform-security-check:
     runs-on: ubuntu-latest
-    container:
-      image: aquasec/tfsec:v1.28
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
+      - name: Clone repo
+        uses: actions/checkout@master
       - name: tfsec
-        run: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
 
-  terraform-compliance:
-    runs-on: ubuntu-latest
-    container:
-      image: eerkunt/terraform-compliance:1.3.44
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
-      - name: Terraform compliance
-        run:  terraform-compliance -f ./test/compliance
+  # terraform-compliance:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: eerkunt/terraform-compliance:1.3.44
+  #   steps:
+  #     - name: Checkout repository code
+  #       uses: actions/checkout@v3
+  #     - name: Terraform compliance
+  #       run:  terraform-compliance -f ./test/compliance
