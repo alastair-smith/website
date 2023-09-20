@@ -22,11 +22,11 @@ jobs:
   terraform-lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/terraform-linters/tflint-bundle:v0.48.0.0
+      image: ghcr.io/terraform-linters/tflint:v0.48.0
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
-      - name: tflint init
+      - name: Install tflint packages
         run: tflint --init
       - name: tflint
         run: tflint --recursive
