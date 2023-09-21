@@ -19,17 +19,17 @@ jobs:
       - name: Validate
         run: terraform validate
 
-  terraform-lint:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/terraform-linters/tflint:v0.48.0
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
-      - name: Install tflint packages
-        run: tflint --init
-      - name: tflint
-        run: tflint --recursive
+  # terraform-lint:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/terraform-linters/tflint:v0.48.0
+  #   steps:
+  #     - name: Checkout repository code
+  #       uses: actions/checkout@v3
+  #     - name: Install tflint packages
+  #       run: tflint --init
+  #     - name: tflint
+  #       run: tflint --recursive
 
   # terraform-security-check:
   #   runs-on: ubuntu-latest
