@@ -1,0 +1,22 @@
+{
+  "name": "kelly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs /opt/build-layer.sh",
+    "lint": "echo todo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "4.3.4",
+    "express": "4.17.1",
+    "mocha": "9.2.1"
+  },
+  "dependencies": {
+    "canvas": "2.8.0",
+    "gif-encoder": "0.7.2"
+  }
+}
