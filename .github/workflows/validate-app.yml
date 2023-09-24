@@ -1,5 +1,5 @@
 name: Validate App
-run-name: ${{ github.actor }} is validating application code on branch ${{ github.ref_name }} 🚀
+run-name: ${{ github.actor }} is validating application code on branch ${{ github.base_ref }} 🚀
 on: [pull_request]
 defaults:
   run:
@@ -92,7 +92,7 @@ jobs:
       - uses: mshick/add-pr-comment@v2
         with:
           message: |
-            Deployed to <https://${{ github.ref_name }}.website-frontend-4fb.pages.dev>.
+            Deployed to <https://${{ github.base_ref }}.website-frontend-4fb.pages.dev>.
 
   e2e-tests:
     runs-on: ubuntu-latest
