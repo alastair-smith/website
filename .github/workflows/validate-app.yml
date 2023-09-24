@@ -107,7 +107,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               deployment_id: deployment.data.id,
-              state: 'sucess',
+              state: 'success',
               environment_url: `https://${{ github.head_ref }}.website-frontend-4fb.pages.dev`
             }) 
 
