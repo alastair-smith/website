@@ -15,8 +15,7 @@
     "test:unit": "echo todo",
     "test:integration": "echo todo",
     "test:e2e": "echo todo",
-    "deploy": "wrangler pages deploy .vercel/output/static --project-name website-frontend",
-    "deploy:production": "npm run deploy -- --environment production"
+    "deploy": "wrangler pages deploy .vercel/output/static --project-name website-frontend"
   },
   "dependencies": {
     "@types/node": "20.2.3",
