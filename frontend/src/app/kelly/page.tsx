@@ -7,7 +7,7 @@ import TextInput from '@/components/TextInput/TextInput';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 
 const getUrl = (text: string) =>
-  text ? `https://alsmith.dev/kelly/api?text=${text}&gif=1` : '';
+  text ? `https://alsmith.dev/api/kelly?text=${text}&gif=1` : '';
 
 const Cog = ({ className }: { className: string }) => (
   <svg
