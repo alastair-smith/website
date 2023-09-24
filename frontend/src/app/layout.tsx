@@ -10,6 +10,9 @@ const mulish = Mulish({ subsets: ['latin'] });
 export const metadata = {
   title: 'Alastair Smith',
   description: 'Personal blog site of Alastair Smith',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 const GithubIcon = () => (
