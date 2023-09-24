@@ -23,7 +23,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        uses: actions/setup-node@v3
       - name: Lint
         run: npm run lint
 
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        uses: actions/setup-node@v3
       - name: Check Prettier
         run: npm run prettier:check
 
@@ -47,7 +47,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        uses: actions/setup-node@v3
       - name: Check Prettier
         run: npm run test:unit
   
@@ -59,7 +59,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        uses: actions/setup-node@v3
       - name: Check Prettier
         run: npm run test:integration
 
@@ -78,6 +78,8 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
+      - name: Install packages
+        uses: actions/setup-node@v3
       - name: Build
         run: npm run build:cloudflare
       - name: Deploy
@@ -102,6 +104,6 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        uses: actions/setup-node@v3
       - name: Check Prettier
         run: npm run test:e2e
