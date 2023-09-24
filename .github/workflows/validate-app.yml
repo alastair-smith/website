@@ -83,7 +83,7 @@ jobs:
       - name: Build
         run: npm run build:cloudflare
       - name: Deploy
-        run: npm run deploy -- --environment preview --branch ${{ github.head_ref }}
+        run: npm run deploy -- --branch ${{ github.head_ref }}
 
   register-deployment:
     runs-on: ubuntu-latest
