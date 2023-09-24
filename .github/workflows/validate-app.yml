@@ -93,14 +93,21 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            github.rest.repos.createDeployment({
+            const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `${{ github.head_ref }}`,
               environment: `preview-${{ github.head_ref }}`,
               auto_merge: false,
               transient_environment: true,
-              production_environment: false,
+              required_contexts: [],
+              production_environment: false
+            })
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: 'sucess',
               environment_url: `https://${{ github.head_ref }}.website-frontend-4fb.pages.dev`
             }) 
 
