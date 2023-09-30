@@ -4,8 +4,8 @@ import { useEffect, useState, useTransition } from 'react';
 import { z } from 'zod';
 
 import { addBort } from '@/app/actions';
-import Button from '@/components/Button/Button';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import { Button } from '@/components/ui/Button';
 
 export const runtime = 'edge';
 

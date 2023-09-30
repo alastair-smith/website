@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from 'react';
 
-import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import { Button } from '@/components/ui/Button';
 
 const getUrl = (text: string) =>
   text ? `https://alsmith.dev/api/kelly?text=${text}&gif=1` : '';

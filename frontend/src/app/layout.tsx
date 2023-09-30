@@ -3,7 +3,6 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 import '@/app/globals.css';
-import { defaultButtonClasses } from '@/components/Button/Button';
 
 const mulish = Mulish({ subsets: ['latin'] });
 
@@ -89,7 +88,7 @@ export default function RootLayout({
       <body className="bg-day text-jet">
         <a
           href="#main-content"
-          className={`mx-small focus:my-small focus:outline-none absolute -translate-y-full focus:translate-y-0 z-10 ${defaultButtonClasses}`}
+          className={`mx-small focus:my-small focus:outline-none absolute -translate-y-full focus:translate-y-0 z-10`}
         >
           Skip to main content
         </a>

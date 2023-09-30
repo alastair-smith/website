@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 
-import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
+import { Button } from '@/components/ui/Button';
 
 export default function Page() {
   const [inputValue, setInputValue] = useState('');
