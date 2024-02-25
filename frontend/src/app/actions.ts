@@ -2,26 +2,36 @@
 
 import { z } from 'zod';
 
+const bortSchema = z.object({
+  count: z.number().int().positive(),
+});
+
 export const addBort = async () => {
   'use server';
 
-  const res = await fetch(
-    'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
-    {
-      method: 'POST',
-      cache: 'no-cache',
-    }
-  );
+  try {
+    const res = await fetch(
+      'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
+      {
+        method: 'POST',
+        cache: 'no-cache',
+      }
+    );
 
-  if (!res.ok) throw new Error('Failed to post Bort data');
+    if (!res.ok) throw new Error('Failed to post Bort data');
 
-  const json = await res.json();
+    const json = await res.json();
 
-  const validatedData = z
-    .object({
-      count: z.number().int().positive(),
-    })
-    .parse(json);
+    const validatedData = bortSchema.parse(json);
 
-  return validatedData;
+    return { data: validatedData, error: null };
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error
+          ? error
+          : new Error('Unknown error fetching bort data'),
+      data: null,
+    };
+  }
 };

@@ -23,13 +23,10 @@ export default function Page() {
 
   const clickHandler = () => {
     startTransition(async () => {
-      try {
-        await addBort();
-      } catch (error) {
-        errorHandler(error);
-      }
+      const { error, data } = await addBort();
 
-      setBortCount(bortCount + 1);
+      if (error) errorHandler(error);
+      else setBortCount(data.count);
     });
   };
 
