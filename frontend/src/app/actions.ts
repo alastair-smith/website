@@ -7,7 +7,10 @@ export const addBort = async () => {
 
   const res = await fetch(
     'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
-    { method: 'POST' }
+    {
+      method: 'POST',
+      cache: 'no-cache',
+    }
   );
 
   if (!res.ok) throw new Error('Failed to post Bort data');
