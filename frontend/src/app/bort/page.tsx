@@ -22,14 +22,13 @@ export default function Page() {
   };
 
   const clickHandler = () => {
-    startTransition(async () => {
-      try {
-        await addBort();
-      } catch (error) {
-        errorHandler(error);
-      }
+    setBortCount(bortCount + 1);
 
-      setBortCount(bortCount + 1);
+    startTransition(async () => {
+      const { error, data } = await addBort();
+
+      if (error) errorHandler(error);
+      else setBortCount(data.count);
     });
   };
 
