@@ -22,6 +22,8 @@ export default function Page() {
   };
 
   const clickHandler = () => {
+    setBortCount(bortCount + 1);
+
     startTransition(async () => {
       const { error, data } = await addBort();
 
