@@ -12,7 +12,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:

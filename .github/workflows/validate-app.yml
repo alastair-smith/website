@@ -8,7 +8,7 @@ jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
   lint-js:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
@@ -42,7 +42,7 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
   integration-tests:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
@@ -72,7 +72,7 @@ jobs:
       - unit-tests
       - integration-tests
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
@@ -116,7 +116,7 @@ jobs:
     needs:
       - deploy-preview
     container:
-      image: node:18.17.1-alpine3.18
+      image: node:18.17.1
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
