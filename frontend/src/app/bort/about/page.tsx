@@ -32,7 +32,7 @@ export default function Page() {
   return (
     // TODO swap to breadcrumbs?
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
-      <Link href="/kelly" className="flex items-center mb-medium">
+      <Link href="/bort" className="flex items-center mb-medium">
         <svg
           className="rotate-180 mr-tiny"
           xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ export default function Page() {
       </Link>
 
       <section className="mb-huge ease-in duration-300">
-        <h1 className="uppercase font-bold text-4xl mb-huge">Kelly</h1>
+        <h1 className="uppercase font-bold text-4xl mb-huge">Bort</h1>
         <div className="flex flex-col items-center my-large">
           <iframe
             src="https://www.youtube.com/embed/Au1He0_eCkw"
