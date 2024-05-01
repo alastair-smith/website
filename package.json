@@ -1,0 +1,9 @@
+{
+  "name": "@alastair-smith/website",
+  "description": "My personal website",
+  "author": "Alastair Smith",
+  "license": "ISC",
+  "engines": {
+    "node": "20.12.2"
+  }
+}

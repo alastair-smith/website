@@ -1,0 +1,6 @@
+{
+  "extends": "@alastair-smith/tsconfig/nextjs.json",
+  "include": [
+    ".next/types/**/*.ts"
+  ]
+}
