@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "@alastair-smith/tsconfig"
-  ],
+  "extends": ["@alastair-smith/tsconfig"],
   "compilerOptions": {
     "jsx": "preserve",
     "plugins": [
@@ -10,10 +8,5 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }

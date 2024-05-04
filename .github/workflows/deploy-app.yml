@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    
+
 defaults:
   run:
     working-directory: ./frontend
@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: npm run build:cloudflare
       - name: Deploy
-        run: npm run deploy -- --branch main 
+        run: npm run deploy -- --branch main
 
   register-deployment:
     runs-on: ubuntu-latest

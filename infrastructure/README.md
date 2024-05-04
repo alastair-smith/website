@@ -1,10 +1,10 @@
-# Infrastructure #
+# Infrastructure
 
-## Prerequisite ##
+## Prerequisite
 
-* [terraform](https://www.terraform.io/)
+- [terraform](https://www.terraform.io/)
 
-## Running ##
+## Running
 
 1. Create workspace
 1. Use workspace

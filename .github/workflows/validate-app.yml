@@ -50,7 +50,7 @@ jobs:
         run: npm ci
       - name: Run unit tests
         run: npm run test:unit
-  
+
   integration-tests:
     runs-on: ubuntu-latest
     container:
@@ -109,7 +109,7 @@ jobs:
               deployment_id: deployment.data.id,
               state: 'success',
               environment_url: `https://${{ github.head_ref }}.website-frontend-4fb.pages.dev`
-            }) 
+            })
 
   e2e-tests:
     runs-on: ubuntu-latest

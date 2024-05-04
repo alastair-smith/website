@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "@alastair-smith/eslint-config"
-  ]
+  "extends": ["@alastair-smith/eslint-config"]
 }
