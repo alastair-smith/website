@@ -3,65 +3,65 @@ run-name: ${{ github.actor }} is validating application code on branch ${{ githu
 on: [pull_request]
 defaults:
   run:
-    working-directory: ./frontend
+    working-directory: ./apps/frontend
 jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Audit packages
-        run: npm audit || echo allow failure
+        run: pnpm audit || echo allow failure
 
   lint-js:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Lint
-        run: npm run lint
+        run: pnpm lint
 
   prettier:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Check Prettier
-        run: npm run prettier:check
+        run: pnpm run prettier:check
 
   unit-tests:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Run unit tests
-        run: npm run test:unit
+        run: pnpm run test:unit
 
   integration-tests:
     runs-on: ubuntu-latest
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Run integration tests
-        run: npm run test:integration
+        run: pnpm run test:integration
 
   deploy-preview:
     runs-on: ubuntu-latest
@@ -72,18 +72,18 @@ jobs:
       - unit-tests
       - integration-tests
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Build
-        run: npm run build:cloudflare
+        run: pnpm run build:cloudflare
       - name: Deploy
-        run: npm run deploy -- --branch ${{ github.head_ref }}
+        run: pnpm run deploy -- --branch ${{ github.head_ref }}
 
   register-deployment:
     runs-on: ubuntu-latest
@@ -116,11 +116,11 @@ jobs:
     needs:
       - deploy-preview
     container:
-      image: node:18.17.1
+      image: docker.io/gplane/pnpm:9.0.6-node20@sha256:117068a65810b9e52babf592bdc1e09c76ad502df7b8942c3fe1d2c95855cd78
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install packages
-        run: npm ci
+        run: pnpm install
       - name: Run E2E tests
-        run: npm run test:e2e
+        run: pnpm run test:e2e
