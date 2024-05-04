@@ -1,3 +1,4 @@
 {
-  "name": "@alastair-smith/tsconfig"
+  "name": "@alastair-smith/tsconfig",
+  "main": "tsconfig.json"
 }
