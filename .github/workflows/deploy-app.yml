@@ -24,13 +24,11 @@ jobs:
           node-version: 20.12.2
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
-      - name: Change directory
-        run: cd apps/frontend
+        run: pnpm install --filter @alastair-smith/frontend
       - name: Build
-        run: pnpm run build:cloudflare
+        run: pnpm run --dir "./apps/frontend" build:cloudflare
       - name: Deploy
-        run: pnpm run deploy -- --branch main
+        run: pnpm run --dir "./apps/frontend" deploy -- --branch main
 
   register-deployment:
     runs-on: ubuntu-latest
