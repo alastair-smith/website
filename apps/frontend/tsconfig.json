@@ -2,6 +2,9 @@
   "extends": ["@alastair-smith/tsconfig"],
   "compilerOptions": {
     "jsx": "preserve",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "plugins": [
       {
         "name": "next"
