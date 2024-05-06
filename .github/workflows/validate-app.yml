@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Check formatting
-        run: pnpm formatter
+        run: pnpm run formatter
 
   test:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
       - name: Change directory
         run: cd ./apps/frontend
       - name: Tests
-        run: pnpm test:ci
+        run: pnpm run test:ci
 
   deploy-preview:
     runs-on: ubuntu-latest
