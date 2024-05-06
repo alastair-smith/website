@@ -9,8 +9,15 @@ jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9.0.6
+      - name: Use Node.js 20.12.2
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.12.2
+          cache: 'pnpm'
       - name: Audit packages
         run: pnpm audit || echo allow failure
 
@@ -28,7 +35,7 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-      - name: Check Prettier
+      - name: Check formatting
         run: pnpm formatter
 
   test:
@@ -46,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Change directory
-        run: cd apps/frontend
+        run: cd ./apps/frontend
       - name: Tests
         run: pnpm test:ci
 

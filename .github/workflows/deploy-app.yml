@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-    steps: 
+    steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v3
         with:
