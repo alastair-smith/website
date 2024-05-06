@@ -1,9 +1,6 @@
 name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.head_ref }} 🚀
 on: [pull_request]
-defaults:
-  run:
-    working-directory: ./apps/frontend
 
 jobs:
   audit-node-modules:
