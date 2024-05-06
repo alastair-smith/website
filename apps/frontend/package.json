@@ -11,6 +11,7 @@
     "lint": "next lint",
     "start": "wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
     "test": "npm run test:unit -- --watch",
+    "test:ci": "pnpm run lint && pnpm run test:unit",
     "test:e2e": "echo todo",
     "test:integration": "echo todo",
     "test:unit": "echo todo"
