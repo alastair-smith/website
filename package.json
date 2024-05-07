@@ -5,10 +5,20 @@
   "author": "Alastair Smith",
   "scripts": {
     "formatter": "prettier --check .",
-    "formatter:fix": "prettier --write ."
+    "formatter:fix": "prettier --write .",
+    "formatter:fix:staged": "prettier --write",
+    "lint-staged": "lint-staged",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*": [
+      "pnpm run -w formatter:fix:staged"
+    ]
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^2.8.8",
     "prettier-plugin-packagejson": "^2.5.0"
   },

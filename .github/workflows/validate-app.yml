@@ -2,6 +2,10 @@ name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.head_ref }} 🚀
 on: [pull_request]
 
+# skip commit hook setup in CI
+env:
+  HUSKY: 0
+
 jobs:
   audit-node-modules:
     runs-on: ubuntu-latest

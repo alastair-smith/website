@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# skip commit hook setup in CI
+env:
+  HUSKY: 0
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
