@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -eou pipefail
-
-githooks_path=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
-
-git config core.hooksPath "$githooks_path"
-
-echo "Configured githooks at $githooks_path"

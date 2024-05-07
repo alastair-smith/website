@@ -2,6 +2,10 @@ name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.head_ref }} 🚀
 on: [pull_request]
 
+# skip commit hook setup in CI
+env:
+  HUSKY: 0
+
 jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
@@ -14,7 +18,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.12.2
-          cache: 'pnpm'
       - name: Audit packages
         run: pnpm audit || echo allow failure
 
@@ -30,6 +33,7 @@ jobs:
         with:
           node-version: 20.12.2
           cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
         run: pnpm install -w
       - name: Check formatting
@@ -47,6 +51,7 @@ jobs:
         with:
           node-version: 20.12.2
           cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
         run: pnpm install --filter @alastair-smith/frontend
       - name: Tests
@@ -70,6 +75,7 @@ jobs:
         with:
           node-version: 20.12.2
           cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
         run: pnpm install --filter @alastair-smith/frontend
       - name: Build
