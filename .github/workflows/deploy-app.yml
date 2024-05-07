@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: pnpm run --dir "./apps/frontend" build:cloudflare
       - name: Deploy
-        run: pnpm run --dir "./apps/frontend" deploy -- --branch main
+        run: pnpm run --dir "./apps/frontend" deploy --branch main
 
   register-deployment:
     runs-on: ubuntu-latest
