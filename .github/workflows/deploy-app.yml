@@ -4,26 +4,31 @@ on:
   push:
     branches:
       - main
-    
+
 defaults:
   run:
-    working-directory: ./frontend
+    working-directory: ./apps/frontend
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container:
-      image: node:18.17.1
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
-      - name: Install packages
-        run: npm ci
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9.0.6
+      - name: Use Node.js 20.12.2
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.12.2
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --filter @alastair-smith/frontend
       - name: Build
-        run: npm run build:cloudflare
+        run: pnpm run --dir "./apps/frontend" build:cloudflare
       - name: Deploy
-        run: npm run deploy -- --branch main 
+        run: pnpm run --dir "./apps/frontend" deploy --branch main
 
   register-deployment:
     runs-on: ubuntu-latest

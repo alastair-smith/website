@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is validating infrastructure code on branch ${{ gi
 on: [pull_request]
 defaults:
   run:
-    working-directory: ./infrastructure
+    working-directory: ./infra
 jobs:
   terraform-validate:
     runs-on: ubuntu-latest

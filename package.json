@@ -1,0 +1,18 @@
+{
+  "name": "@alastair-smith/website",
+  "description": "My personal website",
+  "license": "ISC",
+  "author": "Alastair Smith",
+  "scripts": {
+    "formatter": "prettier --check .",
+    "formatter:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "prettier": "^2.8.8",
+    "prettier-plugin-packagejson": "^2.5.0"
+  },
+  "engines": {
+    "node": "20.12.2"
+  }
+}

@@ -1,0 +1,6 @@
+.next
+node_modules
+.vercel
+build
+package-lock.json
+pnpm-lock.yaml

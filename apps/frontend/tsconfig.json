@@ -1,0 +1,15 @@
+{
+  "extends": ["@alastair-smith/tsconfig"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
+}
