@@ -1,1 +1,1 @@
-export { handler } from './adapters/lambdaHandler';
+export { handler } from './handlers/lambda';

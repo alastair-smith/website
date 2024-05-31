@@ -8,12 +8,14 @@
   },
   "dependencies": {
     "canvas": "2.11.2",
+    "gif-encoder": "0.7.2",
     "zod": "3.22.4"
   },
   "devDependencies": {
     "@alastair-smith/eslint-config": "workspace:*",
     "@alastair-smith/tsconfig": "workspace:*",
     "@types/aws-lambda": "^8.10.137",
+    "@types/node": "20.12.2",
     "typescript": "5.1.3"
   }
 }
