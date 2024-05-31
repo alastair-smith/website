@@ -1,12 +1,14 @@
 {
   "name": "@alastair-smith/kelly",
+  "type": "module",
   "scripts": {
     "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs /opt/build-layer.sh",
     "lint": "eslint '**/*.ts'",
     "lint:fix": "eslint '**/*.ts' --fix"
   },
   "dependencies": {
-    "canvas": "2.11.2"
+    "canvas": "2.11.2",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@alastair-smith/eslint-config": "workspace:*",
