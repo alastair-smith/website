@@ -15,8 +15,8 @@ registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
   family: 'LibreBaskerville',
 });
 
-const generateGif = async (text: string) => {
-  const canvas = createCanvas(...IMAGE_DIMENSIONS);
+const generateGif = async (text: string): Promise<string> => {
+  const canvas = createCanvas(IMAGE_DIMENSIONS[0], IMAGE_DIMENSIONS[1]);
   const context = canvas.getContext('2d');
 
   context.font = TEXT_FONT;
@@ -30,14 +30,14 @@ const generateGif = async (text: string) => {
     // text width is unpredictable but needs to be cropped
     text = text.substring(0, text.length - 1);
   }
-  context.fillText(text, ...TEXT_POSITION);
+  context.fillText(text, TEXT_POSITION[0], TEXT_POSITION[1]);
   context.restore();
-  const completeGif = await new Promise((resolve, reject) => {
-    context.drawImage(canvas, 0, 0, ...GIF_DIMENSIONS);
+  const completeGif: string = await new Promise((resolve, reject) => {
+    context.drawImage(canvas, 0, 0, GIF_DIMENSIONS[0], GIF_DIMENSIONS[1]);
 
     const gif = new GifEncoder(...GIF_DIMENSIONS);
     const file = require('fs').createWriteStream('/tmp/img.gif');
-    file.on('error', (error) => reject(error));
+    file.on('error', (error: unknown) => reject(error));
     file.on('finish', () => {
       // add delay to middle frame
       exec(
@@ -53,7 +53,12 @@ const generateGif = async (text: string) => {
               )
       );
     });
-    const pixels = context.getImageData(0, 0, ...GIF_DIMENSIONS).data;
+    const pixels = context.getImageData(
+      0,
+      0,
+      GIF_DIMENSIONS[0],
+      GIF_DIMENSIONS[1]
+    ).data;
 
     gif.pipe(file);
 

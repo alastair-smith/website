@@ -5,3 +5,5 @@ venv
 tmp
 tfplan*
 .vercel
+.serverless
+.esbuild

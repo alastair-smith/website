@@ -4,18 +4,23 @@
   "scripts": {
     "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs /opt/build-layer.sh",
     "lint": "eslint '**/*.ts'",
-    "lint:fix": "eslint '**/*.ts' --fix"
+    "lint:fix": "eslint '**/*.ts' --fix",
+    "start": "serverless offline"
   },
   "dependencies": {
-    "canvas": "2.11.2",
     "gif-encoder": "0.7.2",
     "zod": "3.22.4"
   },
   "devDependencies": {
     "@alastair-smith/eslint-config": "workspace:*",
     "@alastair-smith/tsconfig": "workspace:*",
-    "@types/aws-lambda": "^8.10.137",
+    "@types/aws-lambda": "8.10.137",
     "@types/node": "20.12.2",
+    "canvas": "2.11.2",
+    "esbuild": "^0.21.4",
+    "serverless": "3.38.0",
+    "serverless-esbuild": "^1.52.1",
+    "serverless-offline": "^13.6.0",
     "typescript": "5.1.3"
   }
 }

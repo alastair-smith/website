@@ -7,7 +7,7 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
 1. Install the following dependenices
 
    ```bash
-   sudo apt install curl git
+   sudo apt install curl git gifsicle
    ```
 
 1. Install asdf

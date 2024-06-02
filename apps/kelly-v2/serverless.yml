@@ -1,0 +1,29 @@
+service: kelly
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+# plugin order is important
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  esbuild:
+    external: ['canvas']
+
+package:
+  exclude:
+    - node_modules/**
+
+functions:
+  api:
+    handler: src/index.handler
+    layers:
+      - arn:aws:lambda:eu-west-1:523361676583:layer:prod-kelly-dependencies:1
+    events:
+      - httpApi:
+          path: /
+          method: get
