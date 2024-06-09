@@ -7,7 +7,7 @@ const base64GifPath = 'example.gif.tmp';
 const outputGifPath = 'example.gif';
 
 export const handler = async (): Promise<void> => {
-  const gifData = await generateGif('hello world2', {});
+  const gifData = await generateGif('hello world');
 
   await fsPromises.writeFile(base64GifPath, gifData);
 

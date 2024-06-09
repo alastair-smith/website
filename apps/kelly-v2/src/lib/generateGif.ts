@@ -3,6 +3,8 @@ import { exec } from 'child_process';
 import fs from 'fs';
 import GifEncoder from 'gif-encoder';
 
+import asyncExecute from './asyncExecute';
+
 const GIF_DIMENSIONS = [480, 360];
 const IMAGE_DIMENSIONS = [968, 681];
 const INCREASED_MAX_BUFFER = 1024 * 1024 * 5;
@@ -43,22 +45,21 @@ const generateGif = async (text: string): Promise<string> => {
     context.drawImage(canvas, 0, 0, GIF_DIMENSIONS[0], GIF_DIMENSIONS[1]);
 
     const gif = new GifEncoder(...GIF_DIMENSIONS);
-    const file = fs.createWriteStream('/tmp/img.gif');
+    const file = fs.createWriteStream('/tmp/single-frame.gif');
     file.on('error', (error: unknown) => reject(error));
-    file.on('finish', () => {
+    file.on('finish', async () => {
       // add delay to middle frame
-      exec(
-        `${gifsicle} -d 200 /tmp/img.gif -o /tmp/del.gif`,
-        (error, stdout, stderr) =>
-          error
-            ? reject(error)
-            : exec(
-                `${gifsicle} --colors 256 --merge ./src/assets/start.gif /tmp/del.gif ./src/assets/end.gif | base64`,
-                { maxBuffer: INCREASED_MAX_BUFFER },
-                (error2, stdout2, stderr2) =>
-                  error2 ? reject(error2) : resolve(stdout2)
-              )
+      await asyncExecute(
+        `${gifsicle} --merge ${Array(15)
+          .fill('/tmp/single-frame.gif')
+          .join(' ')} -o /tmp/img.gif`
       );
+      console.log('x');
+      // stitch gifs together
+      const base64Gif = await asyncExecute(
+        `${gifsicle} --colors 256 --merge ./src/assets/start.gif /tmp/img.gif ./src/assets/end.gif | base64`
+      );
+      resolve(base64Gif);
     });
     const pixels = context.getImageData(
       0,
