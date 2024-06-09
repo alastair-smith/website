@@ -1,5 +1,4 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
-import { exec } from 'child_process';
 import fs from 'fs';
 import GifEncoder from 'gif-encoder';
 
@@ -7,7 +6,6 @@ import asyncExecute from './asyncExecute';
 
 const GIF_DIMENSIONS = [480, 360];
 const IMAGE_DIMENSIONS = [968, 681];
-const INCREASED_MAX_BUFFER = 1024 * 1024 * 5;
 const MAX_WIDTH = 580;
 const TEXT_COLOR = '#0049af';
 const TEXT_FONT = '28px LibreBaskerville';
@@ -48,16 +46,11 @@ const generateGif = async (text: string): Promise<string> => {
     const file = fs.createWriteStream('/tmp/single-frame.gif');
     file.on('error', (error: unknown) => reject(error));
     file.on('finish', async () => {
-      // add delay to middle frame
-      await asyncExecute(
-        `${gifsicle} --merge ${Array(15)
-          .fill('/tmp/single-frame.gif')
-          .join(' ')} -o /tmp/img.gif`
-      );
-      console.log('x');
       // stitch gifs together
       const base64Gif = await asyncExecute(
-        `${gifsicle} --colors 256 --merge ./src/assets/start.gif /tmp/img.gif ./src/assets/end.gif | base64`
+        `${gifsicle} --lossy -d 15 --merge ./src/assets/start.gif ${Array(15)
+          .fill('/tmp/img.gif')
+          .join(' ')} ./src/assets/end.gif | base64`
       );
       resolve(base64Gif);
     });
