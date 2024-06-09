@@ -2,7 +2,7 @@
 
 # intended to be ran in docker image amazonlinux
 
-# podman run --rm -it -v $(pwd):/app -w /app amazonlinux:2 /bin/bash
+# podman run --rm -it -v $(pwd):/app -w /app docker.io/amazonlinux:latest /bin/bash
 
 set -euo pipefail
 
@@ -33,6 +33,7 @@ BIN_IMAGE_DIR="/usr/lib64"
 FONTS_LAYER_DIR="fonts/"
 FONTS_LAYER_FULL_DIR="$LAYER_DIR/$FONTS_LAYER_DIR"
 ARCHIVE_OUTPUT="$WORKING_DIR/layer.zip"
+GIFSICLE_FULL_DIR="/opt/gifsicle"
 
 yellow_echo "Configured variables"
 yellow_echo "Creating directories..."
@@ -42,6 +43,7 @@ rm -f "$ARCHIVE_OUTPUT"
 mkdir -p "$BIN_LAYER_FULL_DIR"
 mkdir -p "$NODE_LAYER_FULL_DIR"
 mkdir -p "$FONTS_LAYER_FULL_DIR"
+mkdir -p "$GIFSICLE_FULL_DIR"
 
 yellow_echo "Created directories"
 yellow_echo "Installing yum packages..."
@@ -57,7 +59,10 @@ yum install -y \
   tar \
   gzip \
   zip \
-  gifsicle
+  tar
+
+cd "$GIFSICLE_FULL_DIR"
+curl https://www.lcdf.org/gifsicle/gifsicle-1.95.tar.gz -o gifsicle.tar.gz
 
 yellow_echo "Installed yum packages"
 yellow_echo "Installing nodejs..."

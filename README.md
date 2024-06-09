@@ -8,6 +8,7 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
 
    ```bash
    sudo apt install curl git gifsicle
+   snap install aws-cli --classic
    ```
 
 1. Install asdf

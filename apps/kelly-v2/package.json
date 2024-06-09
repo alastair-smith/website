@@ -5,7 +5,7 @@
     "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs /opt/build-layer.sh",
     "lint": "eslint '**/*.ts'",
     "lint:fix": "eslint '**/*.ts' --fix",
-    "start": "serverless offline"
+    "start": "tsx ./src/cli.ts"
   },
   "dependencies": {
     "gif-encoder": "0.7.2",
@@ -21,6 +21,7 @@
     "serverless": "3.38.0",
     "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^13.6.0",
+    "tsx": "^4.15.1",
     "typescript": "5.1.3"
   }
 }

@@ -1,5 +1,6 @@
 import { createCanvas, loadImage, registerFont } from 'canvas';
 import { exec } from 'child_process';
+import fs from 'fs';
 import GifEncoder from 'gif-encoder';
 
 const GIF_DIMENSIONS = [480, 360];
@@ -10,10 +11,16 @@ const TEXT_COLOR = '#0049af';
 const TEXT_FONT = '28px LibreBaskerville';
 const TEXT_POSITION = [320, -110];
 const TEXT_ROTATION = 0.6;
+const gifsicle = 'gifsicle';
+// const gifsicle = '/opt/lib/gifsicle'
 
-registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
-  family: 'LibreBaskerville',
-});
+// registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
+registerFont(
+  '/home/al/website/apps/kelly-v2/fonts/LibreBaskerville-Regular.otf',
+  {
+    family: 'LibreBaskerville',
+  }
+);
 
 const generateGif = async (text: string): Promise<string> => {
   const canvas = createCanvas(IMAGE_DIMENSIONS[0], IMAGE_DIMENSIONS[1]);
@@ -21,7 +28,7 @@ const generateGif = async (text: string): Promise<string> => {
 
   context.font = TEXT_FONT;
 
-  const image = await loadImage('./base-image2.jpg');
+  const image = await loadImage('./src/assets/base-frame.jpg');
   context.drawImage(image, 0, 0);
   context.save();
   context.rotate(TEXT_ROTATION);
@@ -36,17 +43,17 @@ const generateGif = async (text: string): Promise<string> => {
     context.drawImage(canvas, 0, 0, GIF_DIMENSIONS[0], GIF_DIMENSIONS[1]);
 
     const gif = new GifEncoder(...GIF_DIMENSIONS);
-    const file = require('fs').createWriteStream('/tmp/img.gif');
+    const file = fs.createWriteStream('/tmp/img.gif');
     file.on('error', (error: unknown) => reject(error));
     file.on('finish', () => {
       // add delay to middle frame
       exec(
-        '/opt/lib/gifsicle -d 200 /tmp/img.gif -o /tmp/del.gif',
+        `${gifsicle} -d 200 /tmp/img.gif -o /tmp/del.gif`,
         (error, stdout, stderr) =>
           error
             ? reject(error)
             : exec(
-                '/opt/lib/gifsicle --colors 256 --merge kelly1del.gif /tmp/del.gif kelly2del.gif | base64',
+                `${gifsicle} --colors 256 --merge ./src/assets/start.gif /tmp/del.gif ./src/assets/end.gif | base64`,
                 { maxBuffer: INCREASED_MAX_BUFFER },
                 (error2, stdout2, stderr2) =>
                   error2 ? reject(error2) : resolve(stdout2)

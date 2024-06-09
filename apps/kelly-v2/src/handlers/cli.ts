@@ -1,4 +1,17 @@
+import fsPromises from 'fs/promises';
+
+import asyncExecute from '@/lib/asyncExecute';
+import generateGif from '@/lib/generateGif';
+
+const base64GifPath = 'example.gif.tmp';
+const outputGifPath = 'example.gif';
+
 export const handler = async (): Promise<void> => {
-  // TODO add CLI handler that takes in arguments for text and file location and then creates a gif at that location
-  // interface something like: ./cli --text 'hello world --output './hello.gif'
+  const gifData = await generateGif('hello world2', {});
+
+  await fsPromises.writeFile(base64GifPath, gifData);
+
+  await asyncExecute(`base64 -d ${base64GifPath} > ${outputGifPath}`);
+
+  console.log(`GIF created at ${outputGifPath}`);
 };
