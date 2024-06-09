@@ -48,7 +48,7 @@ mkdir -p "$GIFSICLE_FULL_DIR"
 yellow_echo "Created directories"
 yellow_echo "Installing yum packages..."
 
-amazon-linux-extras install epel -y
+# amazon-linux-extras install epel -y
 
 yum install -y \
   gcc-c++ \
@@ -59,14 +59,20 @@ yum install -y \
   tar \
   gzip \
   zip \
-  tar
+  tar \
+  gzip
 
 cd "$GIFSICLE_FULL_DIR"
 curl https://www.lcdf.org/gifsicle/gifsicle-1.95.tar.gz -o gifsicle.tar.gz
+tar -xzf gifsicle.tar.gz
+cd gifsicle-1.95
+./configure
+make install
 
 yellow_echo "Installed yum packages"
 yellow_echo "Installing nodejs..."
 
+cd /opt
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh" | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || echo "supressing failure"
@@ -83,7 +89,7 @@ cp "$BIN_IMAGE_DIR/libblkid.so.1" \
   "$BIN_IMAGE_DIR/libpixman-1.so.0" \
   "$BIN_LAYER_FULL_DIR"
 
-cp "/usr/bin/gifsicle" "$BIN_LAYER_FULL_DIR"
+cp "/usr/local/bin/gifsicle" "$BIN_LAYER_FULL_DIR"
 
 yellow_echo "Copied binaries"
 yellow_echo "Installing node modules..."
