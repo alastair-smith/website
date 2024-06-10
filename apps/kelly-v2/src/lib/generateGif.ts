@@ -11,16 +11,11 @@ const TEXT_COLOR = '#0049af';
 const TEXT_FONT = '28px LibreBaskerville';
 const TEXT_POSITION = [320, -110];
 const TEXT_ROTATION = 0.6;
-const gifsicle = 'gifsicle';
-// const gifsicle = '/opt/lib/gifsicle'
+const gifsicle = '/opt/lib/gifsicle';
 
-// registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
-registerFont(
-  '/home/al/website/apps/kelly-v2/fonts/LibreBaskerville-Regular.otf',
-  {
-    family: 'LibreBaskerville',
-  }
-);
+registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
+  family: 'LibreBaskerville',
+});
 
 const generateGif = async (text: string): Promise<string> => {
   const canvas = createCanvas(IMAGE_DIMENSIONS[0], IMAGE_DIMENSIONS[1]);
@@ -33,6 +28,7 @@ const generateGif = async (text: string): Promise<string> => {
   context.save();
   context.rotate(TEXT_ROTATION);
   context.fillStyle = TEXT_COLOR;
+
   while (context.measureText(text).width > MAX_WIDTH) {
     // text width is unpredictable but needs to be cropped
     text = text.substring(0, text.length - 1);
@@ -49,7 +45,7 @@ const generateGif = async (text: string): Promise<string> => {
       // stitch gifs together
       const base64Gif = await asyncExecute(
         `${gifsicle} --lossy -d 15 --merge ./src/assets/start.gif ${Array(15)
-          .fill('/tmp/img.gif')
+          .fill('/tmp/single-frame.gif')
           .join(' ')} ./src/assets/end.gif | base64`
       );
       resolve(base64Gif);

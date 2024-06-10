@@ -10,3 +10,4 @@ pnpm-lock.yaml
 *.jpg
 *.gif
 *.sh
+fonts.conf
