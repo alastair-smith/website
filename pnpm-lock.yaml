@@ -115,9 +115,6 @@ importers:
 
   apps/kelly-v2:
     dependencies:
-      canvas:
-        specifier: 2.11.2
-        version: 2.11.2
       gif-encoder:
         specifier: 0.7.2
         version: 0.7.2
