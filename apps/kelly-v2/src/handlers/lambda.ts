@@ -10,14 +10,17 @@ import generateGif from '@/lib/generateGif';
 // inputs
 const schema = z.object({
   queryStringParameters: z.object({
-    text: z.string().min(1),
+    q: z.string().min(1).describe('base64 text to generate gif from'),
   }),
 });
 
 const validateInput = (event: unknown): Parameters<typeof generateGif> => {
   const parsed = schema.parse(event);
 
-  return [parsed.queryStringParameters.text];
+  const base64Text = parsed.queryStringParameters.q;
+  const text = Buffer.from(base64Text, 'base64').toString('utf-8');
+
+  return [text];
 };
 
 // outputs
