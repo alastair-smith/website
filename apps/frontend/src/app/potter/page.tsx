@@ -70,7 +70,7 @@ export default function Page() {
       </form>
 
       <div className="flex flex-col items-center mb-huge">
-        <div className="max-w-[480px] w-full aspect-[4/3] bg-contain flex justify-center items-center">
+        <div className="max-w-[480px] w-full aspect-[48/27] bg-[url('/potter-placeholder.jpg')] bg-contain flex justify-center items-center">
           {submittedValue && (
             <img
               src={getUrl(submittedValue)}

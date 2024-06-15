@@ -6,20 +6,20 @@ import asyncExecute from './asyncExecute';
 
 const GIF_DIMENSIONS = [480, 270];
 const IMAGE_DIMENSIONS = [480, 270];
-const MAX_WIDTH = 580;
 const TEXT_COLOR = '#110a05';
 const TEXT_FONT = '14px LibreBaskerville';
 const TEXT_POSITION = [210, -50];
 const TEXT_ROTATION = 0.5;
 const gifsicle = '/opt/lib/gifsicle';
+const maxLines = 9;
 
 registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
   family: 'LibreBaskerville',
 });
 
-function insertNewlines(text: string): string {
+function insertNewlines(text: string) {
   const maxLength = 20;
-  const maxLines = 9;
+
   let result = '';
   let currentLine = '';
   let lineCount = 0;
@@ -64,7 +64,7 @@ function insertNewlines(text: string): string {
     result += currentLine;
   }
 
-  return result;
+  return { result, lineCount };
 }
 
 const generateGif = async (text: string): Promise<string> => {
@@ -79,7 +79,13 @@ const generateGif = async (text: string): Promise<string> => {
   context.rotate(TEXT_ROTATION);
   context.fillStyle = TEXT_COLOR;
 
-  context.fillText(insertNewlines(text), TEXT_POSITION[0], TEXT_POSITION[1]);
+  const { result: linedText, lineCount } = insertNewlines(text);
+
+  context.fillText(
+    linedText,
+    TEXT_POSITION[0],
+    TEXT_POSITION[1] + (maxLines - lineCount) * 7
+  );
   context.restore();
   const completeGif: string = await new Promise((resolve, reject) => {
     context.drawImage(canvas, 0, 0, GIF_DIMENSIONS[0], GIF_DIMENSIONS[1]);
