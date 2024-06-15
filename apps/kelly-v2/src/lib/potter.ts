@@ -7,10 +7,10 @@ import asyncExecute from './asyncExecute';
 const GIF_DIMENSIONS = [480, 270];
 const IMAGE_DIMENSIONS = [480, 270];
 const MAX_WIDTH = 580;
-const TEXT_COLOR = '#26180f';
-const TEXT_FONT = '28px LibreBaskerville';
-const TEXT_POSITION = [320, -110];
-const TEXT_ROTATION = 0.6;
+const TEXT_COLOR = '#110a05';
+const TEXT_FONT = '14px LibreBaskerville';
+const TEXT_POSITION = [210, -10];
+const TEXT_ROTATION = 0.55;
 const gifsicle = '/opt/lib/gifsicle';
 
 registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
