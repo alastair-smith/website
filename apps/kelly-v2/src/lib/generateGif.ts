@@ -44,7 +44,7 @@ const generateGif = async (text: string): Promise<string> => {
     file.on('finish', async () => {
       // stitch gifs together
       const base64Gif = await asyncExecute(
-        `${gifsicle} --lossy -d 15 --merge ./src/assets/start.gif ${Array(15)
+        `${gifsicle} -d 15 --merge ./src/assets/start.gif ${Array(15)
           .fill('/tmp/single-frame.gif')
           .join(' ')} ./src/assets/end.gif | base64`
       );
