@@ -1,0 +1,33 @@
+service: kelly-v2
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-1
+
+# plugin order is important
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  esbuild:
+    exclude:
+      - canvas
+
+package:
+  exclude:
+    - node_modules/**
+  include:
+    - src/assets
+
+functions:
+  api:
+    handler: src/index.handler
+    layers:
+      - arn:aws:lambda:eu-west-1:523361676583:layer:gif-maker:1
+    events:
+      - httpApi:
+          path: /
+          method: get

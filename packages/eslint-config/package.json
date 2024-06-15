@@ -1,9 +1,16 @@
 {
   "name": "@alastair-smith/eslint-config",
-  "main": ".eslintrc.js",
+  "type": "module",
+  "main": "eslint.config.js",
   "dependencies": {
-    "eslint": "8.41.0",
-    "eslint-config-next": "13.4.3",
-    "eslint-plugin-jest-formatting": "3.1.0"
+    "@eslint/js": "9.3.0",
+    "@types/eslint__js": "8.42.3",
+    "eslint": "9.3.0",
+    "eslint-config-next": "14.2.3",
+    "eslint-plugin-jest-formatting": "3.1.0",
+    "typescript-eslint": "7.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.13.0"
   }
 }

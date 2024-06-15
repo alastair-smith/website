@@ -1,0 +1,10 @@
+{
+  "extends": ["@alastair-smith/tsconfig"],
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

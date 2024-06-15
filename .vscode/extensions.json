@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "streetsidesoftware.code-spell-checker",
+    "aaron-bond.better-comments",
+    "esbenp.prettier-vscode"
+  ]
+}
