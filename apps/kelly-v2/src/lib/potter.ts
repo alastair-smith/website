@@ -9,13 +9,63 @@ const IMAGE_DIMENSIONS = [480, 270];
 const MAX_WIDTH = 580;
 const TEXT_COLOR = '#110a05';
 const TEXT_FONT = '14px LibreBaskerville';
-const TEXT_POSITION = [210, -10];
-const TEXT_ROTATION = 0.55;
+const TEXT_POSITION = [210, -50];
+const TEXT_ROTATION = 0.5;
 const gifsicle = '/opt/lib/gifsicle';
 
 registerFont('/opt/fonts/LibreBaskerville-Regular.otf', {
   family: 'LibreBaskerville',
 });
+
+function insertNewlines(text: string): string {
+  const maxLength = 20;
+  const maxLines = 9;
+  let result = '';
+  let currentLine = '';
+  let lineCount = 0;
+
+  const words = text.split(' ');
+
+  for (const word of words) {
+    if (lineCount >= maxLines) {
+      break;
+    }
+
+    if (currentLine.length + word.length + 1 > maxLength) {
+      if (currentLine.length > 0) {
+        result += currentLine + '\n';
+        lineCount++;
+        currentLine = '';
+        if (lineCount >= maxLines) {
+          break;
+        }
+      }
+
+      if (word.length > maxLength) {
+        let part = word.slice(0, maxLength - 1);
+        result += part + '-\n';
+        lineCount++;
+        currentLine = word.slice(maxLength - 1);
+        if (lineCount >= maxLines) {
+          break;
+        }
+      } else {
+        currentLine = word;
+      }
+    } else {
+      if (currentLine.length > 0) {
+        currentLine += ' ';
+      }
+      currentLine += word;
+    }
+  }
+
+  if (lineCount < maxLines && currentLine.length > 0) {
+    result += currentLine;
+  }
+
+  return result;
+}
 
 const generateGif = async (text: string): Promise<string> => {
   const canvas = createCanvas(IMAGE_DIMENSIONS[0], IMAGE_DIMENSIONS[1]);
@@ -29,11 +79,7 @@ const generateGif = async (text: string): Promise<string> => {
   context.rotate(TEXT_ROTATION);
   context.fillStyle = TEXT_COLOR;
 
-  while (context.measureText(text).width > MAX_WIDTH) {
-    // text width is unpredictable but needs to be cropped
-    text = text.substring(0, text.length - 1);
-  }
-  context.fillText(text, TEXT_POSITION[0], TEXT_POSITION[1]);
+  context.fillText(insertNewlines(text), TEXT_POSITION[0], TEXT_POSITION[1]);
   context.restore();
   const completeGif: string = await new Promise((resolve, reject) => {
     context.drawImage(canvas, 0, 0, GIF_DIMENSIONS[0], GIF_DIMENSIONS[1]);
