@@ -97,7 +97,7 @@ const generateGif = async (text: string): Promise<string> => {
       // stitch gifs together
       const base64Gif = await asyncExecute(
         `${gifsicle} --lossy -d 15 --merge ./src/assets/potter/start.gif ${Array(
-          15
+          25
         )
           .fill('/tmp/single-frame.gif')
           .join(' ')} ./src/assets/potter/end.gif | base64`
