@@ -90,17 +90,15 @@ export default function Page() {
           <Button
             className="mr-small"
             onClick={async () => {
-              const response = await fetch(submittedValue);
-              const blob = await response.blob();
-              const file = new File([blob], 'shared-gif.gif', {
-                type: blob.type,
-              });
-
-              await navigator.share({
-                files: [file],
-                title: 'Check out this GIF!',
-                text: 'Here is a cool GIF I found.',
-              });
+              try {
+                await navigator.share({
+                  url: submittedValue,
+                  title: 'Check out this GIF!',
+                  text: 'Here is a cool GIF I found.',
+                });
+              } catch (error) {
+                console.error(error);
+              }
             }}
           >
             Share
