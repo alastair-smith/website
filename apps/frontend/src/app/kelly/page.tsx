@@ -37,7 +37,7 @@ export default function Page() {
 
     if (inputValue !== submittedValue) {
       setIsLoading(true);
-      setSubmittedValue(inputValue);
+      setSubmittedValue(getUrl(inputValue));
     }
   };
 
@@ -58,15 +58,7 @@ export default function Page() {
           onChange={handleChange}
         />
         <div className="self-end">
-          <Button
-            className="mr-small"
-            onClick={() =>
-              window.navigator.clipboard.writeText(getUrl(inputValue))
-            }
-          >
-            Copy URL
-          </Button>
-          <Button>Show Gif</Button>
+          <Button>Create Gif</Button>
         </div>
       </form>
 
@@ -74,7 +66,7 @@ export default function Page() {
         <div className="max-w-[480px] w-full aspect-[4/3] bg-[url('/kelly-placeholder.jpg')] bg-contain flex justify-center items-center">
           {submittedValue && (
             <img
-              src={getUrl(submittedValue)}
+              src={submittedValue}
               className="max-w-[480px] w-full"
               alt="kelly"
               onLoad={handleImageLoad}
@@ -86,6 +78,33 @@ export default function Page() {
               <Cog className="animate-reverse-spin-slow" />
             </div>
           )}
+        </div>
+
+        <div>
+          <Button
+            className="mr-small"
+            onClick={() => window.navigator.clipboard.writeText(submittedValue)}
+          >
+            Copy URL
+          </Button>
+          <Button
+            className="mr-small"
+            onClick={async () => {
+              const response = await fetch(submittedValue);
+              const blob = await response.blob();
+              const file = new File([blob], 'shared-gif.gif', {
+                type: blob.type,
+              });
+
+              await navigator.share({
+                files: [file],
+                title: 'Check out this GIF!',
+                text: 'Here is a cool GIF I found.',
+              });
+            }}
+          >
+            Share
+          </Button>
         </div>
       </div>
 
