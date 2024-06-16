@@ -43,6 +43,23 @@ export default function Home() {
 
       <div className="flex flex-col items-center">
         <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
+          <h2 className="text-3xl">Potter</h2>
+          <span>Meme Generator</span>
+          <Image
+            src="/wizard.webp"
+            alt="excel"
+            width="512"
+            height="512"
+            className="border-8 border-night rounded"
+          />
+          <div className="flex space-x-4">
+            <UnderlinedLink href="/potter">Go to app</UnderlinedLink>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-center">
+        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
           <h2 className="text-3xl">Kelly</h2>
           <span>Meme Generator</span>
           <Image

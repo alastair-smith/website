@@ -5,22 +5,27 @@ import type {
 } from 'aws-lambda';
 import { z } from 'zod';
 
-import generateGif from '@/lib/generateGif';
+import kelly from '@/lib/generateGif';
+import potter from '@/lib/potter';
 
 // inputs
 const schema = z.object({
   queryStringParameters: z.object({
     q: z.string().min(1).describe('base64 text to generate gif from'),
+    type: z.enum(['kelly', 'potter']).default('kelly'),
   }),
 });
 
-const validateInput = (event: unknown): Parameters<typeof generateGif> => {
+const validateInput = (event: unknown) => {
   const parsed = schema.parse(event);
 
   const base64Text = parsed.queryStringParameters.q;
   const text = Buffer.from(base64Text, 'base64').toString('utf-8');
 
-  return [text];
+  return {
+    text,
+    type: parsed.queryStringParameters.type,
+  };
 };
 
 // outputs
@@ -53,7 +58,10 @@ export const handler: Handler<
   try {
     const input = validateInput(event);
 
-    const result = await generateGif(...input);
+    const result =
+      input.type === 'kelly'
+        ? await kelly(input.text)
+        : await potter(input.text);
 
     return getSuccessResponse(result);
   } catch (error) {
