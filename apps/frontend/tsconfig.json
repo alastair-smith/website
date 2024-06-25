@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsx": "preserve",
     "paths": {
+      "@/public/*": ["./public/*"],
       "@/*": ["./src/*"]
     },
     "plugins": [

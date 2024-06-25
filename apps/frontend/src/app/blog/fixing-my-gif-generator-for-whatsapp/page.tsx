@@ -4,6 +4,9 @@ import Image from 'next/image';
 
 import * as Blog from '@/components/Blog/Blog';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import kellyCodeArchitectureSVG from '@/public/assets/blog/kelly-code-architecture.drawio.svg';
+
+const publishedDate = new Date(2024, 6, 24);
 
 export default function Page() {
   return (
@@ -11,7 +14,7 @@ export default function Page() {
       <Blog.Header>
         <Blog.Heading1>Fixing My Gif Generator For Whatsapp</Blog.Heading1>
 
-        <Blog.Date dateTime="2024-06-24">24th June 2024</Blog.Date>
+        <Blog.Date date={publishedDate} />
       </Blog.Header>
 
       <Blog.Summary>
@@ -33,6 +36,7 @@ export default function Page() {
           src="/assets/blog/kelly-example-1.gif"
           width={480}
           height={360}
+          unoptimized
         />
         <UnderlinedLink href="/kelly" newTab>
           You can give it a go here.
@@ -92,9 +96,7 @@ export default function Page() {
       </Blog.Section>
 
       <Blog.Section>
-        <h2 className="uppercase font-bold text-2xl">
-          Updating My Infrastructure And Developer Experience
-        </h2>
+        <h2 className="uppercase font-bold text-2xl">Updating My Setup</h2>
         <p>I was well behind on my NodeJS versions. Literally off the chart.</p>
         <Image
           alt="NodeJS release schedule"
@@ -103,20 +105,42 @@ export default function Page() {
           height={442}
         />
         <p>
-          I was also keen to rewrite the code in Typescript from Javascript to
-          align with the rest of my codebase and improve my familiarity with
-          that as a tool, especially with deploying Typescript code to AWS
-          Lambda.
+          On such an old version of NodeJS I would not be able to update my
+          lambda function, AWS would only support keeping the existing one
+          running and any updates would require major version updates.
+        </p>
+        <p>
+          I was also keen to rewrite the code from Javascript to Typescript to
+          align with the rest of my codebase and practice lambda function
+          deployment processes within a typescript monorepo.
         </p>
         <p>
           I&apos;d previously been using{' '}
           <UnderlinedLink href="https://www.serverless.com" newTab>
             serverless
           </UnderlinedLink>{' '}
-          to deploy the lambda function for this. And wanted to continue using
-          it, but take the opportunity to think about how I can improve my dev
-          experience when writing the code.
+          to deploy the lambda function for this. There was a little issue with
+          my developer experience but I wanted to continue using this tooling to
+          deploy my function. I decided to fix my dev experience as my first
+          step.
         </p>
+        <p>
+          Previously I had a single handler file doing all the logic of my
+          function. Serverless comes with commands to run functions locally, but
+          with a GIF API endpoint I would be returning a huge base64 string to
+          my terminal. This was not ideal.
+        </p>
+        <p>
+          So I split my function out into handlers and services. These handlers
+          would take an input, call the appropriate service, and then return the
+          output appropriately. So I had a lambda handler that would take the
+          http api gateway event, validate the input, call the gif service, and
+          then return the GIF in base64 in the required format. And then an
+          equivalent command line interface handler that would take a string,
+          call the services and then store the GIF as a file on the local
+          machine.
+        </p>
+        <Image src={kellyCodeArchitectureSVG} alt="Code architecture diagram" />
       </Blog.Section>
 
       {/* Developing a Solution */}

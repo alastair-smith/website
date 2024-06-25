@@ -18,15 +18,15 @@ export const Heading2 = ({ children }: { children: React.ReactNode }) => (
 );
 
 // TODO use single value and get from locale
-export const Date = ({
-  dateTime,
-  children,
-}: {
-  dateTime: `${string}-${string}-${string}`;
-  children: React.ReactNode;
-}) => (
+export const Date = ({ date }: { date: Date }) => (
   <p className="text-gray-700 italic">
-    <time dateTime={dateTime}>{children}</time>
+    <time dateTime={date.toISOString()}>
+      {date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })}
+    </time>
   </p>
 );
 
