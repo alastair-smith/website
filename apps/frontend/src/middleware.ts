@@ -1,14 +1,34 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-export function middleware(req: NextRequest) {
-  // Log request details
-  console.log('Request URL:', req.url);
-  console.log('Request Method:', req.method);
-  console.log('Request Headers:', JSON.stringify(req.headers));
+import { startActiveSpan } from './telemetry';
 
-  // Proceed with the response
-  const response = NextResponse.next();
+const getRequestHeaderAttributes = (
+  requestHeaders: NextRequest['headers']
+): Record<`request.header.${string}`, string> => {
+  return Object.fromEntries(
+    Array.from(requestHeaders.entries())
+      .filter(([headerName]) => headerName !== 'cookies')
+      .map(([headerName, headerValue]) => [
+        `request.header.${headerName}`,
+        headerValue,
+      ])
+  );
+};
 
-  // Optionally, log response details here
-  return response;
+export function middleware(request: NextRequest) {
+  const url = new URL(request.url);
+
+  return startActiveSpan(
+    `${request.method} ${url.pathname}`,
+    () => {
+      const response = NextResponse.next();
+
+      return response;
+    },
+    {
+      attributes: {
+        ...getRequestHeaderAttributes(request.headers),
+      },
+    }
+  );
 }

@@ -65,6 +65,10 @@ jobs:
       - formatter
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      GIT_BRANCH_NAME: ${{ github.head_ref }}
+      ENVIRONMENT: development
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+      VERSION: ${{ github.run_id }}
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v3
