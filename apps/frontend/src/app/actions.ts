@@ -9,6 +9,8 @@ const bortSchema = z.object({
 export const addBort = async () => {
   'use server';
 
+  console.log('adding bort');
+
   try {
     const res = await fetch(
       'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
