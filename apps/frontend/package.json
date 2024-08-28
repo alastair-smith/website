@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:cloudflare": "pnpm next-on-pages",
+    "build:cloudflare": "pnpm next-on-pages --custom-entrypoint=./src/cloudflare-entrypoint.ts",
     "build:watch": "pnpm run build:cloudflare -- --watch",
     "deploy": "./scripts/deploy.sh",
     "dev": "next dev",
