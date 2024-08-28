@@ -1,10 +1,10 @@
 import type { ResolveConfigFn } from '@microlabs/otel-cf-workers';
 import { Span, SpanOptions, trace } from '@opentelemetry/api';
-import { SEMRESATTRS_DEPLOYMENT_ENVIRONMENT } from '@opentelemetry/semantic-conventions';
 
 import { APP_NAME } from './constants';
 import { getEnvironmentVariables } from './env';
 
+const SEMRESATTRS_DEPLOYMENT_ENVIRONMENT = 'deployment.environment';
 const traceName = 'app';
 
 export const startActiveSpan = <F extends (span: Span) => unknown>(
