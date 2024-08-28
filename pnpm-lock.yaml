@@ -32,6 +32,12 @@ importers:
       '@alastair-smith/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
+      '@cloudflare/next-on-pages':
+        specifier: 1.13.2
+        version: 1.13.2(vercel@34.1.7)(wrangler@3.53.0)
+      '@microlabs/otel-cf-workers':
+        specifier: 1.0.0-rc.44
+        version: 1.0.0-rc.44(@opentelemetry/api@1.9.0)
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -84,9 +90,6 @@ importers:
         specifier: 3.22.4
         version: 3.22.4
     devDependencies:
-      '@cloudflare/next-on-pages':
-        specifier: ^1.11.0
-        version: 1.11.2(vercel@34.1.7)(wrangler@3.53.0)
       '@testing-library/jest-dom':
         specifier: ^5.16.5
         version: 5.17.0
@@ -528,8 +531,8 @@ packages:
     resolution: {integrity: sha512-EeEjMobfuJrwoctj7FA1y1KEbM0+Q1xSjobIEyie9k4haVEBB7vkDvsasw1pM3rO39mL2akxIAzLMUAtrMHZhA==}
     engines: {node: '>=16.13'}
 
-  '@cloudflare/next-on-pages@1.11.2':
-    resolution: {integrity: sha512-8xKi4CqOl4UwRUxUByFevf7jWcMNcEmAFmtodVMGJ5ZvX1z3tswxuefSZAaQ8lCB74TAbiY4lQkq9TDoeDcDgw==}
+  '@cloudflare/next-on-pages@1.13.2':
+    resolution: {integrity: sha512-lIri+zuxj6SKqIlewOoC9g9dD5+GbUMAXRrkhApmWGekE0PFlEAR7tHHDkbMXix4ctp7K4lPBY/wWUd8oh+VtQ==}
     hasBin: true
     peerDependencies:
       '@cloudflare/workers-types': ^4.20240208.0
@@ -1150,6 +1153,11 @@ packages:
   '@mapbox/node-pre-gyp@1.0.11':
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}
     hasBin: true
+
+  '@microlabs/otel-cf-workers@1.0.0-rc.44':
+    resolution: {integrity: sha512-0mOKzpoB7vD/lO1fGdEIUYoffGCnEZmGek05vwPpNTNvTCTCU4W1u6bRf6rO+MWJJtz7uKwuwBYVWM1x0C+JKA==}
+    peerDependencies:
+      '@opentelemetry/api': ~1.9.0
 
   '@next/env@14.1.4':
     resolution: {integrity: sha512-e7X7bbn3Z6DWnDi75UWn+REgAbLEqxI8Tq2pkFOFAMpWAWApz/YCUhtWMWn410h8Q2fYiYL7Yg5OlxMOCfFjJQ==}
@@ -7342,7 +7350,7 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
-  '@cloudflare/next-on-pages@1.11.2(vercel@34.1.7)(wrangler@3.53.0)':
+  '@cloudflare/next-on-pages@1.13.2(vercel@34.1.7)(wrangler@3.53.0)':
     dependencies:
       acorn: 8.11.3
       ast-types: 0.14.2
@@ -8022,6 +8030,17 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - supports-color
+
+  '@microlabs/otel-cf-workers@1.0.0-rc.44(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http': 0.52.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-exporter-base': 0.52.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/otlp-transformer': 0.52.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 1.25.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.25.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.25.1
 
   '@next/env@14.1.4': {}
 

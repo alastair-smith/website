@@ -1,3 +1,4 @@
+import { getRequestContext } from '@cloudflare/next-on-pages';
 import { z } from 'zod';
 
 const environmentVariableSchema = z.object({
@@ -20,12 +21,12 @@ const environmentVariableSchema = z.object({
     .describe('The version of the app'),
 });
 
-const getEnvironmentVariables = () => {
-  return environmentVariableSchema.parse(process.env);
+/**
+ * Return validated server environment variables
+ */
+export const getEnvironmentVariables = () => {
+  const { env } = getRequestContext();
+  return environmentVariableSchema.parse(env);
 };
 
-/**
- * Validated server environment variables
- */
-const environmentVariables = getEnvironmentVariables();
-export default environmentVariables;
+export type EnvironmentVariables = ReturnType<typeof getEnvironmentVariables>;
