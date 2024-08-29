@@ -2,6 +2,8 @@
 
 import { z } from 'zod';
 
+import { startActiveSpan } from '@/telemetry';
+
 const bortSchema = z.object({
   count: z.number().int().positive(),
 });
@@ -12,21 +14,23 @@ export const addBort = async () => {
   console.log('adding bort');
 
   try {
-    const res = await fetch(
-      'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
-      {
-        method: 'POST',
-        cache: 'no-cache',
-      }
-    );
+    return await startActiveSpan('bort', async () => {
+      const res = await fetch(
+        'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage',
+        {
+          method: 'POST',
+          cache: 'no-cache',
+        }
+      );
 
-    if (!res.ok) throw new Error('Failed to post Bort data');
+      if (!res.ok) throw new Error('Failed to post Bort data');
 
-    const json = await res.json();
+      const json = await res.json();
 
-    const validatedData = bortSchema.parse(json);
+      const validatedData = bortSchema.parse(json);
 
-    return { data: validatedData, error: null };
+      return { data: validatedData, error: null };
+    });
   } catch (error) {
     return {
       error:

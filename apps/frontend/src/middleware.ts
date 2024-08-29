@@ -34,3 +34,9 @@ export function middleware(request: NextRequest) {
     }
   );
 }
+
+export const config = {
+  unstable_allowDynamic: [
+    '../../node_modules/.pnpm/@protobufjs+inquire@1.1.0/node_modules/@protobufjs/inquire/index.js', // Adjust this pattern as necessary
+  ],
+};

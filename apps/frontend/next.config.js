@@ -5,12 +5,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.resolve.mainFields = ['main', 'module', 'browser'];
-    }
-    return config;
-  },
 };
 
 if (process.env.NODE_ENV === 'development') {
