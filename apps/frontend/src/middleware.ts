@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { startActiveSpan, startTelemetry } from '@/telemetry';
+import { startActiveSpan } from '@/telemetry';
 
 const getRequestHeaderAttributes = (
   requestHeaders: NextRequest['headers']
@@ -18,13 +18,14 @@ const getRequestHeaderAttributes = (
 export function middleware(request: NextRequest) {
   const url = new URL(request.url);
 
-  startTelemetry();
+  console.log('req', url.pathname);
 
   return startActiveSpan(
     `${request.method} ${url.pathname}`,
-    () => {
+    (span) => {
       const response = NextResponse.next();
 
+      span.end();
       return response;
     },
     {
@@ -34,9 +35,3 @@ export function middleware(request: NextRequest) {
     }
   );
 }
-
-export const config = {
-  unstable_allowDynamic: [
-    '../../node_modules/.pnpm/@protobufjs+inquire@1.1.0/node_modules/@protobufjs/inquire/index.js', // Adjust this pattern as necessary
-  ],
-};
