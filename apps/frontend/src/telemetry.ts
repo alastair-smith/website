@@ -71,8 +71,6 @@ export class HTTPExporter implements SpanExporter {
   ): void {
     const payload = this.convertSpansToOtlpFormat(spans);
 
-    console.log(JSON.stringify(this.headers, null, 2));
-
     fetch(this.url, {
       method: 'POST',
       headers: {
@@ -83,20 +81,20 @@ export class HTTPExporter implements SpanExporter {
     })
       .then((response) => {
         if (response.ok) {
-          console.log('trace sent');
           resultCallback({ code: ExportResultCode.SUCCESS });
         } else {
-          response
-            .text()
-            .then((res) =>
-              console.log('trace fetch failed: ', res, response.status)
-            );
-
+          console.error(
+            'Failed to export spans, response status: ',
+            response.status
+          );
           resultCallback({ code: ExportResultCode.FAILED });
         }
       })
       .catch((error) => {
-        console.error('Error exporting spans:', error);
+        console.error(
+          'Failed to export spans, error: ',
+          error instanceof Error ? error.message : error
+        );
         resultCallback({ code: ExportResultCode.FAILED });
       });
   }
@@ -184,7 +182,7 @@ const startTelemetry = () => {
   });
 
   const exporter = new HTTPExporter({
-    url: 'https://otlp.nr-data.net/v1/traces',
+    url: 'https://otlp.eu01.nr-data.net/v1/traces',
     headers: { 'api-key': env.NEW_RELIC_LICENSE_KEY },
   });
 
