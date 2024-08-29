@@ -1,10 +1,10 @@
-import type { ResolveConfigFn } from '@microlabs/otel-cf-workers';
+import { instrument } from '@microlabs/otel-cf-workers';
 import { Span, SpanOptions, trace } from '@opentelemetry/api';
 
-import { APP_NAME } from './constants';
-import { getEnvironmentVariables } from './env';
+import { getEnvironmentVariables } from '@/env';
 
-const SEMRESATTRS_DEPLOYMENT_ENVIRONMENT = 'deployment.environment';
+import { APP_NAME } from './constants';
+
 const traceName = 'app';
 
 export const startActiveSpan = <F extends (span: Span) => unknown>(
@@ -17,24 +17,19 @@ export const startActiveSpan = <F extends (span: Span) => unknown>(
   return tracer.startActiveSpan(name, spanOptions, callback);
 };
 
-export const telemetryConfig: ResolveConfigFn = () => {
+export const startTelemetry = () => {
   const env = getEnvironmentVariables();
 
-  return {
-    exporter: {
-      url: 'https://otlp.nr-data.net/v1/traces',
-      headers: { 'api-key': env.NEW_RELIC_LICENSE_KEY },
-    },
-    service: { name: APP_NAME, version: env.VERSION },
-    postProcessor: (spans) => {
-      if (spans.length === 0) return spans;
-
-      // library doesn't support setting default attributes
-      // https://github.com/evanderkoogh/otel-cf-workers/pull/127
-      spans[0].resource.attributes[SEMRESATTRS_DEPLOYMENT_ENVIRONMENT] =
-        env.ENVIRONMENT;
-
-      return spans;
-    },
-  };
+  instrument(
+    {},
+    {
+      exporter: {
+        url: 'https://otlp.nr-data.net/v1/traces',
+        headers: {
+          'api-key': env.NEW_RELIC_LICENSE_KEY,
+        },
+      },
+      service: { name: APP_NAME },
+    }
+  );
 };

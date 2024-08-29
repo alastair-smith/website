@@ -25,7 +25,10 @@ const environmentVariableSchema = z.object({
  * Return validated server environment variables
  */
 export const getEnvironmentVariables = () => {
-  const { env } = getRequestContext();
+  const env =
+    process.env.NODE_ENV === 'development'
+      ? process.env
+      : getRequestContext().env;
   return environmentVariableSchema.parse(env);
 };
 

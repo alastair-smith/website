@@ -8,3 +8,4 @@ tfplan*
 .serverless
 .esbuild
 example.gif*
+.env
