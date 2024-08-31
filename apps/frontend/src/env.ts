@@ -2,11 +2,7 @@ import { getRequestContext } from '@cloudflare/next-on-pages';
 import { z } from 'zod';
 
 const environmentVariableSchema = z.object({
-  GIT_BRANCH_NAME: z
-    .string()
-    .min(1)
-    .default('local')
-    .describe('Git branch that has been deployed'),
+  GIT_BRANCH_NAME: z.string().min(1).describe('Git branch that is running'),
   ENVIRONMENT: z
     .enum(['local', 'preview', 'production'])
     .describe('Environment that has been deployed to'),
@@ -14,11 +10,7 @@ const environmentVariableSchema = z.object({
     .string()
     .min(1)
     .describe('API key for sending telemetry to New Relic'),
-  VERSION: z
-    .string()
-    .min(1)
-    .default('local')
-    .describe('The version of the app'),
+  VERSION: z.string().min(1).describe('The version of the app'),
 });
 
 /**

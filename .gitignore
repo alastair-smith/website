@@ -8,4 +8,5 @@ tfplan*
 .serverless
 .esbuild
 example.gif*
-.env
+.envrc
+wrangler.toml
