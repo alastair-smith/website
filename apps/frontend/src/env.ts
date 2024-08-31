@@ -8,7 +8,7 @@ const environmentVariableSchema = z.object({
     .default('local')
     .describe('Git branch that has been deployed'),
   ENVIRONMENT: z
-    .enum(['local', 'development', 'production'])
+    .enum(['local', 'preview', 'production'])
     .describe('Environment that has been deployed to'),
   NEW_RELIC_LICENSE_KEY: z
     .string()
