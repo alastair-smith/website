@@ -8,11 +8,9 @@ import {
 } from '@opentelemetry/sdk-trace-base';
 import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
 import {
+  ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
-} from '@opentelemetry/semantic-conventions';
-import {
-  ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
   ATTR_VCS_REPOSITORY_REF_NAME,
 } from '@opentelemetry/semantic-conventions/incubating';
 
