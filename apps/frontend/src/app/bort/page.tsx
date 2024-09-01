@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { z } from 'zod';
 
 import { addBort } from '@/app/actions';
 import Button from '@/components/Button/Button';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import { getBortCount as getBortCountService } from '@/services/bort';
 
 export const runtime = 'edge';
 
@@ -35,21 +35,9 @@ export default function Page() {
   useEffect(() => {
     const getBortCount = async () => {
       try {
-        const res = await fetch(
-          'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage'
-        );
+        const data = await getBortCountService();
 
-        if (!res.ok) throw new Error('fetch not OK');
-
-        const data = await res.json();
-
-        const validatedData = z
-          .object({
-            count: z.number().int().positive(),
-          })
-          .parse(data);
-
-        setBortCount(validatedData.count);
+        setBortCount(data.count);
       } catch (error) {
         errorHandler(error);
       } finally {
