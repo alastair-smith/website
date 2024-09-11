@@ -2,13 +2,14 @@ import z from 'zod';
 
 import { startActiveSpan } from '@/telemetry';
 
-const API_URL = 'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage';
+export const API_URL =
+  'https://s2bfkjbsfg.execute-api.eu-west-1.amazonaws.com/stage';
 
 const responseSchema = z.object({
   count: z.number().int().positive(),
 });
 
-type BortResponse = z.infer<typeof responseSchema>;
+export type BortResponse = z.infer<typeof responseSchema>;
 
 export const addBort = async (): Promise<BortResponse> =>
   await startActiveSpan('service:bort:addBort', async () => {
@@ -19,9 +20,16 @@ export const addBort = async (): Promise<BortResponse> =>
 
     if (!response.ok) throw new Error('Failed to post Bort data');
 
-    const validatedData = responseSchema.parse(await response.json());
+    try {
+      const validatedData = responseSchema.parse(await response.json());
 
-    return validatedData;
+      return validatedData;
+    } catch (error) {
+      let issues =
+        error instanceof z.ZodError ? JSON.stringify(error.issues) : 'unknown';
+
+      throw new Error(`Bort validation error: ${issues}.`, { cause: error });
+    }
   });
 
 export const getBortCount = async (): Promise<BortResponse> =>
@@ -30,7 +38,14 @@ export const getBortCount = async (): Promise<BortResponse> =>
 
     if (!response.ok) throw new Error('Failed to fetch Bort data');
 
-    const validatedData = responseSchema.parse(await response.json());
+    try {
+      const validatedData = responseSchema.parse(await response.json());
 
-    return validatedData;
+      return validatedData;
+    } catch (error) {
+      let issues =
+        error instanceof z.ZodError ? JSON.stringify(error.issues) : 'unknown';
+
+      throw new Error(`Bort validation error: ${issues}.`, { cause: error });
+    }
   });

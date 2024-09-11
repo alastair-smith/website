@@ -3,7 +3,6 @@ import { type ExportResult, ExportResultCode } from '@opentelemetry/core';
 import { Resource } from '@opentelemetry/resources';
 import {
   BasicTracerProvider,
-  BatchSpanProcessor,
   SimpleSpanProcessor,
 } from '@opentelemetry/sdk-trace-base';
 import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
