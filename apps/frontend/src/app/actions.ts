@@ -2,6 +2,8 @@
 
 import { addBort, getBortCount } from '@/services/bort';
 
+export const runtime = 'edge';
+
 export const addBortAction = async () => {
   try {
     const data = await addBort();

@@ -1,5 +1,6 @@
 'use client';
 
+// TODO swap to edge server component and have child client component - see https://github.com/cloudflare/next-on-pages/discussions/549
 import { useEffect, useState, useTransition } from 'react';
 
 import { addBortAction, getBortCountAction } from '@/app/actions';
