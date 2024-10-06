@@ -1,12 +1,25 @@
 'use server';
 
-import { addBort as addBortService } from '@/services/bort';
+import { addBort, getBortCount } from '@/services/bort';
 
-export const addBort = async () => {
-  'use server';
-
+export const addBortAction = async () => {
   try {
-    const data = await addBortService();
+    const data = await addBort();
+    return { data, error: null };
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error
+          ? error
+          : new Error('Unknown error fetching bort data'),
+      data: null,
+    };
+  }
+};
+
+export const getBortCountAction = async () => {
+  try {
+    const data = await getBortCount();
     return { data, error: null };
   } catch (error) {
     return {

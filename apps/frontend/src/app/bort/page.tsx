@@ -1,11 +1,8 @@
-'use server';
-
 import { useEffect, useState, useTransition } from 'react';
 
-import { addBort } from '@/app/actions';
+import { addBortAction, getBortCountAction } from '@/app/actions';
 import Button from '@/components/Button/Button';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
-import { getBortCount as getBortCountService } from '@/services/bort';
 
 export const runtime = 'edge';
 
@@ -25,7 +22,7 @@ export default function Page() {
     setBortCount(bortCount + 1);
 
     startTransition(async () => {
-      const { error, data } = await addBort();
+      const { error, data } = await addBortAction();
 
       if (error) errorHandler(error);
       else setBortCount(data.count);
@@ -34,15 +31,12 @@ export default function Page() {
 
   useEffect(() => {
     const getBortCount = async () => {
-      try {
-        const data = await getBortCountService();
+      const { data, error } = await getBortCountAction();
 
-        setBortCount(data.count);
-      } catch (error) {
-        errorHandler(error);
-      } finally {
-        setIsLoading(false);
-      }
+      if (error) errorHandler(error);
+      else setBortCount(data.count);
+
+      setIsLoading(false);
     };
 
     getBortCount();
