@@ -8,6 +8,7 @@ import {
 import { ReadableSpan, SpanExporter } from '@opentelemetry/sdk-trace-base';
 import {
   ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
+  ATTR_HTTP_URL,
   ATTR_SERVICE_NAME,
   ATTR_SERVICE_VERSION,
   ATTR_VCS_REPOSITORY_REF_NAME,
@@ -113,10 +114,10 @@ export class HTTPExporter implements SpanExporter {
     // Convert each ReadableSpan to the OTLP span format
     const otlpSpans = spans
       // don't track calls to the telemetry endpoint
-      // TODO swap to use span attribute http.url instead of name
       .filter(
         (span) =>
-          span.name !== 'fetch POST https://otlp.eu01.nr-data.net/v1/traces'
+          span.attributes[ATTR_HTTP_URL] !==
+          'https://otlp.eu01.nr-data.net/v1/traces'
       )
       .map((span) => {
         const spanAttributes: Attributes = Object.entries(span.attributes).map(
