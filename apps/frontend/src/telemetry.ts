@@ -174,7 +174,11 @@ export const startActiveSpan = <F extends (span: Span) => unknown>(
   return tracer.startActiveSpan(name, spanOptions, callback);
 };
 
-const startTelemetry = () => {
+let telemetryStarted = false;
+
+export const startTelemetry = () => {
+  if (telemetryStarted) return;
+
   const env = getEnvironmentVariables();
 
   const provider = new BasicTracerProvider({
@@ -194,6 +198,6 @@ const startTelemetry = () => {
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 
   provider.register();
-};
 
-startTelemetry();
+  telemetryStarted = true;
+};

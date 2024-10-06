@@ -8,7 +8,7 @@ import {
 } from '@opentelemetry/semantic-conventions/incubating';
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { startActiveSpan } from '@/telemetry';
+import { startActiveSpan, startTelemetry } from '@/telemetry';
 
 const getRequestHeaderAttributes = (
   requestHeaders: NextRequest['headers']
@@ -28,6 +28,7 @@ const getResponseHeaderAttributes = (
 ): Record<string, string> => {
   return Object.fromEntries(
     Array.from(responseHeaders.entries())
+      // TODO swap to safelist of headers to track, there's lots of noise that we can remove
       .filter(([headerName]) => headerName.toLowerCase() !== 'set-cookie')
       .map(([headerName, headerValue]) => [
         ATTR_HTTP_RESPONSE_HEADER(headerName),
@@ -37,6 +38,8 @@ const getResponseHeaderAttributes = (
 };
 
 export function middleware(request: NextRequest) {
+  startTelemetry();
+
   const url = new URL(request.url);
 
   return startActiveSpan(
