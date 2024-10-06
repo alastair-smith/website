@@ -111,28 +111,35 @@ export class HTTPExporter implements SpanExporter {
     }));
 
     // Convert each ReadableSpan to the OTLP span format
-    const otlpSpans = spans.map((span) => {
-      const spanAttributes: Attributes = Object.entries(span.attributes).map(
-        ([key, value]) => ({
-          key,
-          value: { stringValue: String(value) },
-        })
-      );
+    const otlpSpans = spans
+      // don't track calls to the telemetry endpoint
+      // TODO swap to use span attribute http.url instead of name
+      .filter(
+        (span) =>
+          span.name !== 'fetch POST https://otlp.eu01.nr-data.net/v1/traces'
+      )
+      .map((span) => {
+        const spanAttributes: Attributes = Object.entries(span.attributes).map(
+          ([key, value]) => ({
+            key,
+            value: { stringValue: String(value) },
+          })
+        );
 
-      return {
-        traceId: span.spanContext().traceId,
-        spanId: span.spanContext().spanId,
-        parentSpanId: span.parentSpanId || undefined,
-        name: span.name,
-        startTimeUnixNano: (
-          span.startTime[0] * 1e9 +
-          span.startTime[1]
-        ).toString(),
-        endTimeUnixNano: (span.endTime[0] * 1e9 + span.endTime[1]).toString(),
-        kind: span.kind,
-        attributes: spanAttributes,
-      };
-    });
+        return {
+          traceId: span.spanContext().traceId,
+          spanId: span.spanContext().spanId,
+          parentSpanId: span.parentSpanId || undefined,
+          name: span.name,
+          startTimeUnixNano: (
+            span.startTime[0] * 1e9 +
+            span.startTime[1]
+          ).toString(),
+          endTimeUnixNano: (span.endTime[0] * 1e9 + span.endTime[1]).toString(),
+          kind: span.kind,
+          attributes: spanAttributes,
+        };
+      });
 
     return {
       resourceSpans: [
