@@ -18,5 +18,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "vitest.config.mts"
-  ]
+  ],
+  "exclude": ["**/*.test.ts", "mocks/**/*.ts"]
 }
