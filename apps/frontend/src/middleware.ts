@@ -10,12 +10,31 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { startActiveSpan, startTelemetry } from '@/telemetry';
 
+const requestHeadersToTrack = [
+  'accept',
+  'accept-encoding',
+  'accept-language',
+  'content-length',
+  'content-type',
+  'host',
+  'referer',
+  'user-agent',
+  'x-forwarded-proto',
+] as const;
+
+type RequestHeaderToTrack = (typeof requestHeadersToTrack)[number];
+
 const getRequestHeaderAttributes = (
   requestHeaders: NextRequest['headers']
 ): Record<string, string> => {
   return Object.fromEntries(
     Array.from(requestHeaders.entries())
-      .filter(([headerName]) => headerName.toLowerCase() !== 'cookies')
+      .filter(
+        (header: [string, string]): header is [RequestHeaderToTrack, string] =>
+          requestHeadersToTrack.includes(
+            header[0].toLowerCase() as RequestHeaderToTrack
+          )
+      )
       .map(([headerName, headerValue]) => [
         ATTR_HTTP_REQUEST_HEADER(headerName),
         headerValue,
