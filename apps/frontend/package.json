@@ -4,20 +4,29 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:cloudflare": "pnpm next-on-pages",
-    "build:watch": "pnpm run build:cloudflare -- --watch",
-    "deploy": "wrangler pages deploy .vercel/output/static --project-name website-frontend",
+    "build:cloudflare": "next-on-pages",
+    "build:watch": "pnpm run build:cloudflare --watch",
+    "predeploy": "envsubst < wrangler.template.toml > wrangler.toml",
+    "deploy": "wrangler pages deploy .vercel/output/static",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
-    "test": "pnpm run test:unit -- --watch",
+    "start": "wrangler pages dev .vercel/output/static",
+    "test": "pnpm run test:unit --watch",
     "test:ci": "pnpm run lint && pnpm run test:unit",
     "test:e2e": "echo todo",
     "test:integration": "echo todo",
-    "test:unit": "echo todo"
+    "test:unit": "vitest"
   },
   "dependencies": {
     "@alastair-smith/tsconfig": "workspace:*",
+    "@cloudflare/next-on-pages": "1.13.2",
+    "@microlabs/otel-cf-workers": "1.0.0-rc.44",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/core": "^1.26.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.53.0",
+    "@opentelemetry/resources": "^1.26.0",
+    "@opentelemetry/sdk-trace-base": "^1.26.0",
+    "@opentelemetry/semantic-conventions": "^1.27.0",
     "@types/node": "20.2.3",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
@@ -31,14 +40,16 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.11.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@vitejs/plugin-react": "^4.3.1",
     "eslint": "8.57.0",
-    "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
+    "jsdom": "^25.0.0",
+    "msw": "^2.4.1",
     "ts-node": "^10.9.1",
-    "wrangler": "^3.6.0"
+    "vitest": "^2.0.5",
+    "wrangler": "^3.72.3"
   }
 }

@@ -65,6 +65,9 @@ jobs:
       - formatter
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      GIT_BRANCH_NAME: ${{ github.head_ref }}
+      ENVIRONMENT: preview
+      VERSION: ${{ github.run_id }}
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v3
