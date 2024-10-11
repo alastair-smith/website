@@ -15,7 +15,7 @@ export const addBort = async (): Promise<BortResponse> =>
   await startActiveSpan('service:bort:addBort', async () => {
     const response = await fetch(API_URL, {
       method: 'POST',
-      cache: 'no-cache',
+      cache: 'no-store',
     });
 
     if (!response.ok) throw new Error('Failed to post Bort data');
@@ -34,7 +34,10 @@ export const addBort = async (): Promise<BortResponse> =>
 
 export const getBortCount = async (): Promise<BortResponse> =>
   await startActiveSpan('service:bort:getBortCount', async () => {
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL, {
+      method: 'GET',
+      cache: 'no-store',
+    });
 
     if (!response.ok) throw new Error('Failed to fetch Bort data');
 
