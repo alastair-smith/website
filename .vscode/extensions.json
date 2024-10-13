@@ -4,6 +4,7 @@
     "streetsidesoftware.code-spell-checker",
     "aaron-bond.better-comments",
     "esbenp.prettier-vscode",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "hediet.vscode-drawio"
   ]
 }

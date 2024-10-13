@@ -37,3 +37,7 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
    ```bash
    pnpm install
    ```
+
+## Architecture
+
+![architecture diagram](./docs/assets/architecture.drawio.svg)

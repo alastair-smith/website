@@ -12,3 +12,4 @@ pnpm-lock.yaml
 *.sh
 fonts.conf
 *.toml
+*.drawio.svg
