@@ -40,4 +40,4 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
 
 ## Architecture
 
-![architecture diagram](./docs/assets//architecture.drawio.svg)
+![architecture diagram](./docs/assets/architecture.drawio.svg)
