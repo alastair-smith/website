@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react';
 
-const TextInput = ({
+const NumberInput = ({
   value,
   onChange,
   className,
@@ -12,8 +12,9 @@ const TextInput = ({
   <input
     className={`focus:outline-none focus:ring-4 ring-violet-500 w-full max-w-form border-2 border-black px-medium py-small rounded ${className}`}
     value={value}
+    type="number"
     onChange={onChange}
   />
 );
 
-export default TextInput;
+export default NumberInput;
