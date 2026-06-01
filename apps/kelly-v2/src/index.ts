@@ -1,1 +1,1 @@
-export { handler } from './handlers/lambda';
+export { handler } from './handlers/lambda.js';

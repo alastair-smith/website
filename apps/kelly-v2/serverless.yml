@@ -3,13 +3,11 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs24.x
   region: eu-west-1
 
-# plugin order is important
 plugins:
   - serverless-esbuild
-  - serverless-offline
 
 custom:
   esbuild:

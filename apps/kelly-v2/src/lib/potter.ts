@@ -2,7 +2,7 @@ import { createCanvas, loadImage, registerFont } from 'canvas';
 import fs from 'fs';
 import GifEncoder from 'gif-encoder';
 
-import asyncExecute from './asyncExecute';
+import asyncExecute from './asyncExecute.js';
 
 const GIF_DIMENSIONS = [480, 270];
 const IMAGE_DIMENSIONS = [480, 270];

@@ -1,7 +1,7 @@
 import fsPromises from 'fs/promises';
 
-import asyncExecute from '@/lib/asyncExecute';
-import generateGif from '@/lib/generateGif';
+import asyncExecute from '@/lib/asyncExecute.js';
+import generateGif from '@/lib/generateGif.js';
 
 const base64GifPath = 'example.gif.tmp';
 const outputGifPath = 'example.gif';
