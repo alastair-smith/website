@@ -53,9 +53,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
-        run: pnpm install --filter @alastair-smith/frontend
+        run: pnpm install --filter @alastair-smith/web
       - name: Tests
-        run: pnpm run --dir "./apps/frontend" test:ci
+        run: pnpm run --dir "./apps/web" test:ci
 
   deploy-preview:
     runs-on: ubuntu-latest
@@ -80,11 +80,11 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
-        run: pnpm install --filter @alastair-smith/frontend
+        run: pnpm install --filter @alastair-smith/web
       - name: Build
-        run: pnpm run --dir "./apps/frontend" build:cloudflare
+        run: pnpm run --dir "./apps/web" build
       - name: Deploy
-        run: pnpm run --dir "./apps/frontend" deploy --branch ${{ github.head_ref }}
+        run: pnpm run --dir "./apps/web" deploy --branch ${{ github.head_ref }}
 
   register-deployment:
     runs-on: ubuntu-latest

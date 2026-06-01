@@ -1,0 +1,9 @@
+name = "website-frontend"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+[vars]
+GIT_BRANCH_NAME = "${GIT_BRANCH_NAME}"
+ENVIRONMENT = "${ENVIRONMENT}"
+VERSION = "${VERSION}"
