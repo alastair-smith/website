@@ -2,10 +2,6 @@ name: Validate App
 run-name: ${{ github.actor }} is validating application code on branch ${{ github.head_ref }} 🚀
 on: [pull_request]
 
-# skip commit hook setup in CI
-env:
-  HUSKY: 0
-
 jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
@@ -14,10 +10,10 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 9.0.6
-      - name: Use Node.js 20.12.2
+      - name: Use Node.js 24.16.0
         uses: actions/setup-node@v3
         with:
-          node-version: 20.12.2
+          node-version: 24.16.0
       - name: Audit packages
         run: pnpm audit || echo allow failure
 
@@ -28,10 +24,10 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 9.0.6
-      - name: Use Node.js 20.12.2
+      - name: Use Node.js 24.16.0
         uses: actions/setup-node@v3
         with:
-          node-version: 20.12.2
+          node-version: 24.16.0
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
@@ -46,10 +42,10 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 9.0.6
-      - name: Use Node.js 20.12.2
+      - name: Use Node.js 24.16.0
         uses: actions/setup-node@v3
         with:
-          node-version: 20.12.2
+          node-version: 24.16.0
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
@@ -73,10 +69,10 @@ jobs:
       - uses: pnpm/action-setup@v3
         with:
           version: 9.0.6
-      - name: Use Node.js 20.12.2
+      - name: Use Node.js 24.16.0
         uses: actions/setup-node@v3
         with:
-          node-version: 20.12.2
+          node-version: 24.16.0
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
