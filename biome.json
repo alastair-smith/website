@@ -1,14 +1,54 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.9/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["**", "!**/pnpm-lock.yaml", "!**/*.drawio.svg"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    },
     "parser": {
       "tailwindDirectives": true
     }
   },
-  "formatter": {
-    "enabled": false
-  },
   "linter": {
-    "enabled": false
+    "enabled": true,
+    "domains": {
+      "react": "recommended",
+      "test": "recommended",
+      "types": "recommended"
+    },
+    "rules": {
+      "preset": "recommended"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [[":NODE:", ":PACKAGE:"], ":ALIAS:", ":PATH:"]
+          }
+        }
+      }
+    }
   }
 }

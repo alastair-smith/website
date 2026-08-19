@@ -5,6 +5,7 @@ export default function BortAbout() {
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
       <Link to="/bort" className="flex items-center mb-medium">
         <svg
+          aria-hidden="true"
           className="rotate-180 mr-tiny"
           xmlns="http://www.w3.org/2000/svg"
           height="1em"

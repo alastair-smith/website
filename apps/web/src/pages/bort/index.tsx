@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import Button from '@/components/Button/Button';
 import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 import { addBort, getBortCount } from '@/services/bort';
@@ -13,7 +12,7 @@ export default function Bort() {
     getBortCount()
       .then(({ count }) => setBortCount(count))
       .catch((err: unknown) =>
-        setError(err instanceof Error ? err.message : 'Unknown error')
+        setError(err instanceof Error ? err.message : 'Unknown error'),
       );
   }, []);
 
@@ -23,7 +22,7 @@ export default function Bort() {
     void addBort()
       .then(({ count }) => setBortCount(count))
       .catch((err: unknown) =>
-        setError(err instanceof Error ? err.message : 'Unknown error')
+        setError(err instanceof Error ? err.message : 'Unknown error'),
       )
       .finally(() => setIsPending(false));
   };

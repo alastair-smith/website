@@ -1,5 +1,4 @@
-import fsPromises from 'fs/promises';
-
+import fsPromises from 'node:fs/promises';
 import asyncExecute from '@/lib/asyncExecute.js';
 import generateGif from '@/lib/generateGif.js';
 

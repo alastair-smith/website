@@ -1,7 +1,6 @@
+import fs from 'node:fs';
 import { createCanvas, loadImage, registerFont } from 'canvas';
-import fs from 'fs';
 import GifEncoder from 'gif-encoder';
-
 import asyncExecute from './asyncExecute.js';
 
 const GIF_DIMENSIONS = [480, 360];
@@ -46,7 +45,7 @@ const generateGif = async (text: string): Promise<string> => {
       const base64Gif = await asyncExecute(
         `${gifsicle} -d 15 --merge ./src/assets/start.gif ${Array(25)
           .fill('/tmp/single-frame.gif')
-          .join(' ')} ./src/assets/end.gif | base64`
+          .join(' ')} ./src/assets/end.gif | base64`,
       );
       resolve(base64Gif);
     });
@@ -54,7 +53,7 @@ const generateGif = async (text: string): Promise<string> => {
       0,
       0,
       GIF_DIMENSIONS[0],
-      GIF_DIMENSIONS[1]
+      GIF_DIMENSIONS[1],
     ).data;
 
     gif.pipe(file);

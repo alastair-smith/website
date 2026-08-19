@@ -4,7 +4,6 @@ import type {
   Handler,
 } from 'aws-lambda';
 import { z } from 'zod';
-
 import kelly from '@/lib/generateGif.js';
 import potter from '@/lib/potter.js';
 

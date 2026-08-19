@@ -5,6 +5,7 @@ export default function KellyAbout() {
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
       <Link to="/kelly" className="flex items-center mb-medium">
         <svg
+          aria-hidden="true"
           className="rotate-180 mr-tiny"
           xmlns="http://www.w3.org/2000/svg"
           height="1em"
@@ -46,6 +47,7 @@ export default function KellyAbout() {
       <section>
         <div className="flex flex-col items-center mt-huge">
           <iframe
+            title="Spotify player"
             className="w-[20rem] h-[5rem] focus-visible:outline-none"
             src="https://open.spotify.com/embed/track/0ARK753YaiJbpLUk7z5yIM?utm_source=generator&theme=0"
             allowFullScreen

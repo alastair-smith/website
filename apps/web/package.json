@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src",
+    "lint": "biome lint src",
     "test": "pnpm run test:unit --watch",
     "test:ci": "pnpm run test:unit",
     "test:unit": "vitest run",

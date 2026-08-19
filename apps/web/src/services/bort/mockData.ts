@@ -1,4 +1,4 @@
-import { BortResponse } from '@/services/bort';
+import type { BortResponse } from '@/services/bort';
 
 export const addBortData: BortResponse = {
   count: 5,

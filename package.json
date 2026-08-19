@@ -4,24 +4,22 @@
   "license": "ISC",
   "author": "Alastair Smith",
   "scripts": {
-    "formatter": "prettier --check .",
-    "formatter:fix": "prettier --write .",
-    "formatter:fix:staged": "prettier --write",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "lint-staged": "lint-staged",
     "prepare": "husky"
   },
   "lint-staged": {
     "*": [
-      "pnpm run -w formatter:fix:staged"
+      "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
     ]
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@biomejs/biome": "^2.5.9",
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.7",
-    "prettier": "^3.8.3",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "prettier-plugin-tailwindcss": "^0.8.0"
+    "lint-staged": "^17.0.7"
   },
   "engines": {
     "node": "24.16.0"

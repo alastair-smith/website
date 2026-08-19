@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-
 import Layout from '@/components/Layout/Layout';
 import Bort from '@/pages/bort';
 import BortAbout from '@/pages/bort/about';

@@ -1,5 +1,4 @@
-import { FormEvent, useState } from 'react';
-
+import { type FormEvent, useState } from 'react';
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 
@@ -8,6 +7,7 @@ const getUrl = (text: string) =>
 
 const Cog = ({ className }: { className: string }) => (
   <svg
+    aria-hidden="true"
     className={className}
     xmlns="http://www.w3.org/2000/svg"
     height="7rem"
@@ -59,7 +59,7 @@ export default function Potter() {
             className="mr-small"
             onClick={() =>
               window.navigator.clipboard.writeText(
-                `${window.location.origin}${getUrl(inputValue)}`
+                `${window.location.origin}${getUrl(inputValue)}`,
               )
             }
           >

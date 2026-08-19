@@ -21,7 +21,7 @@ jobs:
       - name: Audit packages
         run: pnpm audit || echo allow failure
 
-  formatter:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -36,8 +36,8 @@ jobs:
           cache-dependency-path: 'pnpm-lock.yaml'
       - name: Install dependencies
         run: pnpm install -w
-      - name: Check formatting
-        run: pnpm run -w formatter
+      - name: Lint and check formatting
+        run: pnpm run -w check
 
   test:
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
     needs:
       - audit-node-modules
       - test
-      - formatter
+      - check
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       GIT_BRANCH_NAME: ${{ github.head_ref }}

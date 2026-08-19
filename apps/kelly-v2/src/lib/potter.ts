@@ -1,7 +1,6 @@
+import fs from 'node:fs';
 import { createCanvas, loadImage, registerFont } from 'canvas';
-import fs from 'fs';
 import GifEncoder from 'gif-encoder';
-
 import asyncExecute from './asyncExecute.js';
 
 const GIF_DIMENSIONS = [480, 270];
@@ -33,7 +32,7 @@ function insertNewlines(text: string) {
 
     if (currentLine.length + word.length + 1 > maxLength) {
       if (currentLine.length > 0) {
-        result += currentLine + '\n';
+        result += `${currentLine}\n`;
         lineCount++;
         currentLine = '';
         if (lineCount >= maxLines) {
@@ -42,8 +41,8 @@ function insertNewlines(text: string) {
       }
 
       if (word.length > maxLength) {
-        let part = word.slice(0, maxLength - 1);
-        result += part + '-\n';
+        const part = word.slice(0, maxLength - 1);
+        result += `${part}-\n`;
         lineCount++;
         currentLine = word.slice(maxLength - 1);
         if (lineCount >= maxLines) {
@@ -84,7 +83,7 @@ const generateGif = async (text: string): Promise<string> => {
   context.fillText(
     linedText,
     TEXT_POSITION[0],
-    TEXT_POSITION[1] + (maxLines - lineCount) * 7
+    TEXT_POSITION[1] + (maxLines - lineCount) * 7,
   );
   context.restore();
   const completeGif: string = await new Promise((resolve, reject) => {
@@ -97,10 +96,10 @@ const generateGif = async (text: string): Promise<string> => {
       // stitch gifs together
       const base64Gif = await asyncExecute(
         `${gifsicle} --lossy -d 15 --merge ./src/assets/potter/start.gif ${Array(
-          25
+          25,
         )
           .fill('/tmp/single-frame.gif')
-          .join(' ')} ./src/assets/potter/end.gif | base64`
+          .join(' ')} ./src/assets/potter/end.gif | base64`,
       );
       resolve(base64Gif);
     });
@@ -108,7 +107,7 @@ const generateGif = async (text: string): Promise<string> => {
       0,
       0,
       GIF_DIMENSIONS[0],
-      GIF_DIMENSIONS[1]
+      GIF_DIMENSIONS[1],
     ).data;
 
     gif.pipe(file);

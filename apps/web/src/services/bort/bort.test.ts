@@ -8,8 +8,7 @@ import {
   test,
   vi,
 } from 'vitest';
-
-import { API_URL, type BortResponse, addBort } from '@/services/bort';
+import { API_URL, addBort, type BortResponse } from '@/services/bort';
 import { server } from '@/services/bort/mockServer';
 
 describe('services bort', () => {
@@ -45,22 +44,22 @@ describe('services bort', () => {
         server.use(
           http.post(API_URL, () => {
             return new HttpResponse(null, { status: responseStatus });
-          })
+          }),
         );
 
         await expect(addBort()).rejects.toThrow('Failed to post Bort data');
-      }
+      },
     );
 
     test('throws an error if the response data is the wrong format', async () => {
       server.use(
         http.post(API_URL, () => {
           return HttpResponse.json({ borts: 12 }, { status: 200 });
-        })
+        }),
       );
 
       await expect(addBort()).rejects.toThrow(
-        'Bort validation error: [{"code":"invalid_type","expected":"number","received":"undefined","path":["count"],"message":"Required"}].'
+        'Bort validation error: [{"code":"invalid_type","expected":"number","received":"undefined","path":["count"],"message":"Required"}].',
       );
     });
   });

@@ -5,8 +5,6 @@
     "build": "osls package",
     "build-layer": "docker run --entrypoint=\"\" -ti -v $(pwd):/opt amazon/aws-lambda-nodejs:24 /opt/build-layer.sh",
     "deploy": "osls deploy --verbose",
-    "lint": "eslint '**/*.ts'",
-    "lint:fix": "eslint '**/*.ts' --fix",
     "start": "tsx ./src/cli.ts"
   },
   "dependencies": {
@@ -14,7 +12,6 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@alastair-smith/eslint-config": "workspace:*",
     "@alastair-smith/tsconfig": "workspace:*",
     "@types/aws-lambda": "8.10.161",
     "@types/node": "^25.9.1",
