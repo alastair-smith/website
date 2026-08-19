@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react';
 import Button from '@/components/Button/Button';
+import Link from '@/components/Link/Link';
 import TextInput from '@/components/TextInput/TextInput';
-import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
 
 const getUrl = (text: string) => (text ? `/api/kelly?q=${btoa(text)}` : '');
 
@@ -88,7 +88,7 @@ export default function Kelly() {
         </div>
       </div>
 
-      <UnderlinedLink href="/kelly/about">Umm what is this?</UnderlinedLink>
+      <Link href="/kelly/about">Umm what is this?</Link>
     </div>
   );
 }

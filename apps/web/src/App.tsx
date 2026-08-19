@@ -10,8 +10,9 @@ import Potter from '@/pages/potter';
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
+
       <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
         <Route path="/bort" element={<Bort />} />
         <Route path="/bort/about" element={<BortAbout />} />
         <Route path="/kelly" element={<Kelly />} />

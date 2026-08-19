@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
-import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import Link from '@/components/Link/Link';
 import { addBort, getBortCount } from '@/services/bort';
 
 export default function Bort() {
@@ -50,7 +50,7 @@ export default function Bort() {
         </div>
       )}
 
-      <UnderlinedLink href="/bort/about">Umm what is this?</UnderlinedLink>
+      <Link href="/bort/about">Umm what is this?</Link>
     </div>
   );
 }

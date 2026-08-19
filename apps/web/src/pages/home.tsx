@@ -1,98 +1,62 @@
-import UnderlinedLink from '@/components/UnderlinedLink/UnderlinedLink';
+import Link from '@/components/Link/Link';
+import SocialLinks from '@/components/SocialLinks/SocialLinks';
+
+// the strips are only as wide as their content; a pseudo element runs the
+// colour off the top (rose) and bottom (amber) edges of the screen, and the
+// overflow-hidden on <main> trims it there
+const stripClasses =
+  'relative p-large max-w-[calc(var(--container-reading)/2)]';
+const roseStrip = `${stripClasses} bg-rose-700 text-day before:content-[''] before:absolute before:inset-x-0 before:bottom-full before:h-screen before:bg-rose-700`;
+const amberStrip = `${stripClasses} bg-amber-300 after:content-[''] after:absolute after:inset-x-0 after:top-full after:h-screen after:bg-amber-300`;
 
 export default function Home() {
   return (
-    <div className="w-full flex flex-col">
-      <div className="flex flex-col px-medium py-huge items-center">
-        <h1 className="font-black text-[min(calc(2.25rem+8vw),196px)] leading-none uppercase self-center mb-large">
-          Alastair
-          <br />
-          Smith
-        </h1>
-        <div className="max-w-reading flex flex-col">
-          <p className="mb-small">Welcome to my personal website!</p>
-
-          <p className="mb-small">
-            I&apos;m a software engineer based in the UK, and this is my online
-            space where I share some of my hobby projects. It&apos;s a platform
-            where I can showcase a variety of coding experiments and explore new
-            ideas beyond my professional software work.
-          </p>
-
-          <p className="mb-small">
-            Here, you&apos;ll find a collection of applications and coding
-            projects that I&apos;ve brought to life. This website reflects my
-            passion for coding and my curiosity in discovering new
-            possibilities.
-          </p>
-
-          <p className="mb-small">
-            Feel free to explore and discover the projects I&apos;ve been
-            tinkering with. If you have any questions, ideas, or just want to
-            connect, please reach out!
-          </p>
-
-          <p className="mb-small">
-            Thank you for visiting, and I hope you enjoy exploring my hobby
-            projects!
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
-          <h2 className="text-3xl">Potter</h2>
-          <span>Meme Generator</span>
-          <img
-            src="/wizard.webp"
-            alt="wizard"
-            width="512"
-            height="512"
-            className="border-8 border-night rounded"
-          />
-          <div className="flex space-x-4">
-            <UnderlinedLink href="/potter">Go to app</UnderlinedLink>
+    <main className="font-mulish min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="flex items-center justify-center md:justify-end">
+        <div className="flex flex-col">
+          <div className={`${roseStrip} flex gap-4 items-center`}>
+            <h1 className="text-4xl flex flex-col justify-around self-stretch">
+              <span>Alastair</span>
+              <span>Smith</span>
+            </h1>
+            <span className="text-8xl">/</span>
+            <SocialLinks />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col items-center">
-        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
-          <h2 className="text-3xl">Kelly</h2>
-          <span>Meme Generator</span>
-          <img
-            src="/excel.png"
-            alt="excel"
-            width="512"
-            height="512"
-            className="border-8 border-night rounded"
-          />
-          <div className="flex space-x-4">
-            <UnderlinedLink href="/kelly">Go to app</UnderlinedLink>
-            <span>|</span>
-            <UnderlinedLink href="/kelly/about">Read about</UnderlinedLink>
-          </div>
+      <div className="flex items-center justify-center md:justify-start">
+        <div className={amberStrip}>
+          <ul className="flex flex-col gap-4">
+            <li>
+              <Link
+                href="https://playcards.games"
+                description="Play some cards with your friends"
+              >
+                PlayCards.Games
+              </Link>
+            </li>
+            <li>
+              <Link href="/potter" description="Magic up a message to Harry">
+                Potter Meme Generator
+              </Link>
+            </li>
+            <li>
+              <Link href="/kelly" description="Send texts in a dilemma">
+                Kelly Meme Generator
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/bort"
+                description="Global count of people called Bort"
+              >
+                Bort Tracker
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
-
-      <div className="flex flex-col items-center">
-        <div className="max-w-reading mx-medium py-medium flex flex-col items-center space-y-4">
-          <h2 className="text-3xl">Bort</h2>
-          <span>Track number of Borts</span>
-          <img
-            src="/bort-licence.png"
-            alt="bort"
-            width="512"
-            height="512"
-            className="border-8 border-night rounded"
-          />
-          <div className="flex space-x-4">
-            <UnderlinedLink href="/bort">Go to app</UnderlinedLink>
-            <span>|</span>
-            <UnderlinedLink href="/bort/about">Read about</UnderlinedLink>
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
   );
 }
