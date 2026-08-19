@@ -1,3 +1,40 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-day: #f8f4ef;
+  --color-night: #0f0f0f;
+  --color-grey: #bfbfbf;
+  --color-jet: #2d2e2e;
+  --color-royal-blue: #243c5a;
+  --color-orange: #e98c3f;
+  --color-red: #ff1c1c;
+  --color-crimson: #b22222;
+
+  --font-mulish: 'Mulish', sans-serif;
+
+  --spacing-tiny: 0.125rem;
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 1.5rem;
+  --spacing-huge: 3rem;
+  --spacing-gigantic: 6rem;
+
+  --container-thin: 16rem;
+  --container-form: 80ch;
+  --container-reading: 120ch;
+
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-reverse-spin-slow: reverse-spin 3s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes reverse-spin {
+    from {
+      transform: rotate(360deg);
+    }
+  }
+}
