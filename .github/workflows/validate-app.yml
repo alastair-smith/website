@@ -6,12 +6,10 @@ jobs:
   audit-node-modules:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js 24.16.0
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24.16.0
       - name: Audit packages
@@ -20,12 +18,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js 24.16.0
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24.16.0
           cache: 'pnpm'
@@ -38,12 +34,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js 24.16.0
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24.16.0
           cache: 'pnpm'
@@ -59,18 +53,15 @@ jobs:
       - audit-node-modules
       - test
       - check
+    outputs:
+      preview-url: ${{ steps.upload.outputs.preview-url }}
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      GIT_BRANCH_NAME: ${{ github.head_ref }}
-      ENVIRONMENT: preview
-      VERSION: ${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js 24.16.0
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24.16.0
           cache: 'pnpm'
@@ -79,15 +70,35 @@ jobs:
         run: pnpm install --filter @alastair-smith/web
       - name: Build
         run: pnpm run --dir "./apps/web" build
-      - name: Deploy
-        run: pnpm run --dir "./apps/web" deploy --branch ${{ github.head_ref }}
+      # Uploads a new Worker version without shifting production traffic. The
+      # alias gives the branch a stable preview URL, like Pages branch previews.
+      - name: Upload preview version
+        id: upload
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          WRANGLER_OUTPUT_FILE_DIRECTORY: ${{ github.workspace }}/wrangler-output
+        run: |
+          alias=$(printf '%s' "$HEAD_REF" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed 's/[^a-z0-9-]/-/g; s/^-*//; s/-*$//' \
+            | cut -c1-40)
+          pnpm run --dir "./apps/web" deploy:preview --preview-alias "$alias"
+          url=$(jq -rs '
+            map(select(.type == "version-upload"))
+            | last
+            | .preview_alias_url // .preview_url // empty
+          ' "$WRANGLER_OUTPUT_FILE_DIRECTORY"/*.json)
+          echo "preview-url=$url" >> "$GITHUB_OUTPUT"
 
   register-deployment:
     runs-on: ubuntu-latest
     needs: [deploy-preview]
+    if: needs.deploy-preview.outputs.preview-url != ''
     steps:
       - name: Register Deployment
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
+        env:
+          PREVIEW_URL: ${{ needs.deploy-preview.outputs.preview-url }}
         with:
           script: |
             const deployment = await github.rest.repos.createDeployment({
@@ -105,5 +116,5 @@ jobs:
               repo: context.repo.repo,
               deployment_id: deployment.data.id,
               state: 'success',
-              environment_url: `https://${{ github.head_ref }}.website-frontend-4fb.pages.dev`
+              environment_url: process.env.PREVIEW_URL
             })

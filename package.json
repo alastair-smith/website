@@ -3,6 +3,7 @@
   "description": "My personal website",
   "license": "ISC",
   "author": "Alastair Smith",
+  "packageManager": "pnpm@9.0.6",
   "scripts": {
     "check": "biome check .",
     "check:fix": "biome check --write .",

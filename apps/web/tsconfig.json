@@ -17,5 +17,5 @@
     },
     "types": ["@cloudflare/workers-types"]
   },
-  "include": ["src", "functions", "vitest-setup.ts"]
+  "include": ["src", "worker", "vitest-setup.ts"]
 }

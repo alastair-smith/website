@@ -1,5 +1,5 @@
 name: Deploy App
-run-name: ${{ github.actor }} is is deploying to production 🚀
+run-name: ${{ github.actor }} is deploying to production 🚀
 on:
   push:
     branches:
@@ -10,16 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      GIT_BRANCH_NAME: ${{ github.ref_name }}
-      ENVIRONMENT: production
-      VERSION: ${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
       - name: Use Node.js 24.16.0
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24.16.0
           cache: 'pnpm'
@@ -29,14 +24,14 @@ jobs:
       - name: Build
         run: pnpm run --dir "./apps/web" build
       - name: Deploy
-        run: pnpm run --dir "./apps/web" deploy --branch main
+        run: pnpm run --dir "./apps/web" deploy
 
   register-deployment:
     runs-on: ubuntu-latest
     needs: [deploy]
     steps:
       - name: Register Deployment
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           script: |
             const deployment = await github.rest.repos.createDeployment({

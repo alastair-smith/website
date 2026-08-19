@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "biome lint src",
+    "lint": "biome lint src worker",
     "test": "pnpm run test:unit --watch",
     "test:ci": "pnpm run test:unit",
     "test:unit": "vitest run",
-    "predeploy": "envsubst < wrangler.template.toml > wrangler.toml",
-    "deploy": "wrangler pages deploy dist",
-    "start": "wrangler pages dev dist"
+    "deploy": "wrangler deploy",
+    "preview": "vite preview",
+    "deploy:preview": "wrangler versions upload"
   },
   "dependencies": {
     "@fontsource/mulish": "^5.2.8",
@@ -23,7 +23,8 @@
   },
   "devDependencies": {
     "@alastair-smith/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "^4.20260601.1",
+    "@cloudflare/vite-plugin": "^1.53.0",
+    "@cloudflare/workers-types": "^5.20260819.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -39,7 +40,7 @@
     "typescript": "6.0.3",
     "vite": "^8.0.16",
     "vitest": "^4.1.8",
-    "wrangler": "^4.96.0",
+    "wrangler": "^4.124.0",
     "yaml": "^2.9.0"
   }
 }

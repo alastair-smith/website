@@ -11,4 +11,5 @@ tfplan*
 .esbuild
 example.gif*
 .envrc
-wrangler.toml
+.env
+.wrangler
