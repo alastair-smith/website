@@ -6,19 +6,19 @@ import SocialLinks from '@/components/SocialLinks/SocialLinks';
 // bottom (amber), carried past the edge by a pseudo element that the
 // overflow-hidden on <main> trims
 const stripClasses =
-  'relative flex-1 p-large md:flex-none md:max-w-[calc(var(--container-reading)/2)]';
-const roseStrip = `${stripClasses} mr-huge md:mr-0 bg-rose-700 text-day md:before:content-[''] md:before:absolute md:before:inset-x-0 md:before:bottom-full md:before:h-screen md:before:bg-rose-700`;
-const amberStrip = `${stripClasses} ml-huge md:ml-0 bg-amber-300 md:after:content-[''] md:after:absolute md:after:inset-x-0 md:after:top-full md:after:h-screen md:after:bg-amber-300`;
+  'relative flex-1 p-large lg:flex-none lg:max-w-[calc(var(--container-reading)/2)]';
+const roseStrip = `${stripClasses} mr-huge lg:mr-0 bg-rose-700 text-day lg:before:content-[''] lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-screen lg:before:bg-rose-700`;
+const amberStrip = `${stripClasses} ml-huge lg:ml-0 bg-amber-300 lg:after:content-[''] lg:after:absolute lg:after:inset-x-0 lg:after:top-full lg:after:h-screen lg:after:bg-amber-300`;
 
 export default function Home() {
   return (
-    <main className="font-mulish min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 md:grid-cols-2 gap-4 content-center md:content-stretch">
-      <div className="flex items-center md:justify-end">
+    <main className="font-mulish min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 lg:grid-cols-2 gap-4 content-center lg:content-stretch">
+      <div className="flex items-center lg:justify-end">
         <div
-          className={`${roseStrip} flex flex-col gap-4 md:flex-row md:items-center`}
+          className={`${roseStrip} lg:pb-huge flex flex-wrap items-center gap-4`}
         >
           <div className="flex gap-4 items-center">
-            <h1 className="text-4xl flex flex-col md:justify-around md:self-stretch">
+            <h1 className="text-4xl flex flex-col lg:justify-around lg:self-stretch">
               <span>Alastair</span>
               <span>Smith</span>
             </h1>
@@ -28,8 +28,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex items-center justify-end md:justify-start">
-        <div className={amberStrip}>
+      <div className="flex items-center justify-end lg:justify-start">
+        <div className={`${amberStrip} lg:pt-huge`}>
           <ul className="flex flex-col gap-4">
             <li>
               <Link
