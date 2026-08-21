@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
+import Frame from '@/components/Frame/Frame';
 import Link from '@/components/Link/Link';
+import Title from '@/components/Title/Title';
 import { addBort, getBortCount } from '@/services/bort';
 
 export default function Bort() {
@@ -29,7 +31,7 @@ export default function Bort() {
 
   return (
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
-      <h1 className="uppercase font-bold text-4xl mb-huge">Bort</h1>
+      <Title>Bort</Title>
       {error ? (
         <div className="flex flex-col items-center">
           <span>We need more Bort Licence Plates!</span>
@@ -38,8 +40,10 @@ export default function Bort() {
         </div>
       ) : (
         <div className="flex flex-col items-center mb-huge">
-          <span>Number of Borts:</span>
-          <span className="text-4xl">{bortCount}</span>
+          <Frame className="flex flex-col items-center">
+            <span>Number of Borts:</span>
+            <span className="text-4xl">{bortCount}</span>
+          </Frame>
           <Button
             className="mt-large"
             disabled={isPending}

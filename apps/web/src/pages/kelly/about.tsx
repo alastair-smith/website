@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Title from '@/components/Title/Title';
 
 export default function KellyAbout() {
   return (
@@ -17,7 +18,7 @@ export default function KellyAbout() {
       </Link>
 
       <section className="mb-huge ease-in duration-300">
-        <h1 className="uppercase font-bold text-4xl mb-huge">Kelly</h1>
+        <Title>Kelly</Title>
         <p className="my-medium">
           Right so there&apos;s this song by Nelly and Kelly Rowland called
           Dilemma which is an absolute banger. But in the music video

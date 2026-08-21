@@ -1,6 +1,7 @@
 import { type FormEvent, useState } from 'react';
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
+import Title from '@/components/Title/Title';
 
 const getUrl = (text: string) =>
   text ? `/api/kelly?q=${btoa(text)}&type=potter` : '';
@@ -44,7 +45,7 @@ export default function Potter() {
 
   return (
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
-      <h1 className="uppercase font-bold text-4xl mb-huge">Potter</h1>
+      <Title>Potter</Title>
       <form
         className="max-w-form mb-huge flex flex-col"
         onSubmit={handleSubmit}
@@ -74,7 +75,7 @@ export default function Potter() {
           {submittedValue && (
             <img
               src={getUrl(submittedValue)}
-              className="max-w-[480px] w-full"
+              className="w-full"
               alt="potter"
               onLoad={handleImageLoad}
             />

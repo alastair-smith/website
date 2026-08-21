@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Title from '@/components/Title/Title';
 
 export default function BortAbout() {
   return (
@@ -17,7 +18,7 @@ export default function BortAbout() {
       </Link>
 
       <section className="mb-huge ease-in duration-300">
-        <h1 className="uppercase font-bold text-4xl mb-huge">Bort</h1>
+        <Title>Bort</Title>
         <div className="flex flex-col items-center my-large">
           <iframe
             src="https://www.youtube.com/embed/Au1He0_eCkw"
