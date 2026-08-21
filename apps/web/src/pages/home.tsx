@@ -1,27 +1,15 @@
 import Link from '@/components/Link/Link';
 import SocialLinks from '@/components/SocialLinks/SocialLinks';
 
-// on mobile the strips run off the side of the screen, leaving a margin of
-// page on their inner edge; from lg they instead run off the top (rose) and
-// bottom (amber), carried past the edge by a pseudo element that the
-// overflow-hidden on <main> trims
 const stripClasses =
   'relative flex-1 p-large py-huge lg:py-large lg:max-w-[calc(var(--container-reading)/2)]';
-const roseStrip = `${stripClasses} mr-huge lg:mr-0 bg-rose-700 text-day lg:before:content-[''] lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-screen lg:before:bg-rose-700`;
-const amberStrip = `${stripClasses} ml-huge lg:ml-0 pl-huge lg:pl-large bg-amber-300 lg:after:content-[''] lg:after:absolute lg:after:inset-x-0 lg:after:top-full lg:after:h-screen lg:after:bg-amber-300`;
-
-// the list is only as wide as its longest link and is pushed to the right of
-// the strip, so every row starts at the same point with the longest one ending
-// against the padding; when that width no longer fits, w-fit caps it at the
-// strip and the rows wrap, leaving the strip's own padding as the left inset
-const linkListClasses = 'flex flex-col gap-4 w-fit ml-auto lg:mr-auto';
 
 export default function Home() {
   return (
     <main className="font-mulish min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 lg:grid-cols-2 gap-large content-center">
       <div className="flex items-center lg:items-start lg:justify-end">
         <div
-          className={`${roseStrip} lg:pt-20 lg:pb-20 flex flex-wrap items-center lg:justify-center gap-4`}
+          className={`${stripClasses} mr-huge lg:mr-0 bg-rose-700 text-day lg:before:content-[''] lg:before:absolute lg:before:inset-x-0 lg:before:bottom-full lg:before:h-screen lg:before:bg-rose-700 lg:pt-20 lg:pb-20 flex flex-wrap items-center lg:justify-center gap-4`}
         >
           <div className="flex gap-4 items-center">
             <h1 className="text-4xl flex flex-col lg:justify-around lg:self-stretch">
@@ -35,8 +23,8 @@ export default function Home() {
       </div>
 
       <div className="flex items-center lg:items-start justify-end lg:justify-start">
-        <div className={`${amberStrip} lg:pt-20`}>
-          <ul className={linkListClasses}>
+        <div className={`${stripClasses} ml-huge lg:ml-0 pl-huge lg:pl-large bg-amber-300 lg:after:content-[''] lg:after:absolute lg:after:inset-x-0 lg:after:top-full lg:after:h-screen lg:after:bg-amber-300 lg:pt-20`}>
+          <ul className="flex flex-col gap-4 w-fit ml-auto lg:mr-auto">
             <li>
               <Link
                 href="https://playcards.games"
