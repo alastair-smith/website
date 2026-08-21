@@ -32,6 +32,16 @@ export const linkClasses = (variant: variant = 'underline') =>
 
 const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
 
+// underline links are plain text, so external ones get a little arrow to set
+// them apart; it lives inside the label so the underline runs beneath it too,
+// which rules out any hover nudge that would slide it off its own underline
+const externalIndicator = (
+  <>
+    <span aria-hidden>&#8239;&#8599;</span>
+    <span className="sr-only"> (opens in a new tab)</span>
+  </>
+);
+
 const Link = ({
   children,
   className = '',
@@ -41,9 +51,14 @@ const Link = ({
 }: props) => {
   const classes = `${linkClasses(variant)} ${className}`;
 
+  const external = isExternal(href);
+
   const label = (
     <>
-      <span className={labelClasses[variant] || undefined}>{children}</span>
+      <span className={labelClasses[variant] || undefined}>
+        {children}
+        {external && variant === 'underline' && externalIndicator}
+      </span>
       {description && (
         <span className="italic text-base">
           {' - '}
@@ -63,7 +78,7 @@ const Link = ({
       label
     );
 
-  return isExternal(href) ? (
+  return external ? (
     <a href={href} rel="noopener" target="_blank" className={classes}>
       {content}
     </a>
