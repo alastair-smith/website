@@ -22,7 +22,7 @@ const Cog = ({ className }: { className: string }) => (
 );
 
 export default function Potter() {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('Nice earmuffs potter, did your mum make them for you?');
   const [submittedValue, setSubmittedValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
