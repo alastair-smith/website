@@ -15,7 +15,7 @@ jobs:
       - name: Audit packages
         run: pnpm audit || echo allow failure
 
-  check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -70,8 +70,6 @@ jobs:
         run: pnpm install --filter @alastair-smith/web
       - name: Build
         run: pnpm run --dir "./apps/web" build
-      # Uploads a new Worker version without shifting production traffic. The
-      # alias gives the branch a stable preview URL, like Pages branch previews.
       - name: Upload preview version
         id: upload
         env:
@@ -80,9 +78,10 @@ jobs:
         run: |
           alias=$(printf '%s' "$HEAD_REF" \
             | tr '[:upper:]' '[:lower:]' \
-            | sed 's/[^a-z0-9-]/-/g' \
-            | cut -c1-40 \
-            | sed 's/^-*//; s/-*$//')
+            | sed 's/[^a-z0-9-]/-/g; s/-\{2,\}/-/g; s/^-*//; s/-*$//')
+          # the alias is a DNS label, so it has to start with a letter
+          case "$alias" in [a-z]*) ;; *) alias="pr-$alias" ;; esac
+          alias=$(printf '%s' "$alias" | cut -c1-40 | sed 's/-*$//')
           pnpm run --dir "./apps/web" deploy:preview --preview-alias "$alias"
           url=$(jq -rs '
             map(select(.type == "version-upload"))
