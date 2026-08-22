@@ -1,7 +1,0 @@
-# https://securitytxt.org — bump Expires before it lapses, a stale file is
-# treated as no file at all
-Contact: mailto:contact@alsmith.dev
-Contact: https://github.com/alastair-smith/website/security/advisories/new
-Expires: 2027-08-22T00:00:00.000Z
-Preferred-Languages: en
-Canonical: https://alsmith.dev/.well-known/security.txt
