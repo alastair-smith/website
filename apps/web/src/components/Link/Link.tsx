@@ -35,12 +35,11 @@ const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
 // underline links are plain text, so external ones get a little arrow to set
 // them apart; it lives inside the label so the underline runs beneath it too,
 // which rules out any hover nudge that would slide it off its own underline
-const externalIndicator = (
-  <>
-    <span aria-hidden>&#8239;&#8599;</span>
-    <span className="sr-only"> (opens in a new tab)</span>
-  </>
-);
+const externalArrow = <span aria-hidden>&#8239;&#8599;</span>;
+
+// the arrow is only worth drawing where it reads as one, but every external
+// link opens a new tab and so every one of them has to say so
+const newTabWarning = <span className="sr-only"> (opens in a new tab)</span>;
 
 const Link = ({
   children,
@@ -57,7 +56,8 @@ const Link = ({
     <>
       <span className={labelClasses[variant] || undefined}>
         {children}
-        {external && variant === 'underline' && externalIndicator}
+        {external && variant === 'underline' && externalArrow}
+        {external && newTabWarning}
       </span>
       {description && (
         <span className="italic text-base">

@@ -15,6 +15,11 @@ export const siteMetadata: metadata = {
     "Alastair Smith's personal site: a handful of side projects, and the places to find me.",
 };
 
+export const notFoundMetadata: metadata = {
+  title: `Not found | ${name}`,
+  description: 'There is nothing at this address.',
+};
+
 // keep in step with the routes in App.tsx and with public/sitemap.xml
 const metadataByPathname: Record<string, metadata> = {
   '/': siteMetadata,
@@ -45,5 +50,11 @@ const metadataByPathname: Record<string, metadata> = {
   },
 };
 
+// react-router matches a route with or without its trailing slash, so the
+// lookup has to shrug one off too rather than falling through to the 404
+const withoutTrailingSlash = (pathname: string) =>
+  pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
+
+// anything not listed above is a path App.tsx sends to the 404 page
 export const metadataFor = (pathname: string): metadata =>
-  metadataByPathname[pathname] ?? siteMetadata;
+  metadataByPathname[withoutTrailingSlash(pathname)] ?? notFoundMetadata;

@@ -23,25 +23,21 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@alastair-smith/tsconfig": "workspace:*",
     "@cloudflare/vite-plugin": "^1.53.1",
     "@cloudflare/workers-types": "^5.20260822.1",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.6.6",
     "@types/node": "26.2.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@vitejs/plugin-react": "^6.1.0",
     "jsdom": "^30.0.1",
     "msw": "^2.15.0",
-    "postcss": "8.5.26",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
     "vite": "^8.2.2",
     "vitest": "^4.1.11",
-    "wrangler": "^4.125.0",
-    "yaml": "^2.9.0"
+    "wrangler": "^4.125.0"
   }
 }

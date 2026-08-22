@@ -4,6 +4,7 @@ import Bort from '@/pages/bort';
 import BortAbout from '@/pages/bort/about';
 import Kelly from '@/pages/kelly';
 import KellyAbout from '@/pages/kelly/about';
+import NotFound from '@/pages/not-found';
 import Potter from '@/pages/potter';
 
 export default function App() {
@@ -19,6 +20,8 @@ export default function App() {
         <Route path="/kelly" element={<Kelly />} />
         <Route path="/kelly/about" element={<KellyAbout />} />
         <Route path="/potter" element={<Potter />} />
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

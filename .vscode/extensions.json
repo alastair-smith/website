@@ -1,9 +1,8 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
     "streetsidesoftware.code-spell-checker",
     "aaron-bond.better-comments",
-    "esbenp.prettier-vscode",
+    "biomejs.biome",
     "tamasfe.even-better-toml",
     "hediet.vscode-drawio"
   ]

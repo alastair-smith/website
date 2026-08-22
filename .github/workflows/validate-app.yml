@@ -80,8 +80,9 @@ jobs:
         run: |
           alias=$(printf '%s' "$HEAD_REF" \
             | tr '[:upper:]' '[:lower:]' \
-            | sed 's/[^a-z0-9-]/-/g; s/^-*//; s/-*$//' \
-            | cut -c1-40)
+            | sed 's/[^a-z0-9-]/-/g' \
+            | cut -c1-40 \
+            | sed 's/^-*//; s/-*$//')
           pnpm run --dir "./apps/web" deploy:preview --preview-alias "$alias"
           url=$(jq -rs '
             map(select(.type == "version-upload"))
