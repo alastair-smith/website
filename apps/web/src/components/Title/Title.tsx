@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
-// the amber from the projects ribbon, run behind the page's name like a
-// highlighter so it only ever covers the words themselves
+// the amber from the projects ribbon, run behind the name like a highlighter
 const Title = ({
   children,
   className = '',

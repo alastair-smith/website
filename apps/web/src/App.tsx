@@ -11,8 +11,7 @@ export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* the homepage is the two ribbons meeting in the middle, so it has no
-            main content of its own */}
+        {/* the homepage is the two ribbons alone, with no main content */}
         <Route index element={null} />
 
         <Route path="/bort" element={<Bort />} />

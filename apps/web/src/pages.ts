@@ -1,6 +1,4 @@
-// What each route calls itself. The tags in index.html describe the site as a
-// whole, which is all a crawler that doesn't run scripts will ever see; these
-// take over in the browser once react-router is driving.
+// what each route calls itself; index.html describes the site as a whole
 
 export type metadata = {
   title: string;
@@ -50,11 +48,9 @@ const metadataByPathname: Record<string, metadata> = {
   },
 };
 
-// react-router matches a route with or without its trailing slash, so the
-// lookup has to shrug one off too rather than falling through to the 404
+// react-router matches with or without a trailing slash, so this does too
 const withoutTrailingSlash = (pathname: string) =>
   pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
 
-// anything not listed above is a path App.tsx sends to the 404 page
 export const metadataFor = (pathname: string): metadata =>
   metadataByPathname[withoutTrailingSlash(pathname)] ?? notFoundMetadata;

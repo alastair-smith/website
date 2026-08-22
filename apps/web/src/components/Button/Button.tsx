@@ -1,7 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-// the same rose the profile ribbon is painted in, so a button is the homepage
-// turning up on the rest of the site
+// the same rose the profile ribbon is painted in
 export const defaultButtonClasses =
   'focus:outline-none ring-violet-500 focus:ring-4 ease-linear duration-100 bg-rose-700 text-day hover:bg-rose-800 active:scale-90 border-4 border-rose-950 px-medium py-small rounded';
 

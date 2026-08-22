@@ -5,14 +5,11 @@
   "compatibility_date": "2026-08-19",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    // Unmatched paths serve /index.html so react-router handles them,
-    // replacing the _redirects rule the Pages deployment used.
+    // unmatched paths serve /index.html, so react-router handles them
     "not_found_handling": "single-page-application",
-    // Without this the SPA fallback would swallow /api/* before the
-    // Worker ever runs.
+    // without this the SPA fallback would swallow /api/* before the Worker runs
     "run_worker_first": ["/api/*"]
   }
-  // The live domain still points at the old Pages project. To cut over,
-  // attach it here and redeploy — see the note in the README.
+  // uncomment to serve the live domain from this Worker
   // "routes": [{ "pattern": "alsmith.dev", "custom_domain": true }]
 }

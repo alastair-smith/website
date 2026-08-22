@@ -45,9 +45,8 @@ emits the client bundle to `dist/client` and the Worker to
 `dist/website_frontend`; `wrangler deploy` then uploads both.
 
 Pull requests upload a new Worker version aliased to the branch name, which
-gets its own preview URL without shifting production traffic. Merges to `main`
-build again from scratch and `wrangler deploy` the result, so production runs
-a fresh version rather than the one the pull request uploaded.
+gets its own preview URL without shifting production traffic. Merges to
+`main` deploy that version to production.
 
 ### Cutting the live domain over to the Worker
 
@@ -83,14 +82,14 @@ Android launcher cropping it to a circle doesn't take a bite out of them.
 
 ## Site furniture
 
-`apps/web/public` also holds `robots.txt`, `sitemap.xml`, `site.webmanifest`
-and `.well-known/security.txt`. Two of those need a hand when things change:
+`apps/web/public` also holds `robots.txt`, `sitemap.xml`, `humans.txt`,
+`site.webmanifest` and `.well-known/security.txt`. Two of those need a hand
+when things change:
 
 - `sitemap.xml` lists routes by hand, so it needs an entry whenever
   `apps/web/src/App.tsx` gains one — as does the page metadata in
   `apps/web/src/pages.ts`, which is what sets the tab title and description
-  per route. The catch-all route is the exception: anything `pages.ts` doesn't
-  name is a 404, and belongs in neither.
+  per route.
 - `security.txt` carries an `Expires` date. Once it lapses the file counts as
   no file at all, so it wants bumping each year.
 

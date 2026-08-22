@@ -1,12 +1,11 @@
-// Renders the site's icons and social cards from the SVGs in assets/ into
-// public/. The outputs are committed, so this only needs running when one of
-// the sources changes.
-//
-//   node scripts/generate-images.mjs
-//
-// Rendering is done by headless Chrome rather than a native image library, so
-// the SVGs can use the same Mulish webfont the site does. Point CHROME at a
-// binary if it isn't in one of the usual places.
+/*
+ * Renders the site's icons and social cards from the SVGs in assets/ into
+ * public/, with `node scripts/generate-images.mjs`. The outputs are committed,
+ * so this only needs running when one of the sources changes.
+ *
+ * Headless Chrome does the rendering, so the SVGs can use the same Mulish
+ * webfont the site does. Set CHROME if the binary is somewhere unusual.
+ */
 
 import { execFile } from 'node:child_process';
 import {
@@ -58,8 +57,7 @@ const findChrome = async () => {
   );
 };
 
-// the SVG is dropped into a page sized exactly to the screenshot, so Chrome's
-// viewport does the scaling and nothing has to be cropped afterwards
+// the page is sized to the screenshot, so the viewport does the scaling
 const page = (svg, width, height) => `<!doctype html>
 <meta charset="utf-8" />
 <style>
@@ -103,8 +101,7 @@ const render = async (
   console.log(`${output} (${width}x${height})`);
 };
 
-// an .ico is a directory of images bolted together; every browser that still
-// asks for one accepts PNG payloads, so the frames go in as-is
+// an .ico is a directory of images, and PNG payloads are accepted as-is
 const ico = (frames) => {
   const header = Buffer.alloc(6);
   header.writeUInt16LE(0, 0); // reserved
@@ -182,8 +179,7 @@ try {
 
   await render(chrome, workDir, 'og.svg', 'og.png', 1200, 630);
 
-  // the banner is not part of the site, so it stays next to its source rather
-  // than being served
+  // the banner is not part of the site, so it stays next to its source
   await render(
     chrome,
     workDir,

@@ -11,8 +11,7 @@ export type props = {
   variant?: variant;
 };
 
-// `group` is on the anchor so the hover effects fire from anywhere inside it,
-// including the description, while the decoration stays on the label alone
+// `group` sits on the anchor so hover fires from the description too
 const sharedLinkClasses =
   'group focus:outline-none focus:ring-4 ring-violet-500 rounded py-tiny ease-linear duration-100';
 
@@ -32,13 +31,10 @@ export const linkClasses = (variant: variant = 'underline') =>
 
 const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
 
-// underline links are plain text, so external ones get a little arrow to set
-// them apart; it lives inside the label so the underline runs beneath it too,
-// which rules out any hover nudge that would slide it off its own underline
+// the arrow lives inside the label, so the underline runs beneath it
 const externalArrow = <span aria-hidden>&#8239;&#8599;</span>;
 
-// the arrow is only worth drawing where it reads as one, but every external
-// link opens a new tab and so every one of them has to say so
+// every external link opens a new tab, whether or not it shows the arrow
 const newTabWarning = <span className="sr-only"> (opens in a new tab)</span>;
 
 const Link = ({

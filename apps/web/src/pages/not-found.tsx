@@ -1,8 +1,7 @@
 import Link from '@/components/Link/Link';
 import Title from '@/components/Title/Title';
 
-// the Worker hands index.html to anything it doesn't have an asset for, so
-// every unknown path arrives here rather than at a server-rendered 404
+// the Worker serves index.html for unknown paths, so the 404 is rendered here
 export default function NotFound() {
   return (
     <div className="max-w-reading mx-medium my-huge w-full flex-col flex">

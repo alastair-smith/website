@@ -2,16 +2,13 @@ import type { Ref } from 'react';
 import Link from '@/components/Link/Link';
 import SocialLinks from '@/components/SocialLinks/SocialLinks';
 
-// The ribbons belong to the homepage. They run off the side of the screen on
-// mobile and off the top/bottom on desktop, so their edges only ever show where
-// they meet in the middle
+// the ribbons bleed off the screen, so their edges show only where they meet
 const ribbonClasses =
   'relative lg:w-full p-large py-huge lg:max-w-[calc(var(--container-reading)/2)]';
 
 export type props = {
   className?: string;
-  // off the homepage the ribbons are parked off-screen, so keep them out of
-  // reach of the keyboard and screen readers
+  // parked off-screen, so out of reach of the keyboard and screen readers
   inert?: boolean;
   ref?: Ref<HTMLDivElement>;
 };

@@ -24,17 +24,18 @@ const cornerOf = (ribbon: HTMLElement): corner => {
   return { top: top + window.scrollY, left: left + window.scrollX };
 };
 
-// a slide still playing would skew the reading, so drop back to the corner the
-// grid has settled the ribbon into
+// a slide still playing would skew the reading, so cancel it first
 const settledCornerOf = (ribbon: HTMLElement) => {
   for (const animation of ribbon.getAnimations()) animation.cancel();
   return cornerOf(ribbon);
 };
 
-// the ribbons leave the way they hang: off the side of a phone screen, off the
-// top and bottom of a desktop one. Going sideways they hold the height they
-// keep on the homepage and walk off the edge, rather than cutting a diagonal to
-// wherever the grid has parked them
+/*
+ * The ribbons leave the way they hang: off the side of a phone screen, off the
+ * top and bottom of a desktop one. Going sideways they hold their homepage
+ * height and walk off the edge, rather than cutting a diagonal to wherever the
+ * grid has parked them.
+ */
 const travelOf = (
   ribbon: HTMLElement,
   x: number,
@@ -52,9 +53,7 @@ const travelOf = (
   return [`translate(${x}px, ${held}px)`, `translate(0px, ${held}px)`];
 };
 
-// index.html describes the site as a whole, which is what anything that
-// doesn't run scripts will read. Once react-router is in charge the route gets
-// to speak for itself
+// index.html speaks for the site; once react-router is driving, the route does
 const useMetadata = (pathname: string) => {
   useEffect(() => {
     const { title, description } = metadataFor(pathname);
@@ -84,17 +83,14 @@ export default function Layout() {
   const departingCorners = useRef(new WeakMap<HTMLElement, corner>());
   const shownPathname = useRef<string | null>(null);
 
-  // the page being navigated away from is still on screen while this render
-  // runs, so it is the last chance to see where the ribbons are before the grid
-  // moves them
+  // the outgoing page is still on screen: the last look at the ribbons
   if (shownPathname.current !== null && shownPathname.current !== pathname) {
     for (const ribbon of ribbons()) {
       departingCorners.current.set(ribbon, cornerOf(ribbon));
     }
   }
 
-  // the ribbons are laid out by the grid, so the move between the two states is
-  // played back afterwards: start each one where it used to be, then let it go
+  // the grid does the layout; this replays the move from where each ribbon was
   useLayoutEffect(() => {
     if (shownPathname.current === pathname) return;
     shownPathname.current = pathname;
@@ -145,8 +141,7 @@ export default function Layout() {
         ref={profile}
       />
 
-      {/* the ribbons paint over the rest of the page, so the red one takes its
-          bleed off the top of the screen with it and leaves this behind */}
+      {/* the rose ribbon takes the top bleed with it and leaves this behind */}
       {!isHome && (
         <header className="row-start-2 col-span-full flex justify-center py-medium">
           <div className="w-[calc(100%-2rem)] max-w-reading">

@@ -18,8 +18,7 @@ describe('routing', () => {
     expect(screen.getByRole('heading', { name: 'Bort' })).toBeInTheDocument();
   });
 
-  // the Worker answers an unknown path with index.html rather than a 404, so
-  // without a catch-all route the app renders nothing at all
+  // the Worker serves index.html for unknown paths, so this route owns the 404
   it('renders the not found page for an unknown route', () => {
     renderAt('/no-such-page');
 
