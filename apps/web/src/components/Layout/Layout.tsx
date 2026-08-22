@@ -15,7 +15,7 @@ export default function Layout() {
 
   return (
     <div
-      className={`font-mulish relative min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 lg:grid-cols-2 gap-y-2 lg:gap-y-0 lg:gap-x-large [align-content:safe_center] [--ribbons-leave:sideways] lg:[--ribbons-leave:vertically] ${
+      className={`font-mulish relative min-h-screen overflow-hidden bg-day text-jet grid grid-cols-1 lg:grid-cols-2 gap-y-2 lg:gap-y-0 lg:gap-x-large content-center-safe [--ribbons-leave:sideways] lg:[--ribbons-leave:vertically] ${
         isHome
           ? 'grid-rows-[auto_auto_auto_auto]'
           : 'grid-rows-[0px_auto_1fr_0px]'
@@ -38,7 +38,6 @@ export default function Layout() {
         ref={profile}
       />
 
-      {/* the rose ribbon takes the top bleed with it and leaves this behind */}
       {!isHome && (
         <header className="row-start-2 col-span-full flex justify-center py-medium">
           <div className="w-[calc(100%-2rem)] max-w-reading">
