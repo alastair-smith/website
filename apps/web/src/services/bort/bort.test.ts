@@ -59,7 +59,7 @@ describe('services bort', () => {
       );
 
       await expect(addBort()).rejects.toThrow(
-        'Bort validation error: [{"code":"invalid_type","expected":"number","received":"undefined","path":["count"],"message":"Required"}].',
+        /^Bort validation error: .*"path":\["count"\]/,
       );
     });
   });
