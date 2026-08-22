@@ -8,7 +8,7 @@ const ribbonClasses =
 
 export type props = {
   className?: string;
-  // parked off-screen, so out of reach of the keyboard and screen readers
+  /** Content is hidden off screen. */
   inert?: boolean;
   ref?: Ref<HTMLDivElement>;
 };
