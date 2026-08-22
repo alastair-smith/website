@@ -22,7 +22,9 @@ const Cog = ({ className }: { className: string }) => (
 );
 
 export default function Kelly() {
-  const [inputValue, setInputValue] = useState('WHERE YOU AT? HOLLA WHEN YOU GET HERE');
+  const [inputValue, setInputValue] = useState(
+    'WHERE YOU AT? HOLLA WHEN YOU GET HERE',
+  );
   const [submittedValue, setSubmittedValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
