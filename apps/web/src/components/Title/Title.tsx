@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 
-// the amber from the projects ribbon, run behind the name like a highlighter
 const Title = ({
   children,
   className = '',
