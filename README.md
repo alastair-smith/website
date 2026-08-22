@@ -61,11 +61,12 @@ Change one of those SVGs and re-render with:
 pnpm run --dir "./apps/web" generate:images
 ```
 
-Rendering is done by headless Chrome so the cards can use the same Mulish
-webfont the site does. Set `CHROME` if the binary isn't in one of the usual
-places. Everything the site serves lands in `apps/web/public`; the LinkedIn
-banner isn't part of the site, so it renders next to its source in
-`apps/web/assets`. The outputs are committed, so this isn't part of the build.
+Rendering is done by Playwright's Chromium so the cards can use the same Mulish
+webfont the site does. Install the browser once with
+`pnpm exec playwright install chromium`. Everything the site serves lands in
+`apps/web/public`; the LinkedIn banner isn't part of the site, so it renders
+next to its source in `apps/web/assets`. The outputs are committed, so this
+isn't part of the build.
 
 `icon-maskable.svg` is the same design with the ribbons pulled in, so an
 Android launcher cropping it to a circle doesn't take a bite out of them.

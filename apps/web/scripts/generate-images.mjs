@@ -3,25 +3,15 @@
  * public/, with `node scripts/generate-images.mjs`. The outputs are committed,
  * so this only needs running when one of the sources changes.
  *
- * Headless Chrome does the rendering, so the SVGs can use the same Mulish
- * webfont the site does. Set CHROME if the binary is somewhere unusual.
+ * Playwright's Chromium does the rendering, so the SVGs can use the same
+ * Mulish webfont the site does. Install it once with
+ * `pnpm exec playwright install chromium`.
  */
 
-import { execFile } from 'node:child_process';
-import {
-  access,
-  mkdir,
-  mkdtemp,
-  readFile,
-  rm,
-  writeFile,
-} from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
-
-const run = promisify(execFile);
+import { chromium } from 'playwright';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const assets = path.join(root, 'assets');
@@ -34,46 +24,30 @@ const fontFile = (weight) =>
     `mulish-latin-${weight}-normal.woff2`,
   );
 
-const chromeCandidates = [
-  process.env.CHROME,
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-  '/usr/bin/chromium-browser',
-  path.join(
-    process.env.HOME ?? '',
-    '.cache/ms-playwright/chromium-1237/chrome-linux64/chrome',
-  ),
-].filter((candidate) => candidate !== undefined);
+// inlined so the page can stay an about:blank document, which is not allowed
+// to fetch file:// subresources
+const fontFace = async (weight) => {
+  const woff2 = await readFile(fontFile(weight));
 
-const findChrome = async () => {
-  for (const candidate of chromeCandidates) {
-    try {
-      await access(candidate);
-      return candidate;
-    } catch {}
-  }
-  throw new Error(
-    `no Chrome binary found, tried:\n  ${chromeCandidates.join('\n  ')}\nset CHROME to one`,
-  );
+  return `@font-face {
+    font-family: 'Mulish';
+    font-weight: ${weight};
+    src: url(data:font/woff2;base64,${woff2.toString('base64')}) format('woff2');
+  }`;
 };
 
-// the page is sized to the screenshot, so the viewport does the scaling
-const page = (svg, width, height) => `<!doctype html>
+const page = (svg, css, width, height) => `<!doctype html>
 <meta charset="utf-8" />
 <style>
-  @font-face {
-    font-family: 'Mulish';
-    font-weight: 400;
-    src: url('file://${fontFile(400)}') format('woff2');
-  }
+  ${css}
   html, body { margin: 0; padding: 0; }
   svg { display: block; width: ${width}px; height: ${height}px; }
 </style>
 ${svg}`;
 
 const render = async (
-  chrome,
-  workDir,
+  browser,
+  css,
   source,
   output,
   width,
@@ -81,22 +55,15 @@ const render = async (
   outputDir = publicDir,
 ) => {
   const svg = await readFile(path.join(assets, source), 'utf8');
-  const html = path.join(workDir, `${path.parse(output).name}.html`);
+  const tab = await browser.newPage({ viewport: { width, height } });
 
-  await writeFile(html, page(svg, width, height));
-
-  await run(chrome, [
-    '--headless',
-    '--disable-gpu',
-    '--no-sandbox',
-    '--hide-scrollbars',
-    '--force-device-scale-factor=1',
-    `--window-size=${width},${height}`,
-    `--screenshot=${path.join(outputDir, output)}`,
-    // give the webfont a moment to load before the shot is taken
-    '--virtual-time-budget=2000',
-    html,
-  ]);
+  try {
+    await tab.setContent(page(svg, css, width, height));
+    await tab.evaluate(() => document.fonts.ready);
+    await tab.screenshot({ path: path.join(outputDir, output) });
+  } finally {
+    await tab.close();
+  }
 
   console.log(`${output} (${width}x${height})`);
 };
@@ -129,8 +96,8 @@ const ico = (frames) => {
   return Buffer.concat([header, ...directory, ...frames.map(({ png }) => png)]);
 };
 
-const chrome = await findChrome();
-const workDir = await mkdtemp(path.join(tmpdir(), 'website-images-'));
+const css = await fontFace(400);
+const browser = await chromium.launch();
 
 await mkdir(publicDir, { recursive: true });
 
@@ -145,7 +112,7 @@ try {
   const icoSizes = [16, 32, 48];
 
   for (const size of icoSizes) {
-    await render(chrome, workDir, 'icon.svg', `ico-${size}.png`, size, size);
+    await render(browser, css, 'icon.svg', `ico-${size}.png`, size, size);
   }
 
   await writeFile(
@@ -165,24 +132,24 @@ try {
     await rm(path.join(publicDir, `ico-${size}.png`));
   }
 
-  await render(chrome, workDir, 'icon.svg', 'apple-touch-icon.png', 180, 180);
-  await render(chrome, workDir, 'icon.svg', 'icon-192.png', 192, 192);
-  await render(chrome, workDir, 'icon.svg', 'icon-512.png', 512, 512);
+  await render(browser, css, 'icon.svg', 'apple-touch-icon.png', 180, 180);
+  await render(browser, css, 'icon.svg', 'icon-192.png', 192, 192);
+  await render(browser, css, 'icon.svg', 'icon-512.png', 512, 512);
   await render(
-    chrome,
-    workDir,
+    browser,
+    css,
     'icon-maskable.svg',
     'icon-maskable-512.png',
     512,
     512,
   );
 
-  await render(chrome, workDir, 'og.svg', 'og.png', 1200, 630);
+  await render(browser, css, 'og.svg', 'og.png', 1200, 630);
 
   // the banner is not part of the site, so it stays next to its source
   await render(
-    chrome,
-    workDir,
+    browser,
+    css,
     'linkedin-banner.svg',
     'linkedin-banner.png',
     1584,
@@ -190,5 +157,5 @@ try {
     assets,
   );
 } finally {
-  await rm(workDir, { recursive: true, force: true });
+  await browser.close();
 }
