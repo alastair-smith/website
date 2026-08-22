@@ -1,0 +1,53 @@
+{
+  "name": "Alastair Smith",
+  "short_name": "alsmith.dev",
+  "description": "Alastair Smith's personal site: a handful of side projects.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en-GB",
+  "dir": "ltr",
+  "background_color": "#f8f4ef",
+  "theme_color": "#f8f4ef",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Potter Meme Generator",
+      "url": "/potter"
+    },
+    {
+      "name": "Kelly Meme Generator",
+      "url": "/kelly"
+    },
+    {
+      "name": "Bort Tracker",
+      "url": "/bort"
+    }
+  ]
+}

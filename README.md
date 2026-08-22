@@ -58,6 +58,41 @@ domain, then delete the Pages project.
 The `CLOUDFLARE_API_TOKEN` secret also needs the *Workers Scripts: Edit*
 permission, which the old Pages-scoped token may not have.
 
+## Icons and social cards
+
+The favicon, the web app manifest icons, the Open Graph card and the LinkedIn
+banner are all drawn from the SVGs in `apps/web/assets`, and are the homepage's
+two ribbons: rose coming down on the left, amber coming up on the right,
+offwhite either side and down the middle.
+
+Change one of those SVGs and re-render with:
+
+```bash
+pnpm run --dir "./apps/web" generate:images
+```
+
+Rendering is done by headless Chrome so the cards can use the same Mulish
+webfont the site does. Set `CHROME` if the binary isn't in one of the usual
+places. Everything the site serves lands in `apps/web/public`; the LinkedIn
+banner isn't part of the site, so it renders next to its source in
+`apps/web/assets`. The outputs are committed, so this isn't part of the build.
+
+`icon-maskable.svg` is the same design with the ribbons pulled in, so an
+Android launcher cropping it to a circle doesn't take a bite out of them.
+
+## Site furniture
+
+`apps/web/public` also holds `robots.txt`, `sitemap.xml`, `humans.txt`,
+`site.webmanifest` and `.well-known/security.txt`. Two of those need a hand
+when things change:
+
+- `sitemap.xml` lists routes by hand, so it needs an entry whenever
+  `apps/web/src/App.tsx` gains one — as does the page metadata in
+  `apps/web/src/pages.ts`, which is what sets the tab title and description
+  per route.
+- `security.txt` carries an `Expires` date. Once it lapses the file counts as
+  no file at all, so it wants bumping each year.
+
 ## Architecture
 
 ![architecture diagram](./docs/assets/architecture.drawio.svg)

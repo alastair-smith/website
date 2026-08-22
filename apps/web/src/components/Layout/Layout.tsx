@@ -1,8 +1,9 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { defaultButtonClasses } from '@/components/Button/Button';
 import Link from '@/components/Link/Link';
 import { ProfileRibbon, ProjectsRibbon } from '@/components/Ribbon/Ribbon';
+import { metadataFor } from '@/pages';
 
 type corner = {
   top: number;
@@ -51,9 +52,29 @@ const travelOf = (
   return [`translate(${x}px, ${held}px)`, `translate(0px, ${held}px)`];
 };
 
+// index.html describes the site as a whole, which is what anything that
+// doesn't run scripts will read. Once react-router is in charge the route gets
+// to speak for itself
+const useMetadata = (pathname: string) => {
+  useEffect(() => {
+    const { title, description } = metadataFor(pathname);
+    const set = (selector: string, attribute: string, value: string) =>
+      document.querySelector(selector)?.setAttribute(attribute, value);
+
+    document.title = title;
+    set('meta[name="description"]', 'content', description);
+    set('meta[property="og:title"]', 'content', title);
+    set('meta[property="og:description"]', 'content', description);
+    set('link[rel="canonical"]', 'href', window.location.href);
+    set('meta[property="og:url"]', 'content', window.location.href);
+  }, [pathname]);
+};
+
 export default function Layout() {
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+
+  useMetadata(pathname);
 
   const profile = useRef<HTMLDivElement>(null);
   const projects = useRef<HTMLDivElement>(null);

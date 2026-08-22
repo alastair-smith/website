@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396" role="img" aria-label="Two ribbons, rose and amber, on offwhite">
+  <title>alsmith.dev</title>
+  <!-- no wording: LinkedIn already prints the name and headline underneath,
+       and the profile photo sits over the bottom left. Keeping the pair narrow
+       and centred means neither that nor the mobile side-crop touches them -->
+  <rect width="1584" height="396" fill="#f8f4ef" />
+  <rect x="572" y="0" width="200" height="252" fill="#c70036" />
+  <rect x="812" y="144" width="200" height="252" fill="#ffd230" />
+</svg>

@@ -12,7 +12,8 @@
     "test:unit": "vitest run",
     "deploy": "wrangler deploy",
     "preview": "vite preview",
-    "deploy:preview": "wrangler versions upload"
+    "deploy:preview": "wrangler versions upload",
+    "generate:images": "node scripts/generate-images.mjs"
   },
   "dependencies": {
     "@fontsource/mulish": "^5.2.8",

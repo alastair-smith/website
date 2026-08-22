@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="alsmith.dev">
+  <title>alsmith.dev</title>
+  <!-- the homepage's two ribbons: rose coming down the left, amber coming up
+       the right, offwhite either side of them and down the middle. Every edge
+       sits on a multiple of four so nothing lands mid-pixel at 16, 32 or 48 -->
+  <rect width="64" height="64" fill="#f8f4ef" />
+  <rect x="4" y="0" width="24" height="40" fill="#c70036" />
+  <rect x="36" y="24" width="24" height="40" fill="#ffd230" />
+</svg>

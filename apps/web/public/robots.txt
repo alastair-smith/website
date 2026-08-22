@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# the Kelly API renders images on demand, there is nothing to index behind it
+Disallow: /api/
+
+Sitemap: https://alsmith.dev/sitemap.xml
