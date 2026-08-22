@@ -16,7 +16,6 @@ const prefersReducedMotion = () =>
 const ribbonsOf = (...refs: RefObject<HTMLDivElement | null>[]) =>
   refs.map((ref) => ref.current).filter((ribbon) => ribbon !== null);
 
-// measured against the document so that scrolling doesn't count
 const cornerOf = (ribbon: HTMLElement): corner => {
   const { top, left } = ribbon.getBoundingClientRect();
   return { top: top + window.scrollY, left: left + window.scrollX };
@@ -28,12 +27,7 @@ const settledCornerOf = (ribbon: HTMLElement) => {
   return cornerOf(ribbon);
 };
 
-/*
- * The ribbons leave the way they hang: off the side of a phone screen, off the
- * top and bottom of a desktop one. Going sideways they hold their homepage
- * height and walk off the edge, rather than cutting a diagonal to wherever the
- * grid has parked them.
- */
+/** Ribons on mobile move horizontally, on desktop they go vertically. */
 const travelOf = (
   ribbon: HTMLElement,
   x: number,
@@ -51,11 +45,6 @@ const travelOf = (
   return [`translate(${x}px, ${held}px)`, `translate(0px, ${held}px)`];
 };
 
-/*
- * The grid does the layout, so the ribbons jump between routes. This hands back
- * the refs to hang on them, then replays each jump as a slide from where the
- * ribbon was on the outgoing page.
- */
 export const useRibbonSlide = (pathname: string, isHome: boolean) => {
   const profile = useRef<HTMLDivElement>(null);
   const projects = useRef<HTMLDivElement>(null);
