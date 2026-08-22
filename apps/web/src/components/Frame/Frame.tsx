@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 
-// an amber mount for the number a page is about, cut wider at the sides
 const Frame = ({
   children,
   className = '',
