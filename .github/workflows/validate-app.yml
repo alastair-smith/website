@@ -52,7 +52,7 @@ jobs:
     needs:
       - audit-node-modules
       - test
-      - check
+      - lint
     outputs:
       preview-url: ${{ steps.upload.outputs.preview-url }}
     env:
