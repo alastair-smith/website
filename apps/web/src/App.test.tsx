@@ -18,7 +18,6 @@ describe('routing', () => {
     expect(screen.getByRole('heading', { name: 'Bort' })).toBeInTheDocument();
   });
 
-  // the Worker serves index.html for unknown paths, so this route owns the 404
   it('renders the not found page for an unknown route', () => {
     renderAt('/no-such-page');
 
