@@ -3,7 +3,7 @@ import Title from '@/components/Title/Title';
 
 export default function KellyAbout() {
   return (
-    <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
+    <div className="max-w-reading mx-medium mb-huge lg:mt-huge w-full flex-col flex">
       <Link to="/kelly" className="flex items-center mb-medium">
         <svg
           aria-hidden="true"
