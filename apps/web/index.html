@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Alastair Smith</title>
+    <meta
+      name="description"
+      content="Alastair Smith's personal site: a handful of side projects, and the places to find me."
+    />
+    <meta name="author" content="Alastair Smith" />
+    <link rel="canonical" href="https://alsmith.dev/" />
+
+    <!-- the page sits on the offwhite, so the browser chrome may as well too -->
+    <meta name="theme-color" content="#f8f4ef" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- react-router swaps the title and description as you move about, but a
+         crawler only ever sees what is written here, so these describe the site
+         as a whole rather than any one page -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="alsmith.dev" />
+    <meta property="og:url" content="https://alsmith.dev/" />
+    <meta property="og:title" content="Alastair Smith" />
+    <meta
+      property="og:description"
+      content="Alastair Smith's personal site: a handful of side projects, and the places to find me."
+    />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:image" content="https://alsmith.dev/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Alastair Smith / alsmith.dev, written across two blocks of colour: rose coming down on the left, amber coming up on the right"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <noscript>
+      <p>This site needs JavaScript to run. Please enable it and reload.</p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

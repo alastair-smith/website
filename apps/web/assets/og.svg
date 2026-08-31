@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Alastair Smith — alsmith.dev">
+  <title>Alastair Smith — alsmith.dev</title>
+  <rect width="1200" height="630" fill="#f8f4ef" />
+
+  <!-- the ribbons run off the top and bottom the way they do on the homepage,
+       and keep the offwhite either side of them -->
+  <rect x="48" y="0" width="540" height="470" fill="#c70036" />
+  <rect x="612" y="160" width="540" height="470" fill="#ffd230" />
+
+  <g font-family="Mulish" fill="#f8f4ef">
+    <text x="100" y="215" font-size="80">Alastair</text>
+    <text x="100" y="310" font-size="80">Smith</text>
+    <text x="470" y="320" font-size="180">/</text>
+  </g>
+
+  <text x="676" y="410" font-family="Mulish" font-size="64" fill="#2d2e2e">
+    alsmith.dev
+  </text>
+</svg>

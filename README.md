@@ -1,4 +1,8 @@
-# Website
+<p align="center">
+  <img src="./apps/web/assets/linkedin-banner.svg" alt="Website banner" width="640" />
+</p>
+
+<h1 align="center">Website</h1>
 
 Code for my personal website [alsmith.dev](https://alsmith.dev).
 
@@ -37,7 +41,3 @@ Code for my personal website [alsmith.dev](https://alsmith.dev).
    ```bash
    pnpm install
    ```
-
-## Architecture
-
-![architecture diagram](./docs/assets/architecture.drawio.svg)

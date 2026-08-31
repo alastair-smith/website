@@ -3,27 +3,17 @@
   "description": "My personal website",
   "license": "ISC",
   "author": "Alastair Smith",
+  "packageManager": "pnpm@9.0.6",
   "scripts": {
-    "formatter": "prettier --check .",
-    "formatter:fix": "prettier --write .",
-    "formatter:fix:staged": "prettier --write",
-    "lint-staged": "lint-staged",
-    "prepare": "husky"
-  },
-  "lint-staged": {
-    "*": [
-      "pnpm run -w formatter:fix:staged"
-    ]
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint ."
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^2.8.8",
-    "prettier-plugin-packagejson": "^2.5.0",
-    "prettier-plugin-tailwindcss": "^0.6.1"
+    "@biomejs/biome": "^2.5.10"
   },
   "engines": {
-    "node": "20.12.2"
+    "node": "24.16.0"
   }
 }

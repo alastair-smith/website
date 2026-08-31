@@ -4,9 +4,8 @@ import type {
   Handler,
 } from 'aws-lambda';
 import { z } from 'zod';
-
-import kelly from '@/lib/generateGif';
-import potter from '@/lib/potter';
+import kelly from '@/lib/generateGif.js';
+import potter from '@/lib/potter.js';
 
 // inputs
 const schema = z.object({

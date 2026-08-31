@@ -1,4 +1,6 @@
 node_modules
+*.tsbuildinfo
+dist
 .terraform
 build
 venv
@@ -9,4 +11,5 @@ tfplan*
 .esbuild
 example.gif*
 .envrc
-wrangler.toml
+.env
+.wrangler

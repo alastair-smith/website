@@ -1,3 +1,3 @@
-import { handler } from '@/handlers/cli';
+import { handler } from '@/handlers/cli.js';
 
 handler();

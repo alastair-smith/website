@@ -2,7 +2,7 @@
 
 # intended to be ran in docker image amazonlinux
 
-# podman run --rm -it -v $(pwd):/app -w /app docker.io/amazonlinux:latest /bin/bash
+# docker run --rm -it -v $(pwd):/app -w /app docker.io/amazonlinux:latest /bin/bash
 
 set -euo pipefail
 
@@ -10,8 +10,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NO_COLOR='\033[0m'
 
-NVM_VERSION="v0.39.1"
-NODE_VERSION="20.12.2"
+NVM_VERSION="v0.40.4"
+NODE_VERSION="24.16.0"
 
 yellow_echo() {
   echo -e "${YELLOW}${@}${NO_COLOR}"
@@ -63,9 +63,9 @@ yum install -y \
   gzip
 
 cd "$GIFSICLE_FULL_DIR"
-curl https://www.lcdf.org/gifsicle/gifsicle-1.95.tar.gz -o gifsicle.tar.gz
+curl https://www.lcdf.org/gifsicle/gifsicle-1.96.tar.gz -o gifsicle.tar.gz
 tar -xzf gifsicle.tar.gz
-cd gifsicle-1.95
+cd gifsicle-1.96
 ./configure
 make install
 
@@ -96,7 +96,7 @@ yellow_echo "Installing node modules..."
 
 cd "$NODE_LAYER_FULL_DIR"
 npm init -y
-npm i canvas@2.11.2
+npm i canvas@3.2.3
 rm "package.json" "package-lock.json"
 
 yellow_echo "Installed node modules"

@@ -1,6 +1,7 @@
 {
   "extends": ["@alastair-smith/tsconfig"],
   "compilerOptions": {
+    "types": ["node"],
     "paths": {
       "@/*": ["./src/*"]
     }
