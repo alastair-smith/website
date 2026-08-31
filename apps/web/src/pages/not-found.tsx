@@ -3,7 +3,7 @@ import Title from '@/components/Title/Title';
 
 export default function NotFound() {
   return (
-    <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
+    <div className="max-w-reading mx-medium mb-huge lg:mt-huge w-full flex-col flex">
       <section className="mb-huge ease-in duration-300">
         <Title>Not found</Title>
         <p className="mb-large text-lg">
