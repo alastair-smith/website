@@ -16,7 +16,7 @@ const sharedLinkClasses =
   'group focus:outline-none focus:ring-4 ring-violet-500 rounded py-tiny ease-linear duration-100';
 
 const variantClasses: Record<variant, string> = {
-  underline: 'px-small self-start text-lg',
+  underline: 'px-small self-start',
   highlight: 'relative inline-block px-medium',
 };
 
@@ -56,7 +56,7 @@ const Link = ({
         {external && newTabWarning}
       </span>
       {description && (
-        <span className="italic text-base">
+        <span className="italic text-sm">
           {' - '}
           {description}
         </span>

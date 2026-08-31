@@ -54,7 +54,9 @@ export default function Bort() {
         </div>
       )}
 
-      <Link href="/bort/about">Umm what is this?</Link>
+      <Link href="/bort/about" className="text-lg">
+        Umm what is this?
+      </Link>
     </div>
   );
 }

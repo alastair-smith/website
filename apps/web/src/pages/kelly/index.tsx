@@ -91,7 +91,9 @@ export default function Kelly() {
         </div>
       </div>
 
-      <Link href="/kelly/about">Umm what is this?</Link>
+      <Link href="/kelly/about" className="text-lg">
+        Umm what is this?
+      </Link>
     </div>
   );
 }

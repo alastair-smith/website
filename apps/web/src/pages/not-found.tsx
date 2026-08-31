@@ -10,7 +10,9 @@ export default function NotFound() {
           There's nothing at this address. It may have moved, or it may never
           have been here at all.
         </p>
-        <Link href="/">Back to the homepage</Link>
+        <Link href="/" className="text-lg">
+          Back to the homepage
+        </Link>
       </section>
     </div>
   );

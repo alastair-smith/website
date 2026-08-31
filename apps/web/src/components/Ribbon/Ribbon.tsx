@@ -2,6 +2,8 @@ import type { Ref } from 'react';
 import Link from '@/components/Link/Link';
 import SocialLinks from '@/components/SocialLinks/SocialLinks';
 
+const projectLinkClasses = 'text-base';
+
 // the ribbons bleed off the screen, so their edges show only where they meet
 const ribbonClasses =
   'relative lg:w-full p-large lg:py-huge lg:max-w-[calc(var(--container-reading)/2)]';
@@ -37,29 +39,42 @@ export const ProjectsRibbon = ({ className = '', inert, ref }: props) => (
   <div
     ref={ref}
     inert={inert}
-    className={`${ribbonClasses} ml-huge lg:ml-0 self-start pl-medium lg:pl-large bg-amber-300 lg:after:content-[''] lg:after:absolute lg:after:inset-x-0 lg:after:top-full lg:after:h-screen lg:after:bg-amber-300 ${className}`}
+    className={`${ribbonClasses} ml-huge lg:ml-0 self-start pl-medium lg:pl-huge bg-amber-300 lg:after:content-[''] lg:after:absolute lg:after:inset-x-0 lg:after:top-full lg:after:h-screen lg:after:bg-amber-300 ${className}`}
   >
-    <ul className="flex flex-col gap-4 w-fit ml-auto lg:mr-auto">
+    <ul className="flex flex-col gap-4 w-fit ml-auto lg:ml-medium lg:mr-auto">
       <li>
         <Link
           href="https://playcards.games"
           description="Play some cards with your friends"
+          className={projectLinkClasses}
         >
           PlayCards.Games
         </Link>
       </li>
       <li>
-        <Link href="/potter" description="Magic up a message to Harry">
+        <Link
+          href="/potter"
+          description="Magic up a message to Harry"
+          className={projectLinkClasses}
+        >
           Potter Meme Generator
         </Link>
       </li>
       <li>
-        <Link href="/kelly" description="Send texts in a dilemma">
+        <Link
+          href="/kelly"
+          description="Send texts in a dilemma"
+          className={projectLinkClasses}
+        >
           Kelly Meme Generator
         </Link>
       </li>
       <li>
-        <Link href="/bort" description="Global count of people called Bort">
+        <Link
+          href="/bort"
+          description="Global count of people called Bort"
+          className={projectLinkClasses}
+        >
           Bort Tracker
         </Link>
       </li>
