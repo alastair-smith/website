@@ -25,11 +25,6 @@ jobs:
         run: pnpm run --dir "./apps/web" build
       - name: Deploy
         run: pnpm run --dir "./apps/web" deploy
-
-  register-deployment:
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    steps:
       - name: Register Deployment
         uses: actions/github-script@v9
         with:
