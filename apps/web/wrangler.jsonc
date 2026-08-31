@@ -10,6 +10,7 @@
     // but use api worker for api paths
     "run_worker_first": ["/api/*"]
   },
-  // uncomment to serve the live domain from this Worker
-  // "routes": [{ "pattern": "alsmith.dev", "custom_domain": true }]
+  "routes": [{
+    "pattern": "alsmith.dev", "custom_domain": true
+  }]
 }
