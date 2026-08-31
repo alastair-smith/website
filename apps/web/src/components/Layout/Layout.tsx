@@ -41,7 +41,9 @@ export default function Layout() {
       {!isHome && (
         <header className="row-start-2 col-span-full flex justify-center py-medium">
           <div className="w-[calc(100%-2rem)] max-w-reading">
-            <Link href="/">alsmith.dev</Link>
+            <Link href="/" className="text-lg">
+              alsmith.dev
+            </Link>
           </div>
         </header>
       )}
