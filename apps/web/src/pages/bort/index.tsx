@@ -30,7 +30,7 @@ export default function Bort() {
   };
 
   return (
-    <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
+    <div className="max-w-reading mx-medium mb-huge lg:mt-huge w-full flex-col flex">
       <Title>Bort</Title>
       {error ? (
         <div className="flex flex-col items-center">

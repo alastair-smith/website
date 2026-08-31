@@ -15,5 +15,6 @@
       "pattern": "alsmith.dev",
       "custom_domain": true
     }
-  ]
+  ],
+  "preview_urls": true
 }

@@ -46,7 +46,7 @@ export default function Potter() {
   };
 
   return (
-    <div className="max-w-reading mx-medium my-huge w-full flex-col flex">
+    <div className="max-w-reading mx-medium mb-huge lg:mt-huge w-full flex-col flex">
       <Title>Potter</Title>
       <form
         className="max-w-form mb-huge flex flex-col"
