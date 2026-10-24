@@ -5,6 +5,14 @@
 
 export const MAX_TEXT_LENGTH = 280;
 
+// what gets drawn: no control characters, and capped in length
+export const normaliseText = (text: string): string => {
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: stripping them is the point
+  const cleaned = text.replace(/[\u0000-\u001f\u007f-\u009f]/g, '');
+  if (!cleaned) throw new Error('No text to render');
+  return [...cleaned].slice(0, MAX_TEXT_LENGTH).join('');
+};
+
 export const encodeText = (text: string): string => {
   let binary = '';
   for (const byte of new TextEncoder().encode(text)) {
@@ -31,16 +39,8 @@ export const decodeText = (q: string): string => {
       bytes,
     );
   } catch {
+    // not UTF-8, so an old Latin-1 link
     text = binary;
   }
-
-  // biome-ignore lint/suspicious/noControlCharactersInRegex: stripping them is the point
-  text = text.replace(/[\u0000-\u001f\u007f-\u009f]/g, '');
-  if (!text) throw new Error('No text to render');
-
-  return [...text].slice(0, MAX_TEXT_LENGTH).join('');
+  return normaliseText(text);
 };
-
-// what the API will draw for this text, so a GIF made in the browser matches
-// the one its share link renders
-export const normaliseText = (text: string) => decodeText(encodeText(text));

@@ -55,7 +55,7 @@ export const encodeAtlas = ({
   lineHeight,
   glyphs,
   kerning,
-}: AtlasSource): Uint8Array => {
+}: AtlasSource): Uint8Array<ArrayBuffer> => {
   const count = glyphs.length;
   const masks = glyphs.flatMap((g) => g.masks);
   const kerningStart = 12 + count * 8;

@@ -1,21 +1,12 @@
 import {
-  assetPaths,
+  createKelly,
   decodeText,
   isTemplateName,
-  loadTemplateAssets,
-  renderTextFrame,
-  type TemplateAssets,
-  type TemplateName,
-  templates,
+  type Kelly,
 } from '@alastair-smith/kelly-core';
 
 interface Env {
   ASSETS: Fetcher;
-}
-
-interface LoadedTemplate extends TemplateAssets {
-  head: ArrayBuffer;
-  tail: ArrayBuffer;
 }
 
 const ASSET_PREFIX = '/assets/';
@@ -24,33 +15,9 @@ const ASSET_PREFIX = '/assets/';
 // changes reach links that have already been shared
 const CACHE_CONTROL = 'public, max-age=604800';
 
-// assets are decoded once per isolate and reused across requests
-const loaded = new Map<TemplateName, Promise<LoadedTemplate>>();
-
-const loadTemplate = (env: Env, name: TemplateName) => {
-  let template = loaded.get(name);
-  if (!template) {
-    const fetchBuffer = async (path: string) => {
-      const res = await env.ASSETS.fetch(
-        `https://assets.local${ASSET_PREFIX}${path}`,
-      );
-      if (!res.ok) throw new Error(`Missing asset ${path}: ${res.status}`);
-      return res.arrayBuffer();
-    };
-    const fetchBytes = async (path: string) =>
-      new Uint8Array(await fetchBuffer(path));
-    const paths = assetPaths(name);
-
-    template = Promise.all([
-      loadTemplateAssets(fetchBytes, name),
-      fetchBuffer(paths.head),
-      fetchBuffer(paths.tail),
-    ]).then(([assets, head, tail]) => ({ ...assets, head, tail }));
-    template.catch(() => loaded.delete(name));
-    loaded.set(name, template);
-  }
-  return template;
-};
+// created on the first request, then kept for the life of the isolate so the
+// assets are only loaded once
+let kelly: Kelly | undefined;
 
 const badRequest = () => new Response('Bad Request', { status: 400 });
 
@@ -83,10 +50,15 @@ export default {
       return badRequest();
     }
 
-    const template = await loadTemplate(env, type);
-    const frame = renderTextFrame(templates[type], template, text);
+    kelly ??= createKelly(async (path) => {
+      const res = await env.ASSETS.fetch(
+        `https://assets.local${ASSET_PREFIX}${path}`,
+      );
+      if (!res.ok) throw new Error(`Missing asset ${path}: ${res.status}`);
+      return new Uint8Array(await res.arrayBuffer());
+    });
 
-    return new Response(new Blob([template.head, frame, template.tail]), {
+    return new Response(new Blob(await kelly.render(type, text)), {
       headers: {
         'content-type': 'image/gif',
         'cache-control': CACHE_CONTROL,

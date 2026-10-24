@@ -84,28 +84,43 @@ export const lzwEncode = (index: Uint8Array): Uint8Array<ArrayBuffer> => {
   return out;
 };
 
-// Changes one pixel in data written by lzwEncode, in place. `offset` is where
-// the data block starts in `bytes`.
+// Where a pixel's 9-bit code sits in data written by lzwEncode, which starts
+// at `offset` in `bytes`. A 9-bit code always spans two bytes, though a
+// sub-block's length byte can fall between them.
+const codePosition = (offset: number, pixel: number) => {
+  // one CLEAR before every CODES_PER_CLEAR pixels, starting with the first
+  const code = pixel + Math.floor(pixel / CODES_PER_CLEAR) + 1;
+  const bit = code * CODE_SIZE;
+  // skip the minimum code size, then a length byte before every 255 bytes
+  const byteAt = (packed: number) =>
+    offset + 2 + packed + Math.floor(packed / 255);
+  return {
+    low: byteAt(bit >> 3),
+    high: byteAt((bit >> 3) + 1),
+    shift: bit & 7,
+  };
+};
+
+export const getEncodedPixel = (
+  bytes: Uint8Array,
+  offset: number,
+  pixel: number,
+) => {
+  const { low, high, shift } = codePosition(offset, pixel);
+  return ((bytes[low] | (bytes[high] << 8)) >> shift) & 0xff;
+};
+
+// Changes one pixel in place
 export const setEncodedPixel = (
   bytes: Uint8Array,
   offset: number,
   pixel: number,
   value: number,
 ) => {
-  // one CLEAR before every CODES_PER_CLEAR pixels, starting with the first
-  const code = pixel + Math.floor(pixel / CODES_PER_CLEAR) + 1;
-  let bit = code * CODE_SIZE;
-  let written = 0;
-  // a code spans two or three bytes, which may sit either side of a
-  // sub-block's length byte
-  while (written < CODE_SIZE) {
-    const packedByte = bit >> 3;
-    const at = offset + 2 + packedByte + Math.floor(packedByte / 255);
-    const shift = bit & 7;
-    const count = Math.min(8 - shift, CODE_SIZE - written);
-    const mask = ((1 << count) - 1) << shift;
-    bytes[at] = (bytes[at] & ~mask) | (((value >> written) << shift) & mask);
-    bit += count;
-    written += count;
-  }
+  const { low, high, shift } = codePosition(offset, pixel);
+  const codeMask = ((1 << CODE_SIZE) - 1) << shift;
+  const word =
+    ((bytes[low] | (bytes[high] << 8)) & ~codeMask) | (value << shift);
+  bytes[low] = word & 0xff;
+  bytes[high] = word >> 8;
 };

@@ -6,7 +6,7 @@ import {
   gifHeader,
   parseGif,
   writeFrame,
-} from './gif.ts';
+} from './format.ts';
 
 const palette = Uint8Array.from({ length: 768 }, (_, i) => i % 256);
 

@@ -9,18 +9,23 @@ GET /assets/<template>/<file>              -> baked assets, for the browser
 
 The website reaches it through a service binding at `/api/kelly`, and the pages make the same GIFs in the browser with the same code from [`@alastair-smith/kelly-core`](../../packages/kelly-core). The API is there for share links.
 
-## How it fits in 10ms
+## How it works
 
-The free Workers plan allows 10ms of CPU per request, so everything that doesn't depend on the text happens at build time in [`scripts/bake.ts`](scripts/bake.ts):
+Like kelly-v2, a GIF is the start of the clip, one frame with the text on it, then the end of the clip. [`kelly.ts`](../../packages/kelly-core/src/kelly.ts) does that in a few lines.
 
-- the start and end GIFs are re-timed and spliced into a ready-made `head.bin` and `tail.bin`
-- the background is decoded and given a palette
-- every glyph is pre-rendered at 16 sub-pixel positions into an atlas, with kerning
-- a table maps "text at this alpha over this background colour" to a palette colour
+The free Workers plan allows 10ms of CPU per request, so [`scripts/bake.ts`](scripts/bake.ts) prepares everything that doesn't depend on the text at build time, one folder per template in `dist/assets`:
 
-A request then copies glyphs onto the background, looks colours up in that table and writes the frame as uncompressed GIF data, which is just bit-packing (see [`lzw.ts`](../../packages/kelly-core/src/lzw.ts)). The response is `head + text frame + tail`.
+| File | What it is |
+| --- | --- |
+| `start.bin` | GIF header and the frames before the text |
+| `end.bin` | frames holding the text on screen, then the frames after it |
+| `blank-frame.bin` | the background as a finished GIF frame, waiting for the text |
+| `blend.bin` | which palette colour to use for text at each alpha over each background colour |
+| `atlas.bin` | every character pre-drawn in the right size and angle, with kerning |
 
-Every frame lasts 15cs, and the text stays on screen through 24 tiny transparent frames baked into `tail.bin`. WhatsApp turns GIFs into videos and gives every frame the same duration, so a single long frame only flashes up there.
+A request copies the blank frame and draws the text into it from the atlas. The blank frame is stored uncompressed, so each pixel sits at a fixed position and can be changed in place, see [`lzw.ts`](../../packages/kelly-core/src/gif/lzw.ts).
+
+Every frame lasts 15cs, and the text is held on screen by 24 tiny transparent frames at the start of `end.bin`. WhatsApp turns GIFs into videos and gives every frame the same duration, so a single long frame only flashes up there.
 
 ## Development
 

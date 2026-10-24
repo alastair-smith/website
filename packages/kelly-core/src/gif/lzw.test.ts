@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { lzwEncode, setEncodedPixel } from './lzw.ts';
-import { lzwDecode } from './testing/lzwDecode.ts';
+import { getEncodedPixel, lzwEncode, setEncodedPixel } from './lzw.ts';
+import { lzwDecode } from './lzwDecode.testing.ts';
 
 const roundTrip = (pixels: Uint8Array) =>
   expect(lzwDecode(lzwEncode(pixels))).toEqual(pixels);
@@ -53,6 +53,14 @@ describe('lzwEncode', () => {
     }
     expect(encoded.subarray(0, 3)).toEqual(Uint8Array.of(9, 9, 9));
     expect(lzwDecode(encoded.subarray(3))).toEqual(expected);
+  });
+
+  it('reads single pixels back', () => {
+    const pixels = Uint8Array.from({ length: 480 * 360 }, (_, i) => i % 256);
+    const encoded = lzwEncode(pixels);
+    for (let pixel = 0; pixel < pixels.length; pixel++) {
+      expect(getEncodedPixel(encoded, 0, pixel)).toBe(pixels[pixel]);
+    }
   });
 
   it('splits data into sub-blocks of at most 255 bytes', () => {

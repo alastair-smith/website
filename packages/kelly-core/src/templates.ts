@@ -1,6 +1,6 @@
 // Layout ported from kelly-v2's node-canvas code. Coordinates are in the
 // canvas space kelly-v2 drew in, and `matrix` maps them onto the GIF frame.
-import { type Atlas, type Line, type Matrix, measure } from './atlas.ts';
+import { type Atlas, type Line, type Matrix, measure } from './text/atlas.ts';
 
 export type TemplateName = 'kelly' | 'potter';
 

@@ -1,29 +1,22 @@
-// Does the expensive work once at build time so the Worker stays within the
-// free plan's CPU limit: decodes the backgrounds, picks palettes, pre-encodes
-// every frame that never changes and renders a glyph atlas per template.
+// Prepares everything in kelly-core's assetPaths, so drawing a GIF at request
+// time is cheap enough for the Worker's 10ms CPU limit: re-times the start
+// and end GIFs, picks a palette, encodes the blank frame, and pre-draws every
+// character for the glyph atlas.
 import fs from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import zlib from 'node:zlib';
 import {
   type AtlasGlyph,
   type AtlasSource,
   assetPaths,
-  backgroundFrame,
-  buildBlendTable,
-  concatBytes,
+  blankFrame,
+  blendTable,
   encodeAtlas,
-  FRAME_DELAY,
-  GIF_TRAILER,
+  endFrames,
   type GlyphMask,
-  GZIP_SUFFIX,
-  gifHeader,
-  HOLD_FRAMES,
-  holdFrame,
-  parseGif,
+  startFrames,
   type Template,
   templates,
-  writeFrame,
 } from '@alastair-smith/kelly-core';
 import * as fontkit from 'fontkit';
 import sharp from 'sharp';
@@ -32,10 +25,9 @@ const require = createRequire(import.meta.url);
 const root = path.resolve(import.meta.dirname, '..');
 const outDir = path.join(root, 'dist/assets');
 
-// sub-pixel positions per axis each glyph is pre-rendered at
-const PHASES = 4;
-const BACKGROUND_COLOURS = 239;
-const TEXT_COLOURS = 16;
+// sub-pixel positions per axis each character is pre-drawn at, so spacing
+// stays even
+const PHASES = 2;
 
 const font = fontkit.create(
   await fs.readFile(
@@ -48,119 +40,58 @@ const font = fontkit.create(
 const toRgba = async (image: ReturnType<typeof sharp>) =>
   new Uint8Array(await image.ensureAlpha().raw().toBuffer());
 
-interface Colour {
-  rgb: [number, number, number];
-  pixels: number;
-}
-
-const distance = (a: Colour, b: Colour) =>
-  (a.rgb[0] - b.rgb[0]) ** 2 +
-  (a.rgb[1] - b.rgb[1]) ** 2 +
-  (a.rgb[2] - b.rgb[2]) ** 2;
-
-// Reduces an image to at most `colours` colours, returning them alongside
-// each pixel's index into them
-const quantise = async (
-  rgba: Uint8Array,
-  width: number,
-  height: number,
-  colours: number,
-  dither: number,
-) => {
-  const png = await sharp(rgba, { raw: { width, height, channels: 4 } })
-    .png({ palette: true, colours, dither, effort: 10 })
-    .toBuffer();
-  const reduced = await toRgba(sharp(png));
-
-  const palette: Colour[] = [];
-  const lookup = new Map<number, number>();
-  const index = new Uint16Array(width * height);
-  for (let i = 0; i < index.length; i++) {
-    const [r, g, b] = reduced.subarray(i * 4, i * 4 + 3);
-    const key = (r << 16) | (g << 8) | b;
-    let n = lookup.get(key);
-    if (n === undefined) {
-      n = palette.length;
-      lookup.set(key, n);
-      palette.push({ rgb: [r, g, b], pixels: 0 });
-    }
-    palette[n].pixels++;
-    index[i] = n;
-  }
-
-  // libvips rounds the colour limit up to a power of two (239 becomes 256),
-  // so merge the closest pair of colours until it fits
-  const mergedInto = palette.map((_, i) => i);
-  const live = palette.map((_, i) => i);
-  while (live.length > colours) {
-    let best = [0, 1];
-    let bestDistance = Number.POSITIVE_INFINITY;
-    for (let i = 0; i < live.length; i++) {
-      for (let j = i + 1; j < live.length; j++) {
-        const d = distance(palette[live[i]], palette[live[j]]);
-        if (d < bestDistance) {
-          bestDistance = d;
-          best = [i, j];
-        }
-      }
-    }
-    const keep = palette[live[best[0]]];
-    const drop = palette[live[best[1]]];
-    const total = keep.pixels + drop.pixels;
-    keep.rgb = keep.rgb.map((c, k) =>
-      Math.round((c * keep.pixels + drop.rgb[k] * drop.pixels) / total),
-    ) as Colour['rgb'];
-    keep.pixels = total;
-    mergedInto[live[best[1]]] = live[best[0]];
-    live.splice(best[1], 1);
-  }
-
-  const resolve = (n: number): number =>
-    mergedInto[n] === n ? n : resolve(mergedInto[n]);
-  const finalIndex = new Map(live.map((n, i) => [n, i]));
-  return {
-    palette: live.flatMap((n) => palette[n].rgb),
-    index: Uint8Array.from(index, (n) => finalIndex.get(resolve(n)) as number),
-  };
-};
-
-const padTo = (palette: number[], colours: number) =>
-  [...palette, ...new Array(colours * 3).fill(0)].slice(0, colours * 3);
-
-// The background's own colours, plus colours for the text anti-aliased over
-// it. The last slot is left for transparency.
-const buildPalette = async (template: Template, rgba: Uint8Array) => {
+// A 256-colour palette covering the background and the text's anti-aliased
+// edges over it, and the background as indices into that palette
+const buildPalette = async (template: Template, background: Uint8Array) => {
   const { width, height } = template;
-  const background = await quantise(rgba, width, height, BACKGROUND_COLOURS, 1);
 
-  const samples: number[] = [];
-  for (let i = 0; i < rgba.length; i += 4 * 97) {
+  // the text colour blended over a spread of background pixels
+  const edges: number[] = [];
+  for (let i = 0; i < background.length; i += 4 * 97) {
     for (let step = 1; step <= 8; step++) {
       const a = step / 8;
       for (let c = 0; c < 3; c++) {
-        samples.push(Math.round(template.color[c] * a + rgba[i + c] * (1 - a)));
+        edges.push(
+          Math.round(template.color[c] * a + background[i + c] * (1 - a)),
+        );
       }
-      samples.push(255);
+      edges.push(255);
     }
   }
-  const text = await quantise(
-    Uint8Array.from(samples),
-    samples.length / 4,
-    1,
-    TEXT_COLOURS,
-    0,
-  );
+  // sharp wants a rectangle, so pad the edge samples out to whole rows
+  const edgeRows = Math.ceil(edges.length / 4 / width);
+  const image = new Uint8Array((height + edgeRows) * width * 4);
+  image.set(background);
+  image.set(edges, background.length);
 
-  return {
-    palette: Uint8Array.from([
-      ...padTo(background.palette, BACKGROUND_COLOURS),
-      ...padTo(text.palette, TEXT_COLOURS),
-      0,
-      0,
-      0,
-    ]),
-    background: background.index,
+  const png = await sharp(image, {
+    raw: { width, height: height + edgeRows, channels: 4 },
+  })
+    .png({ palette: true, colours: 256, effort: 10 })
+    .toBuffer();
+  const quantised = await toRgba(sharp(png));
+
+  const palette = new Uint8Array(256 * 3);
+  const lookup = new Map<number, number>();
+  const indexOf = (i: number) => {
+    const [r, g, b] = quantised.subarray(i * 4, i * 4 + 3);
+    const key = (r << 16) | (g << 8) | b;
+    let n = lookup.get(key);
+    if (n === undefined) {
+      n = lookup.size;
+      lookup.set(key, n);
+      palette.set([r, g, b], n * 3);
+    }
+    return n;
   };
+  const indices = Uint8Array.from({ length: width * height }, (_, i) =>
+    indexOf(i),
+  );
+  // the edge colours belong in the palette even where the background
+  // doesn't use them
+  for (let i = width * height; i < quantised.length / 4; i++) indexOf(i);
+
+  return { palette, background: indices };
 };
 
 const glyphMask = async (
@@ -244,77 +175,41 @@ const buildAtlas = async (template: Template): Promise<AtlasSource> => {
   };
 };
 
-const retime = (gif: Uint8Array) =>
-  parseGif(gif).frames.map((frame) =>
-    writeFrame(frame, { delay: FRAME_DELAY }),
-  );
-
-const kib = (bytes: Uint8Array) => `${Math.round(bytes.length / 1024)}KiB`;
-
 const write = async (file: string, bytes: Uint8Array) => {
   const target = path.join(outDir, file);
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.writeFile(target, bytes);
-  return kib(bytes);
-};
-
-// raw for the Worker, gzipped for browsers
-const writeBoth = async (file: string, bytes: Uint8Array) => {
-  const gzipped = zlib.gzipSync(bytes, { level: 9 });
-  await write(file, bytes);
-  await write(file + GZIP_SUFFIX, gzipped);
-  return `${kib(bytes)} (${kib(gzipped)} gzipped)`;
+  return `${Math.round(bytes.length / 1024)}KiB`;
 };
 
 for (const template of Object.values(templates)) {
   const started = performance.now();
   const paths = assetPaths(template.name);
-  const source = async (file: string) =>
-    new Uint8Array(
-      await fs.readFile(path.join(root, 'assets', template.name, file)),
-    );
+  const source = (file: string) =>
+    fs.readFile(path.join(root, 'assets', template.name, file));
 
   // stretched to the frame, like kelly-v2's drawImage
   const rgba = await toRgba(
     sharp(await source('background.jpg')).resize(
       template.width,
       template.height,
-      {
-        fit: 'fill',
-      },
+      { fit: 'fill' },
     ),
   );
   const { palette, background } = await buildPalette(template, rgba);
 
   const sizes = {
-    head: await write(
-      paths.head,
-      concatBytes([
-        gifHeader(template.width, template.height),
-        ...retime(await source('start.gif')),
-      ]),
+    start: await write(
+      paths.start,
+      startFrames(template, await source('start.gif')),
     ),
-    tail: await write(
-      paths.tail,
-      concatBytes([
-        ...new Array(HOLD_FRAMES).fill(holdFrame()),
-        ...retime(await source('end.gif')),
-        GIF_TRAILER,
-      ]),
+    end: await write(paths.end, endFrames(await source('end.gif'))),
+    blankFrame: await write(
+      paths.blankFrame,
+      blankFrame(template, palette, background),
     ),
-    background: await writeBoth(paths.background, background),
-    blend: await writeBoth(
-      paths.blend,
-      buildBlendTable(palette, template.color),
-    ),
-    frame: await writeBoth(
-      paths.frame,
-      backgroundFrame(template, palette, background),
-    ),
-    atlas: await writeBoth(
-      paths.atlas,
-      encodeAtlas(await buildAtlas(template)),
-    ),
+    blend: await write(paths.blend, blendTable(palette, template)),
+    atlas: await write(paths.atlas, encodeAtlas(await buildAtlas(template))),
   };
 
   console.log(
