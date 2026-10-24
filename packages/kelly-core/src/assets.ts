@@ -1,20 +1,20 @@
 // Files baked by apps/kelly-v3 at build time, one folder per template.
 //
-// The atlas, background and blend table come in two forms: raw for the
-// Worker, which reads them locally and can't spare the CPU to decompress, and
-// gzipped for browsers, which have to download them.
+// Everything but head and tail comes in two forms: raw for the Worker, which
+// reads them locally and can't spare the CPU to decompress, and gzipped for
+// browsers, which have to download them.
 import { decodeAtlas } from './atlas.ts';
 import type { TemplateAssets } from './frame.ts';
 import type { TemplateName } from './templates.ts';
 
 export const assetPaths = (name: TemplateName) => ({
-  // GIF header, start frames and the background frame
+  // GIF header and start frames
   head: `${name}/head.bin`,
-  // end frames and the GIF trailer
+  // frames holding the text on screen, end frames and the GIF trailer
   tail: `${name}/tail.bin`,
-  palette: `${name}/palette.bin`,
   background: `${name}/background.bin`,
   blend: `${name}/blend.bin`,
+  frame: `${name}/frame.bin`,
   atlas: `${name}/atlas.bin`,
 });
 
@@ -39,11 +39,11 @@ export const loadTemplateAssets = async (
     compressed
       ? gunzip(await fetchBytes(path + GZIP_SUFFIX))
       : fetchBytes(path);
-  const [palette, background, blend, atlas] = await Promise.all([
-    fetchBytes(paths.palette),
+  const [background, blend, frame, atlas] = await Promise.all([
     fetchMaybeCompressed(paths.background),
     fetchMaybeCompressed(paths.blend),
+    fetchMaybeCompressed(paths.frame),
     fetchMaybeCompressed(paths.atlas),
   ]);
-  return { palette, background, blend, atlas: decodeAtlas(atlas) };
+  return { background, blend, frame, atlas: decodeAtlas(atlas) };
 };

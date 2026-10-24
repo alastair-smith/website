@@ -8,13 +8,16 @@ import {
   rasterise,
 } from './atlas.ts';
 import {
+  backgroundFrame,
   buildBlendTable,
+  FRAME_DELAY,
+  holdFrame,
   renderTextFrame,
-  TEXT_DELAY,
   TRANSPARENT_INDEX,
 } from './frame.ts';
 import { concatBytes, GIF_TRAILER, gifHeader, parseGif } from './gif.ts';
 import { templates, wrapPotterText } from './templates.ts';
+import { lzwDecode } from './testing/lzwDecode.ts';
 
 // every glyph is a solid 2x2 block, 10px wide, with one sub-pixel phase
 const glyph = (char: string): AtlasGlyph => ({
@@ -121,32 +124,48 @@ describe('renderTextFrame', () => {
   const palette = new Uint8Array(768);
   palette.set([10, 20, 30], 0);
   palette.set([0x00, 0x49, 0xaf], 3);
+  const background = new Uint8Array(480 * 360);
   const assets = {
     atlas,
-    palette,
-    background: new Uint8Array(480 * 360),
+    background,
     blend: buildBlendTable(palette, templates.kelly.color),
+    frame: backgroundFrame(templates.kelly, palette, background),
   };
 
   it('blends solid text to the text colour', () => {
     expect(assets.blend[(0 << 8) | 255]).toBe(1);
   });
 
-  it('encodes a transparent frame positioned over the text', () => {
-    const bytes = renderTextFrame(templates.kelly, assets, 'HI');
-    const [frame] = parseGif(
-      concatBytes([gifHeader(480, 360), bytes, GIF_TRAILER]),
-    ).frames;
+  const frameFrom = (bytes: Uint8Array) =>
+    parseGif(concatBytes([gifHeader(480, 360), bytes, GIF_TRAILER])).frames[0];
+
+  it('encodes a full, opaque frame with the text on the background', () => {
+    const frame = frameFrom(renderTextFrame(templates.kelly, assets, 'HI'));
     const gce = frame.gce as Uint8Array;
-    expect(gce[4] | (gce[5] << 8)).toBe(TEXT_DELAY);
-    expect(gce[3] & 1).toBe(1);
-    expect(gce[6]).toBe(TRANSPARENT_INDEX);
+    expect(gce[4] | (gce[5] << 8)).toBe(FRAME_DELAY);
+    expect(gce[3] & 1).toBe(0);
     const d = frame.descriptor;
-    const left = d[1] | (d[2] << 8);
-    const top = d[3] | (d[4] << 8);
+    expect([d[5] | (d[6] << 8), d[7] | (d[8] << 8)]).toEqual([480, 360]);
+
+    const pixels = lzwDecode(frame.data);
+    expect(pixels).toHaveLength(480 * 360);
+    const text = [...pixels.keys()].filter((i) => pixels[i] === 1);
+    // two 2x2 glyphs, squashed and rotated like the kelly still
+    expect(text.length).toBeGreaterThan(0);
+    expect(text.length).toBeLessThanOrEqual(8);
     // kelly text starts left of centre and near the top of the frame
-    expect(left).toBeGreaterThan(100);
-    expect(left).toBeLessThan(240);
-    expect(top).toBeLessThan(100);
+    const [x, y] = [text[0] % 480, Math.floor(text[0] / 480)];
+    expect(x).toBeGreaterThan(100);
+    expect(x).toBeLessThan(240);
+    expect(y).toBeLessThan(100);
+    expect(pixels.filter((p) => p !== 0 && p !== 1)).toHaveLength(0);
+  });
+
+  it('holds the previous frame with a transparent pixel', () => {
+    const frame = frameFrom(holdFrame());
+    const gce = frame.gce as Uint8Array;
+    expect(gce[4] | (gce[5] << 8)).toBe(FRAME_DELAY);
+    expect(gce[3] & 1).toBe(1);
+    expect(lzwDecode(frame.data)).toEqual(Uint8Array.of(TRANSPARENT_INDEX));
   });
 });

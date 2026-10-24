@@ -14,11 +14,13 @@ The website reaches it through a service binding at `/api/kelly`, and the pages 
 The free Workers plan allows 10ms of CPU per request, so everything that doesn't depend on the text happens at build time in [`scripts/bake.ts`](scripts/bake.ts):
 
 - the start and end GIFs are re-timed and spliced into a ready-made `head.bin` and `tail.bin`
-- the background is decoded, given a palette and pre-encoded as a GIF frame
+- the background is decoded and given a palette
 - every glyph is pre-rendered at 16 sub-pixel positions into an atlas, with kerning
 - a table maps "text at this alpha over this background colour" to a palette colour
 
-A request then only copies glyphs into a mask, looks colours up in that table and LZW-encodes the small transparent frame covering the text. That's 3-5ms from a cold start and under 1ms warm. The response is `head + text frame + tail`.
+A request then copies glyphs onto the background, looks colours up in that table and writes the frame as uncompressed GIF data, which is just bit-packing (see [`lzw.ts`](../../packages/kelly-core/src/lzw.ts)). The response is `head + text frame + tail`.
+
+Every frame lasts 15cs, and the text stays on screen through 24 tiny transparent frames baked into `tail.bin`. WhatsApp turns GIFs into videos and gives every frame the same duration, so a single long frame only flashes up there.
 
 ## Development
 

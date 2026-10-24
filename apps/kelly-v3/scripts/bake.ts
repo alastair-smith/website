@@ -9,17 +9,17 @@ import {
   type AtlasGlyph,
   type AtlasSource,
   assetPaths,
-  BACKGROUND_DELAY,
+  backgroundFrame,
   buildBlendTable,
   concatBytes,
-  DISPOSAL_KEEP,
   encodeAtlas,
-  encodeIndexedFrame,
   FRAME_DELAY,
   GIF_TRAILER,
   type GlyphMask,
   GZIP_SUFFIX,
   gifHeader,
+  HOLD_FRAMES,
+  holdFrame,
   parseGif,
   type Template,
   templates,
@@ -285,10 +285,6 @@ for (const template of Object.values(templates)) {
     ),
   );
   const { palette, background } = await buildPalette(template, rgba);
-  const backgroundFrame = writeFrame(
-    encodeIndexedFrame(background, template.width, template.height, palette),
-    { delay: BACKGROUND_DELAY, disposal: DISPOSAL_KEEP },
-  );
 
   const sizes = {
     head: await write(
@@ -296,18 +292,24 @@ for (const template of Object.values(templates)) {
       concatBytes([
         gifHeader(template.width, template.height),
         ...retime(await source('start.gif')),
-        backgroundFrame,
       ]),
     ),
     tail: await write(
       paths.tail,
-      concatBytes([...retime(await source('end.gif')), GIF_TRAILER]),
+      concatBytes([
+        ...new Array(HOLD_FRAMES).fill(holdFrame()),
+        ...retime(await source('end.gif')),
+        GIF_TRAILER,
+      ]),
     ),
-    palette: await write(paths.palette, palette),
     background: await writeBoth(paths.background, background),
     blend: await writeBoth(
       paths.blend,
       buildBlendTable(palette, template.color),
+    ),
+    frame: await writeBoth(
+      paths.frame,
+      backgroundFrame(template, palette, background),
     ),
     atlas: await writeBoth(
       paths.atlas,

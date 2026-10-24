@@ -41,8 +41,14 @@ describe('kelly worker', () => {
     expect(res.headers.get('content-type')).toBe('image/gif');
     const gif = await gifFrom(res);
     expect([gif.width, gif.height]).toEqual([480, 360]);
-    // 9 start frames, the background, the text and 15 end frames
-    expect(gif.frames).toHaveLength(26);
+    // 9 start frames, the text held for 25 frames and 15 end frames
+    expect(gif.frames).toHaveLength(49);
+    // apps that turn GIFs into video give every frame the same duration, so
+    // any frame with a different delay plays wrong there
+    const delays = new Set(
+      gif.frames.map(({ gce }) => (gce ? gce[4] | (gce[5] << 8) : 0)),
+    );
+    expect([...delays]).toEqual([15]);
   });
 
   it('renders a potter gif', async () => {
