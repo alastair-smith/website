@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strict": true,
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["src"],
+  // tests run in node against the baked files, see src/index.test.ts
+  "exclude": ["src/**/*.test.ts"]
+}
