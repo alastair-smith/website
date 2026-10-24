@@ -16,6 +16,7 @@
     "generate:images": "node scripts/generate-images.mjs"
   },
   "dependencies": {
+    "@alastair-smith/kelly-core": "workspace:*",
     "@fontsource/mulish": "^5.3.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
