@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kelly",
+  "main": "./src/index.ts",
+  "compatibility_date": "2026-08-19",
+  "assets": {
+    // baked by scripts/bake.ts, served as-is under /assets
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  // reached through the website's service binding, workers.dev is only for
+  // previews
+  "workers_dev": true,
+  "preview_urls": true
+}

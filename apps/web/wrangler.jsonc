@@ -10,6 +10,8 @@
     // but use api worker for api paths
     "run_worker_first": ["/api/*"]
   },
+  // the Kelly and Potter GIF API, from apps/kelly-v3
+  "services": [{ "binding": "KELLY", "service": "kelly" }],
   "routes": [
     {
       "pattern": "alsmith.dev",
