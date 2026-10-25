@@ -23,6 +23,9 @@ const kelly = createKelly(async (path) => {
   return new Uint8Array(await response.arrayBuffer());
 });
 
+// the page is only visited to make a GIF, so start loading straight away
+export const preloadGif = (type: TemplateName) => kelly.preload(type);
+
 export const generateGif = async (
   type: TemplateName,
   text: string,

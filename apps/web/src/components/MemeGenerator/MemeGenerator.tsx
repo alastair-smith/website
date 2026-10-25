@@ -1,8 +1,13 @@
 import { type FormEvent, useEffect, useState } from 'react';
-import Button, { defaultButtonClasses } from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 import Title from '@/components/Title/Title';
-import { generateGif, getShareUrl, type TemplateName } from '@/services/kelly';
+import {
+  generateGif,
+  getShareUrl,
+  preloadGif,
+  type TemplateName,
+} from '@/services/kelly';
 
 const Cog = ({ className }: { className: string }) => (
   <svg
@@ -33,6 +38,8 @@ const MemeGenerator = ({ type, title, initialText, frameClassName }: props) => {
   const [gifUrl, setGifUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => preloadGif(type), [type]);
+
   useEffect(() => {
     if (!submittedValue) return;
 
@@ -54,6 +61,15 @@ const MemeGenerator = ({ type, title, initialText, frameClassName }: props) => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [type, submittedValue]);
+
+  const isReady = Boolean(gifUrl) && !isLoading;
+
+  const download = () => {
+    const link = document.createElement('a');
+    link.href = gifUrl;
+    link.download = `${type}.gif`;
+    link.click();
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -80,19 +96,7 @@ const MemeGenerator = ({ type, title, initialText, frameClassName }: props) => {
           value={inputValue}
           onChange={handleChange}
         />
-        <div className="self-end">
-          <Button
-            className="mr-small"
-            onClick={() =>
-              window.navigator.clipboard.writeText(
-                `${window.location.origin}${getShareUrl(type, inputValue)}`,
-              )
-            }
-          >
-            Copy URL
-          </Button>
-          <Button>Show Gif</Button>
-        </div>
+        <Button className="self-end">Create Gif</Button>
       </form>
 
       <div className="flex flex-col items-center mb-huge">
@@ -114,15 +118,21 @@ const MemeGenerator = ({ type, title, initialText, frameClassName }: props) => {
             </div>
           )}
         </div>
-        {gifUrl && !isLoading && (
-          <a
-            href={gifUrl}
-            download={`${type}.gif`}
-            className={`${defaultButtonClasses} mt-small self-end`}
-          >
+        <div className="max-w-[480px] w-full mt-small flex justify-end">
+          <Button className="mr-small" disabled={!isReady} onClick={download}>
             Download
-          </a>
-        )}
+          </Button>
+          <Button
+            disabled={!isReady}
+            onClick={() =>
+              window.navigator.clipboard.writeText(
+                `${window.location.origin}${getShareUrl(type, submittedValue)}`,
+              )
+            }
+          >
+            Copy URL
+          </Button>
+        </div>
       </div>
     </>
   );

@@ -103,6 +103,11 @@ export const createKelly = (fetchBytes: FetchBytes) => {
   };
 
   return {
+    // start fetching a template's files before they're needed
+    preload(name: TemplateName) {
+      // a failure is retried by the next render
+      load(name).catch(() => {});
+    },
     // the GIF in three parts, to join with `new Blob(parts)`
     async render(name: TemplateName, text: string) {
       const assets = await load(name);

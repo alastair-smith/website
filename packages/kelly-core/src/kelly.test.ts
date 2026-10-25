@@ -106,6 +106,19 @@ describe('createKelly', () => {
     expect(fetches).toBe(Object.keys(assetPaths('kelly')).length);
   });
 
+  it('renders from the files a preload fetched', async () => {
+    let preloadFetches = 0;
+    const preloaded = createKelly(async (path) => {
+      preloadFetches++;
+      return files[path];
+    });
+    preloaded.preload('kelly');
+    expect(preloadFetches).toBe(Object.keys(paths).length);
+
+    await preloaded.render('kelly', 'HI');
+    expect(preloadFetches).toBe(Object.keys(paths).length);
+  });
+
   it('rejects text that is empty once cleaned', async () => {
     await expect(kelly.render('kelly', '\n')).rejects.toThrow();
   });
